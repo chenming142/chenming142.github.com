@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
+url: http://chenming142.github.com
+title: chenming142's Blog
 subtitle: A blogging framework for hackers.
-author: Your Name
+author: Kevin Chen
 simple_search: http://google.com/search
 description:
 
@@ -97,3 +97,6 @@ google_analytics_tracking_id:
 
 # Facebook Like
 facebook_like: false
+
+# Duoshuo Comments
+duoshuo_show_comment_count: true
