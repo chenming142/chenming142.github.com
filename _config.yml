@@ -3,13 +3,8 @@
 # ----------------------- #
 
 url: http://chenming142.github.com
-<<<<<<< HEAD
-title: chenming142's Blog
-subtitle: A blogging framework for hackers.
-=======
 title: chenming142's Blog for github
-subtitle: 思考|总结|分享
->>>>>>> master
+subtitle: 实践|思考|总结|分享
 author: Kevin Chen
 simple_search: http://google.com/search
 description:
