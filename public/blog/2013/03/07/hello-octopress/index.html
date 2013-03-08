@@ -236,7 +236,11 @@ rake preview           #本地预览网站效果,在浏览器输入地址http://
 
 <h4>更新并发布</h4>
 
-<pre><code>rake gen_deploy         #等同于 rake generate 和 rake deploy两个命令
+<pre><code>rake gen_deploy         #等同于 rake generate 和 rake deploy两个命令  
+                        #此处有个坑爹的BUG,rake deploy时   
+                          rake aborted!   
+                          No such file or directory -public/_posts/...
+                        #解决方法:在public目录下创建_posts目录然后执行rake deploy
 </code></pre>
 
 <h4>备份</h4>
@@ -246,6 +250,10 @@ git commit -a -m "your comment message"     #提交信息不能为空
 git push origin source                      #把资源备份保存到 source 分支下[这里有个非常好的好处!]
 git checkout master                         #切换回 master 分支
 </code></pre>
+
+<p>关于此备份,为什么需要备份? <br/>
+博客文章部署到远程master分支下,然后将本地的所有源文件都git push 到source分支下,这样的话你可以在不同的地方都可以写blog.<br/>
+只要你在写博客之前把source分支下的所有文件git pull 到本地即可,当然你的所有修改都必须在source分支体现(现在我还没有想到更好的方法,我只能在每次操作后都是<strong>先删除sourc分支,然后重建分支</strong>),如果有人知道好的方法或不认同该方法都可以<strong>chenming142@sina.com</strong>,谢谢!!</p>
 </div>
 
 
@@ -279,6 +287,8 @@ git checkout master                         #切换回 master 分支
     <p class="meta">
       
       
+        <a class="basic-alignment right" href="/blog/2013/03/08/java-constructor-trap/" title="Next Post: Java构造时成员初始化的陷阱">Java构造时成员初始化的陷阱 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -308,6 +318,10 @@ var duoshuoQuery = {short_name:"chenming142"};
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a>

@@ -101,12 +101,19 @@ github支持绑定独立域名,在`source/`目录下建立一个无扩展名的`
 	your_domain_name           # 用户名.github.com
 
 ####更新并发布
-	rake gen_deploy         #等同于 rake generate 和 rake deploy两个命令
+	rake gen_deploy         #等同于 rake generate 和 rake deploy两个命令  
+	                        #此处有个坑爹的BUG,rake deploy时   
+	                          rake aborted!   
+	                          No such file or directory -public/_posts/...
+	                        #解决方法:在public目录下创建_posts目录然后执行rake deploy
 
 ####备份
 	git add *
 	git commit -a -m "your comment message"     #提交信息不能为空
 	git push origin source                      #把资源备份保存到 source 分支下[这里有个非常好的好处!]
 	git checkout master                         #切换回 master 分支
-	      
+
+关于此备份,为什么需要备份?   
+博客文章部署到远程master分支下,然后将本地的所有源文件都git push 到source分支下,这样的话你可以在不同的地方都可以写blog.  
+只要你在写博客之前把source分支下的所有文件git pull 到本地即可,当然你的所有修改都必须在source分支体现(现在我还没有想到更好的方法,我只能在每次操作后都是__先删除sourc分支,然后重建分支__),如果有人知道好的方法或不认同该方法都可以__chenming142@sina.com__,谢谢!!
 

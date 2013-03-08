@@ -2,18 +2,22 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://chenming142.github.com/blog/2013/03/07/hello-octopress/</loc>
-        <lastmod>2013-03-08T17:18:16+08:00</lastmod>
+        <lastmod>2013-03-08T22:03:27+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://chenming142.github.com/blog/2013/03/08/java-constructor-trap/</loc>
+        <lastmod>2013-03-08T23:37:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://chenming142.github.com/blog/archives/</loc>
-        <lastmod>2013-03-08T17:18:16+08:00</lastmod>
+        <lastmod>2013-03-08T23:37:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://chenming142.github.com/</loc>
-        <lastmod>2013-03-08T17:18:16+08:00</lastmod>
+        <lastmod>2013-03-08T23:37:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://chenming142.github.com/robots.txt</loc>
-        <lastmod>2013-03-08T09:29:46+08:00</lastmod>
+        <lastmod>2013-03-08T20:31:04+08:00</lastmod>
     </url>
 </urlset>
