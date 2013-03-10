@@ -1,100 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>chenming142's Blog for github</title>
-  <meta name="author" content="Kevin Chen">
-
-  
-  <meta name="description" content="原文地址是:http://coolshell.cn/articles/889.html 下面是20个非常有用的Java程序片段，希望能对你有用。 字符串有整型的相互转换 string a = String.valueOf(2); // integer to numeric string
-int i &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://chenming142.github.com/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="chenming142's Blog for github" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">chenming142's Blog for github</a></h1>
-  
-    <h2>实践|思考|总结|分享</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:chenming142.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[chenming142's Blog for github]]></title>
+  <link href="http://chenming142.github.com/atom.xml" rel="self"/>
+  <link href="http://chenming142.github.com/"/>
+  <updated>2013-03-10T12:22:00+08:00</updated>
+  <id>http://chenming142.github.com/</id>
+  <author>
+    <name><![CDATA[Kevin Chen]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2013/03/10/20-useful-snippets-of-java-program/">20个非常有用的java程序片段</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2013-03-10T10:18:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>原文地址是:<a href="http://coolshell.cn/articles/889.html," title="酷壳-CoolShell.cn">http://coolshell.cn/articles/889.html</a></p></blockquote>
+  <entry>
+    <title type="html"><![CDATA[20个非常有用的java程序片段]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/10/20-useful-snippets-of-java-program/"/>
+    <updated>2013-03-10T10:18:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/10/20-useful-snippets-of-java-program</id>
+    <content type="html"><![CDATA[<blockquote><p>原文地址是:<a href="http://coolshell.cn/articles/889.html," title="酷壳-CoolShell.cn">http://coolshell.cn/articles/889.html</a></p></blockquote>
 
 <p>下面是20个非常有用的Java程序片段，希望能对你有用。</p>
 
@@ -624,42 +548,15 @@ public static void main (String[] args) {
 </code></pre></li>
 </ol>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-08T22:21:00+08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>原文:<a href="http://blog.csdn.net/haoel/article/details/4319793" title="陈皓专栏">http://blog.csdn.net/haoel/article/details/4319793</a></p></blockquote>
+  <entry>
+    <title type="html"><![CDATA[Java构造时成员初始化的陷阱]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/08/java-constructor-trap/"/>
+    <updated>2013-03-08T22:21:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/08/java-constructor-trap</id>
+    <content type="html"><![CDATA[<blockquote><p>原文:<a href="http://blog.csdn.net/haoel/article/details/4319793" title="陈皓专栏">http://blog.csdn.net/haoel/article/details/4319793</a></p></blockquote>
 
 <p>让我们先来看两个类: <strong>Base</strong> 和 <strong>Derived</strong> 类.注意其中的 <em>whenAmISet</em> 的成员变量,和方法 <em>preProcess()</em>.</p>
 
@@ -739,42 +636,15 @@ C++的程序员应该都知道，在C++的世界中在<code>构造函数中调�
 </code></pre>
 
 <p>最后，需要向大家推荐一本书，Joshua Bloch 和 Neal Gafter 写的 <code>Java Puzzlers: Traps, Pitfalls, and Corner Cases</code> ，中文版<code>《JAVA解惑 》</code>。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-07T11:08:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p><code>github</code>本身不仅作为代码共享仓库，并且支持<code>github-pages</code>功能，而<code>octopress</code>就是在这样的环境下诞生的博客系统.</p></blockquote>
+  <entry>
+    <title type="html"><![CDATA[Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/07/hello-octopress/"/>
+    <updated>2013-03-07T11:08:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/07/hello-octopress</id>
+    <content type="html"><![CDATA[<blockquote><p><code>github</code>本身不仅作为代码共享仓库，并且支持<code>github-pages</code>功能，而<code>octopress</code>就是在这样的环境下诞生的博客系统.</p></blockquote>
 
 <h4>需要安装的软件</h4>
 
@@ -867,7 +737,7 @@ bundle install                   #然后安装一些依赖的工具
 
 <h4>在git@github.com上建立Repositories</h4>
 
-<p>登录Github后,需要建立一个命名为<code>username.github.com</code>的Repo,这样命令的好处是,在运行命令<code>rake setpu_github_pages</code>能够自动创建<code>master</code>和<code>source</code>分支.创建(必须拥有github账号)如下图:<img src="/images/common/create_repos.jpg" title="create repository of github" alt="create repository" /></p>
+<p>登录Github后,需要建立一个命名为<code>username.github.com</code>的Repo,这样命令的好处是,在运行命令<code>rake setpu_github_pages</code>能够自动创建<code>master</code>和<code>source</code>分支.创建(必须拥有github账号)如下图:<img src="http://chenming142.github.com/images/common/create_repos.jpg" title="create repository of github" alt="create repository" /></p>
 
 <h4>发布Octopress到Github</h4>
 
@@ -936,77 +806,7 @@ git checkout master                         #切换回 master 分支
 <p>关于此备份,为什么需要备份? <br/>
 博客文章部署到远程master分支下,然后将本地的所有源文件都git push 到source分支下,这样的话你可以在不同的地方都可以写blog.<br/>
 只要你在写博客之前把source分支下的所有文件git pull 到本地即可,当然你的所有修改都必须在source分支体现(现在我还没有想到更好的方法,我只能在每次操作后都是<strong>先删除sourc分支,然后重建分支</strong>),如果有人知道好的方法或不认同该方法都可以<strong>chenming142@sina.com</strong>,谢谢!!</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/03/10/20-useful-snippets-of-java-program/">20个非常有用的java程序片段</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Kevin Chen -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>
