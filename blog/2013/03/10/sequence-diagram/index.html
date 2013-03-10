@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>UML 建模之时序图(Sequence Diagram) - chenming142's Blog for github</title>
+  <meta name="author" content="Kevin Chen">
+
+  
+  <meta name="description" content="原文:http://www.cnblogs.com/ywqu 一、时序图简介（Brief introduction）
+二、时序图元素（Sequence Diagram Elements） 角色（Actor）
+对象（Object）
+生命线(Lifeline)
+控制焦点（Focus of &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://chenming142.github.com/blog/2013/03/10/sequence-diagram/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="chenming142's Blog for github" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">chenming142's Blog for github</a></h1>
+  
+    <h2>实践|思考|总结|分享</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:chenming142.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">UML 建模之时序图(Sequence Diagram)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T15:52:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote><p>原文:<a href="http://www.cnblogs.com/ywqu" title="灵动生活">http://www.cnblogs.com/ywqu</a></p></blockquote>
+
+<p><strong>一、时序图简介（Brief introduction）</strong><br/>
+<strong>二、时序图元素（Sequence Diagram Elements）</strong></p>
+
+<blockquote><ul>
+<li>角色（Actor）</li>
+<li>对象（Object）</li>
+<li>生命线(Lifeline)</li>
+<li>控制焦点（Focus of Control）</li>
+<li>消息（Message）</li>
+<li>自关联消息（Self-Message）</li>
+<li>Combined Fragments</li>
+</ul>
+</blockquote>
+
+<p><strong>三、时序图实例分析（Sequece Diagram Example Analysis）</strong></p>
+
+<blockquote><ul>
+<li>时序图场景</li>
+<li>时序图实例</li>
+<li>时序图实例分析</li>
+</ul>
+</blockquote>
+
+<p><strong>四、总结（Summay）</strong></p>
+
+<h3>一、时序图简介（Brief introduction）</h3>
+
+<p>   时序图是显示<strong>对象之间交互的图</strong>,这些<strong>对象时按时间顺序排列</strong>的。顺序图中显示的是<strong>参与交互对象之间消息交互的顺序</strong>。时序图中包括建模元素主要有:<strong>对象、控制焦点、消息</strong>等等。</p>
+
+<h3>二、时序图元素（Sequence Diagram Elements）</h3>
+
+<p><strong>角色</strong>：系统角色，可以是人、甚至其他的系统或子系统<br/>
+<strong>对象</strong>：对象包括三中命名方式：<br/>
+   1. 包括对象名和类名<br/>
+   2. 只显示类名不显示对象名，即表示它是匿名对象<br/>
+   3. 只显示对象名不显示类名  <br/>
+<img src="/images/common/2013-03-10-sequence-diagram/3347379_1.jpg" title="Object" alt="对象的命名方式" /></p>
+
+<p><strong>生命线</strong>：生命线在顺序图中表示从对象图片向下延伸的一条虚线,表示对象存在的时间,如下图：<img src="/images/common/2013-03-10-sequence-diagram/3347379_2.gif" title="Lifeline" alt="生命线" /></p>
+
+<p><strong>控制焦点</strong>：控制焦点是顺序图中表示时间的符号，在这个时间段内对象执行相应的操作，用小矩形表示，如下图：<img src="/images/common/2013-03-10-sequence-diagram/3347379_3.jpg" title="Focus of Control" alt="控制焦点" /></p>
+
+<p><strong>消息</strong>：消息一般分为同步消息（Synchronous Message），异步消息（Asynchronous Message）和返回消息（Return Message）如下图：<br/>
+<img src="/images/common/2013-03-10-sequence-diagram/3347379_4.gif" title="Message" alt="消息" /></p>
+
+<ul>
+<li>同步消息 == 调用消息<br/>
+消息的发送者把控制传递给消息的接收者,然后停止活动,等待消息的接受者放弃或者返回控制。用来表示<strong>同步</strong>的意义。</li>
+<li>异步消息
+消息的发送者通过消息把信号传递给消息的接受者,然后继续自己的活动,不等待接受者返回消息或控制。异步消息的接受者和发送者是并发工作的。</li>
+<li>返回消息
+返回消息表示从过程调用返回</li>
+</ul>
+
+
+<p><strong>自关联消息</strong> : 表示方法的自身调用以及一个对象内的一个方法调用另一个方法。如下图:<br/>
+<img src="/images/common/2013-03-10-sequence-diagram/3347379_5.gif" title="Sef-Message" alt="自关联消息" /></p>
+
+<p><strong>Combined Fragments</strong><br/>
+<img src="/images/common/2013-03-10-sequence-diagram/3347379_6.gif" title="Combined Fragments" alt="Combined Fragments" /></p>
+
+<ul>
+<li>Altemative fragment(denoted &#8220;alt&#8221;)与 if&#8230;then&#8230;else对应</li>
+<li>Option fragment(denoted &#8220;opt&#8221;)与Switch对应</li>
+<li>Parallel fragment(denoted &#8220;par&#8221;)表示同时发生</li>
+<li>Loop fragment(denoted &#8220;loop&#8221;)与for或foreach对应</li>
+</ul>
+
+
+<h3>三、时序图实例分析</h3>
+
+<p><strong>时序图场景</strong><br/>
+完成课程创建功能,主要流程有:<br/>
+1. 请求添加课程页面,填写课程表单,点击<code>create</code>按钮<br/>
+2. 添加课程信息到数据库<br/>
+3. 向课程对象追加主题信息<br/>
+4. 为课程指派教师<br/>
+5. 完成课程创建功能</p>
+
+<p><strong>时序图实例</strong>
+<img src="/images/common/2013-03-10-sequence-diagram/3347379_7.jpg" alt="时序图实例" /></p>
+
+<p><strong>时序图分析</strong><br/>
+1. 序号1.0-1.3   完成页面的初始化<br/>
+2. 序号1.4-1.5   课程管理员填充课程表单<br/>
+3. 序号1.6-1.7   课程管理员点击<code>create</code>按钮,并相应点击事件<br/>
+4. 序号1.8       Service 层创建课程<br/>
+5. 序号1.9-1.10  添加课程到数据库,并返回课程编号CourseId<br/>
+6. 序号1.11-1.12 添加课程主题到数据库,并返回主题编号topicId<br/>
+7. 序号1.13      给课程指派教师 <br/>
+8. 序号1.14      向界面抛创建课程成功与否的消息</p>
+
+<h3>四、总结</h3>
+
+<p>   时序图是显示对象之间交互顺序的图,这次对象是按时间顺序排列的.时序图中显示的是参与交互的对象及对象之间消息交互的顺序.时序图中包括的建模的元素主要有:对象、控制焦点、消息等等。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Kevin Chen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T15:52:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/uml/'>UML</a>
+  
+</span>
+
+
+    </p>
+    
+      
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/10/20-useful-snippets-of-java-program/" title="Previous Post: 20个非常有用的java程序片段">&laquo; 20个非常有用的java程序片段</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+<section id="comment">
+	<h1>发表评论</h1>
+	<!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chenming142"};
+(function() {
+	var ds = document.createElement('script');
+	ds.type = 'text/javascript';ds.async = true;
+	ds.src = 'http://static.duoshuo.com/embed.js';
+	ds.charset = 'UTF-8';
+	(document.getElementsByTagName('head')[0] 
+	|| document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<!-- Duoshuo Comment END -->
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/10/20-useful-snippets-of-java-program/">20个非常有用的java程序片段</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kevin Chen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
