@@ -3,7 +3,7 @@ layout: post
 title: "Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!"
 date: 2013-03-07 11:08
 comments: true
-categories: 
+categories: github,Octopress 
 ---
 > `github`本身不仅作为代码共享仓库，并且支持`github-pages`功能，而`octopress`就是在这样的环境下诞生的博客系统. 
      
@@ -67,7 +67,7 @@ Otcopress采用`UTF-8无BOM`编码格式,故使用其他格式可能产生不可
 	          修改Gemfile.lock的版本即可.但是不要修改那些存在 >= 的版本号(这就是我在第一步所说的麻烦) 
 
 ####在git@github.com上建立Repositories
-登录Github后,需要建立一个命名为`username.github.com`的Repo,这样命令的好处是,在运行命令`rake setpu_github_pages`能够自动创建`master`和`source`分支.创建(必须拥有github账号)如下图:![create repository](/images/common/create_repos.jpg "create repository of github")
+登录Github后,需要建立一个命名为`username.github.com`的Repo,这样命令的好处是,在运行命令`rake setpu_github_pages`能够自动创建`master`和`source`分支.创建(必须拥有github账号)如下图:![create repository](/images/common/2013-03-07-hello-octopress/create_repos.jpg "create repository of github")
 
 ####发布Octopress到Github
 进入git bash后,进入到Octopress所在目录,输入命令:
@@ -94,7 +94,7 @@ Otcopress采用`UTF-8无BOM`编码格式,故使用其他格式可能产生不可
 以发表 Hello World的文章为例:
 	rake new_post["Hello World"]   #将在 octopress主目录/source/_posts/目录下生成    
 	                                '年-月-日-hello-world.markdown'格式的文件   
-.markdown文件可以用编辑软件打开,添加文章内容,具体用法参考[markdown用法(中文版)](http://wowubuntu.com/markdown/ "markdown用法(中文版)")和[octopress](http://octopress.org/,"octopress")
+.markdown文件可以用编辑软件打开,添加文章内容,具体用法参考[markdown用法(中文版)](http://wowubuntu.com/markdown/ "markdown用法(中文版)")和[octopress](http://octopress.org/ "octopress")
 
 ####绑定域名
 github支持绑定独立域名,在`source/`目录下建立一个无扩展名的`CNAME`文件(文件名为CNAME),在里面写入域名:

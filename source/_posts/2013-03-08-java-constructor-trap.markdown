@@ -3,7 +3,7 @@ layout: post
 title: "Java构造时成员初始化的陷阱"
 date: 2013-03-08 22:21
 comments: true
-categories: 
+categories: java
 ---
 >原文:[http://blog.csdn.net/haoel/article/details/4319793](http://blog.csdn.net/haoel/article/details/4319793 "陈皓专栏")   
 
