@@ -2,21 +2,6 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://chenming142.github.com/blog/2013/03/07/hello-octopress/</loc>
-<<<<<<< HEAD
-        <lastmod>2013-03-07T13:56:47+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://chenming142.github.com/blog/archives/</loc>
-        <lastmod>2013-03-07T13:56:47+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://chenming142.github.com/</loc>
-        <lastmod>2013-03-07T13:56:47+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://chenming142.github.com/robots.txt</loc>
-        <lastmod>2013-03-06T17:43:19+08:00</lastmod>
-=======
         <lastmod>2013-03-10T17:44:48+08:00</lastmod>
     </url>
     <url>
@@ -44,6 +29,5 @@
     <url>
         <loc>http://chenming142.github.com/robots.txt</loc>
         <lastmod>2013-03-09T00:15:29+08:00</lastmod>
->>>>>>> a5346f0425ffa97f0a5d6ef3a85193f4a65df449
     </url>
 </urlset>

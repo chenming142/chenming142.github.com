@@ -10,13 +10,8 @@
 
   
   <meta name="description" content="github本身不仅作为代码共享仓库，并且支持github-pages功能，而octopress就是在这样的环境下诞生的博客系统. 需要安装的软件 1. git
-<<<<<<< HEAD
-2. ruby(或者说rubyinstaller)
-3. DevKit(windows平台下编译和使用本地C/C++扩展包的工具, &hellip;">
-=======
 2. ruby(或者说rubyinstaller, 版本号须 &gt;= 1.9.2)
 3. DevKit( &hellip;">
->>>>>>> a5346f0425ffa97f0a5d6ef3a85193f4a65df449
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,11 +39,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">chenming142's Blog for github</a></h1>
   
-<<<<<<< HEAD
-    <h2>思考|总结|分享</h2>
-=======
     <h2>实践|思考|总结|分享</h2>
->>>>>>> a5346f0425ffa97f0a5d6ef3a85193f4a65df449
   
 </hgroup>
 
@@ -102,18 +93,6 @@
 
 
 <div class="entry-content"><blockquote><p><code>github</code>本身不仅作为代码共享仓库，并且支持<code>github-pages</code>功能，而<code>octopress</code>就是在这样的环境下诞生的博客系统.</p></blockquote>
-
-<<<<<<< HEAD
-<h3>需要安装的软件</h3>
-
-<pre><code>1. git
-2. ruby(或者说rubyinstaller)
-3. DevKit(windows平台下编译和使用本地C/C++扩展包的工具,即用来模拟Linux平台下的make,gcc,sh命令来进行编译)
-4. python(支持代码高亮)    
-</code></pre>
-
-<h3>搭建本地ruby环境和配置工具</h3>
-=======
 <h4>需要安装的软件</h4>
 
 <pre><code>1. git
@@ -150,19 +129,10 @@
 
 
 <h4>搭建ruby环境和配置工具</h4>
->>>>>>> a5346f0425ffa97f0a5d6ef3a85193f4a65df449
 
 <p>依次安装<code>git</code>,<code>rubyinstaller</code>和<code>python</code>,建议最好安装在C盘(系统盘)下,并把相应路径加入系统环境变量中,以避免不必要的错误。之后进入cmd窗口或git窗口来安装DevKit,解压DevKit,比如C:/DevKit,然后执行如下命令:</p>
 
 <pre><code>c:                          #进入c盘
-<<<<<<< HEAD
-cd c:/DevKit                
-ruby dk.rb init             #执行该命令时,可能会由于编码错误导致失败,则在后面加入 --encoding=utf-8
-ruby dk.rb install
-</code></pre>
-
-<p>如果至此你都未出现任何错误的话,搭建成功!</p>
-=======
 cd c:/DevKit  
 ruby -v                     #此命令为了验证 ruby 是否正确安装              
 ruby dk.rb init             #执行该命令时,可能出现编码错误!    
@@ -283,7 +253,6 @@ git checkout master                         #切换回 master 分支
 <p>关于此备份,为什么需要备份? <br/>
 博客文章部署到远程master分支下,然后将本地的所有源文件都git push 到source分支下,这样的话你可以在不同的地方都可以写blog.<br/>
 只要你在写博客之前把source分支下的所有文件git pull 到本地即可,当然你的所有修改都必须在source分支体现(现在我还没有想到更好的方法,我只能在每次操作后都是<strong>先删除sourc分支,然后重建分支</strong>),如果有人知道好的方法或不认同该方法都可以<strong>chenming142@sina.com</strong>,谢谢!!</p>
->>>>>>> a5346f0425ffa97f0a5d6ef3a85193f4a65df449
 </div>
 
 
@@ -309,15 +278,11 @@ git checkout master                         #切换回 master 分支
 <time datetime="2013-03-07T11:08:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2013</time>
       
 
-<<<<<<< HEAD
-=======
 <span class="categories">
   
     <a class='category' href='/blog/categories/github-octopress/'>github,Octopress</a>
   
 </span>
-
->>>>>>> a5346f0425ffa97f0a5d6ef3a85193f4a65df449
 
     </p>
     
@@ -326,11 +291,7 @@ git checkout master                         #切换回 master 分支
     <p class="meta">
       
       
-<<<<<<< HEAD
-=======
         <a class="basic-alignment right" href="/blog/2013/03/08/java-constructor-trap/" title="Next Post: Java构造时成员初始化的陷阱">Java构造时成员初始化的陷阱 &raquo;</a>
-      
->>>>>>> a5346f0425ffa97f0a5d6ef3a85193f4a65df449
     </p>
   </footer>
 </article>
@@ -362,8 +323,6 @@ var duoshuoQuery = {short_name:"chenming142"};
   <ul id="recent_posts">
     
       <li class="post">
-<<<<<<< HEAD
-=======
         <a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a>
       </li>
     
@@ -376,7 +335,6 @@ var duoshuoQuery = {short_name:"chenming142"};
       </li>
     
       <li class="post">
->>>>>>> a5346f0425ffa97f0a5d6ef3a85193f4a65df449
         <a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a>
       </li>
     
