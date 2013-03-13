@@ -4,7 +4,7 @@
   <title><![CDATA[chenming142's Blog for github]]></title>
   <link href="http://chenming142.github.com/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-10T17:44:49+08:00</updated>
+  <updated>2013-03-14T00:07:52+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -12,6 +12,574 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Test整合JUnit 4]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/13/spring-test/"/>
+    <updated>2013-03-13T23:03:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/13/spring-test</id>
+    <content type="html"><![CDATA[<blockquote><p>JUnit 框架原本就能用来进行单元测试,但是在使用了Spring之后测试就变得复杂了,但是幸运的是Spring提供了<a href="http://chenming142.github.com" title="spring-test.jar">Spring-test</a>,可以用来整合JUnit,使测试变得简单.</p></blockquote>
+
+<h3>加入依赖包</h3>
+
+<p>使用Spring整合JUnit来测试需要加入以下依赖包:<br/>
+1. <a href="http://www.junit.org/" title="JUnit 4 必不可少">JUnit 4</a><br/>
+2. Spring Test(Spring 框架中的test包)<br/>
+3. Spring 相关的其他依赖包及其配置</p>
+
+<h3>创建测试源目录和包结构</h3>
+
+<p>推荐创建一个和src平级的源test目录,因为src中的内都是以后需要打包的应用类,而test中的类仅仅只用来测试.test目录下的包名称和结构也建议与src中的保持一致,这样既不会产生冲突也容易识别,方便检索. <br/>
+<img src="http://chenming142.github.com/images/common/2013-03-13-spring-test/20130314000238.jpg" title="目录及包结构" alt="目录及包结构" /></p>
+
+<h3>创建测试框架抽象类</h3>
+
+<p>Spring的测试机制是基于JUnit的扩展,在org.springframework.test包下,可以看到6个从 TestCase基础上扩展出来的抽象类,分别是:<br/>
+1. <strong>ConditionalTestCase</strong> - 可以有选择地关闭掉一些测试方法,不让它们在测试用例中执行,而无需将这些方法注释掉<br/>
+2. <strong>AbstractSpringContextTests</strong> - 运行多个测试用例和测试方法时,Spirng上下文只需创建一次<br/>
+3. <strong>AbstractSingleSpringContextTests</strong> - 方便手工执行Spring配置文件,手工设定Spring容器是否需要重新加载<br/>
+4. <strong>AbstractDependencyInjectSpringContextTests</strong> - 自动装配\依赖检查\自动注入<br/>
+5. <strong>AbstractTransactionalSpringContextTests</strong> - 自动恢复数据库现场即自动回滚<br/>
+6. <strong>AbstractTransactionalDataSourceSpringContextTests</strong> - 通过JDBC访问数据库,检查数据库操作正确性</p>
+
+<p>上述抽象类按照先后顺序逐步加强了每个抽象类的功能，并且按照逐步继承的关系，使得子抽象类具有父抽象类的所有特性，因此最终的AbstractTransactionalDataSourceSpringContextTests抽象类具有其所有祖先抽象类的特性以及其自身的特性，实际应用中可以根据需要选择需要使用的抽象基类进行扩展.</p>
+
+<p><strong>基于AbstractDependencyInjectionSpringContextTests的抽象测试类</strong></p>
+
+<pre><code>package com.test.common;
+
+import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
+
+/**
+ * 
+ * 基于AbstractDependencyInjectionSpringContextTests的抽象测试类
+ * 具体测试时，继承此抽象类，完成对Service的测试。此时可以不用关注事务相关的问题。
+ * 
+ * 注意：在实际测试时，发现如果在Spring配置文件中指定了如下所示的Spring使用的资源文件列表
+ *      &lt;bean id="propertyConfigure"
+ *          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"&gt;
+ *          &lt;property name="locations"&gt;
+ *              &lt;list&gt;
+ *                  &lt;value&gt;file:WebContent/WEB-INF/db.properties&lt;/value&gt;
+ *              &lt;/list&gt;
+ *          &lt;/property&gt;
+ *      &lt;/bean&gt;
+ *则上文中的[file:] 必须加上，否则系统会抛一个FileNotFoundException，而实际运行时，则必须将此处去掉。
+ * @author Administrator
+ */
+public abstract class AbstractServiceInjectionTest 
+    extends AbstractDependencyInjectionSpringContextTests {
+    // 配置文件地址的前缀
+    String filePathSufix = "file:WebContent/WEB-INF/springConfig/"; 
+    // applicationContext.xml文件地址
+    String appContextFile = "file:WebContent/WEB-INF/springConfig/applicationContext.xml";
+
+    public AbstractServiceInjectionTest() {
+        super();
+    }
+
+    public AbstractServiceInjectionTest(String name) {
+        super(name);
+    }
+    /**
+     * 抽象方法 - 子类必须实现的获取需要配置的文件地址
+     * @return
+     */
+    abstract String[] getOtherConfigs();
+
+    /**
+     * 覆盖的获取配置文件地址的方法
+     * @return
+     * @author Administrator
+     */
+    @Override
+    protected String[] getConfigLocations() {
+        String[] otherConfigs = getOtherConfigs();
+        //所有配置文件列表
+        String[] configFiles = new String[otherConfigs.length + 1]; 
+        configFiles[0] = appContextFile;
+        System.arraycopy(otherConfigs, 0, configFiles, 1, otherConfigs.length);
+        return configFiles;
+    }
+
+    /**
+     * 抽象方法 - 子类必须实现的需忽略的方法列表
+     * @return
+     */
+    abstract String[] getIgnoredMethods();
+
+    @Override
+    protected boolean isDisabledInThisEnvironment(String testMethodName) {
+        for(String methodName : getIgnoredMethods()){
+            if(methodName.equals(testMethodName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+}
+</code></pre>
+
+<p><strong>基于AbstractTransactionalSpringContextTests扩展的抽象类 - 可以自动回滚事务的测试抽象基类</strong></p>
+
+<pre><code>package com.test.common;
+
+import org.springframework.test.AbstractTransactionalSpringContextTests;
+
+/**
+ * AbstractTransactionalSpringContextTests提供了一套数据库自动回滚的功能，方便恢复数据库现场，从而不必每次测试完成后都重新恢复数据库的操作。
+ * 基于AbstractTransactionalSpringContextTests扩展的抽象类 - 可以自动回滚事务的测试抽象基类
+ * 
+ * 如果在测试时，需要将测试结果持久化，可以直接在测试的方法末尾加上“setComplete()”方法。
+ * 由此，可以看出基于AbstractTransactionalSpringContextTests抽象基类的扩展，同样可以将数据持久化到数据库中，
+ * 因此，实际测试中，可以使用此方式实现不启用自动事务回滚功能。
+ * 
+ * 说明：如果使用Spring的事务管理功能，此处在事务处理上可能会有一些冲突，例如将以“query”开头的方法的propagation设置为“NEVER”，
+ * 测试时可能会造成事务自动回滚或者不回滚的异常，
+ * 此时，需要做的操作是将以“query”开头的方法的propagation设置为默认的“REQUIRED”，同时加上read-only="true"，可以解决此问题。
+ * 
+ * 另外，AbstractTransactionalSpringContextTests提供了一些可以在事务处理过程中进行操作的各种入口。
+ *  onSetUpBeforeTransaction()与onTearDownAfterTransaction()：子类可以覆盖这两个方法，可以在事务测试方法运行的前后执行一些数据库初始化的操作并在事务完成后将其清除；
+ *  onSetUpInTransaction()与onTearDownInTransaction()：这对方法和上面介绍的方法完成的功能相同，只不过它们在测试方法的相同事务中执行的。
+ *  AbstractTransactionalSpringContextTests还提供了一组用于测试延迟数据加载的方法：
+ *      endTransaction()与startNewTransaction()。
+ *  当用户在测试Hibernate、JPA等允许延迟数据加载的应用时，模拟数据在Service层事务中被部分加载，当传递到Web层时重新打开事务完成延迟部分数据加载的测试场景。
+ *  可以在测试方法中显式调用endTransaction()方法以模拟从Service层中获取部分数据后返回，
+ *  然后，通过startNewTransaction()开启一个和原事务无关新事务——模拟在Web层中重新打开事务，接下来就可以访问延迟加载的数据，进行测试了。
+ */
+public abstract class AbstractServiceTransactionalTest 
+    extends AbstractTransactionalSpringContextTests {
+    // 配置文件地址的前缀,如果直接配置在WEB-INF目录下的话,可不用前缀
+    String filePathSufix = "file:WebContent/WEB-INF/springConfig/"; 
+    // applicationContext.xml文件地址,如果直接配置在WEB-INF目录下的话,直接写比如spring/jdbc-config.xml
+    String appContextFile = "file:WebContent/WEB-INF/springConfig/applicationContext.xml";
+
+    public AbstractServiceTransactionalTest() {
+        super();
+    }
+    public AbstractServiceTransactionalTest(String name) {
+        super(name);
+    }
+
+    /**
+     * 抽象方法 - 子类必须实现的获取需要配置的文件地址
+     * @return
+     */
+    abstract String[] getOtherConfigs();
+
+    /**
+     * 覆盖的获取配置文件地址的方法
+     * @return
+     * @author Administrator
+     */
+    @Override
+    protected String[] getConfigLocations() {
+        String[] otherConfigs = getOtherConfigs();
+        //所有配置文件列表
+        String[] configFiles = new String[otherConfigs.length + 1]; 
+        configFiles[0] = appContextFile;
+        System.arraycopy(otherConfigs, 0, configFiles, 1, otherConfigs.length);
+        return configFiles;
+    }
+
+    /**
+     * 抽象方法 - 子类必须实现的需忽略的方法列表
+     * @return
+     */
+    abstract String[] getIgnoredMethods();
+
+    @Override
+    protected boolean isDisabledInThisEnvironment(String testMethodName) {
+        for(String methodName : getIgnoredMethods()){
+            if(methodName.equals(testMethodName)){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+</code></pre>
+
+<p><strong>基于AbstractTransactionalDataSourceSpringContextTests抽象类具有其所有祖先抽象类的特性以及其自身的特性</strong></p>
+
+<pre><code>package com.test.common;
+
+import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
+/**
+ * 使用JdbcTemplate获取数据库数据的方式，多用于更新以及复杂的业务逻辑中的数据验证。
+ * 有了Spring的测试机制，对于使用Spring的应用，可以方便的进行集成测试，从而简化开发的工作量，减少繁琐的重复工作，提供工作效率。
+ * 
+ * 注意：如果采用byName的自动装配机制，数据源Bean的名称必须取名为“dataSource”。
+ * 
+ */
+public abstract class AbstractJdbcServiceTest extends AbstractTransactionalDataSourceSpringContextTests {
+    String filePathSufix = "file:WebContent/WEB-INF/springConfig/"; // 配置文件地址的前缀
+    String appContextFile = "file:WebContent/WEB-INF/springConfig/applicationContext.xml";// applicationContext.xml文件地址
+
+    public AbstractJdbcServiceTest() {
+        super();
+    }
+
+    public AbstractJdbcServiceTest(String name) {
+        super(name);
+    }
+    /**
+     * 抽象方法 - 子类必须实现的获取需要配置的文件地址
+     * @return
+     */
+    abstract String[] getOtherConfigs();
+
+    /**
+     * 覆盖的获取配置文件地址的方法
+     * @return
+     * @author Administrator
+     */
+    @Override
+    protected String[] getConfigLocations() {
+        String[] otherConfigs = getOtherConfigs();
+        //所有配置文件列表
+        String[] configFiles = new String[otherConfigs.length + 1]; 
+        configFiles[0] = appContextFile;
+        System.arraycopy(otherConfigs, 0, configFiles, 1, otherConfigs.length);
+        return configFiles;
+    }
+
+    /**
+     * 抽象方法 - 子类必须实现的需忽略的方法列表
+     * @return
+     */
+    abstract String[] getIgnoredMethods();
+
+    @Override
+    protected boolean isDisabledInThisEnvironment(String testMethodName) {
+        for(String methodName : getIgnoredMethods()){
+            if(methodName.equals(testMethodName)){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+</code></pre>
+
+<p><strong>直接使用JUnit进行测试的抽象基类</strong></p>
+
+<pre><code>package com.test.common;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+
+import junit.framework.TestCase;
+
+/**
+ * 直接使用JUnit进行测试的抽象基类
+ * @author Administrator
+ *
+ */
+public abstract class AbstractServiceTestJUnit extends TestCase {
+    /**
+     * applicationContext.xml文件的路径,
+     * 如果配置文件没有放在classpath下，必须使用此写法；
+     * 如果配置文件放在classpath下，则可以直接文件名
+     */
+    String applicationContextFile = "WebContent\\WEB-INF\\springConfig\\applicationContext.xml";
+
+    static ApplicationContext ctx;
+
+    public AbstractServiceTestJUnit() {
+        super();
+    }
+
+    public AbstractServiceTestJUnit(String name) {
+        super(name);
+    }
+
+    /**
+     * 抽象方法 - applicationContext.xml文件以外的配置文件的路径列表
+     * @return
+     */
+    abstract String[] getOtherConfigFiles();
+
+    /**
+     * 获取 Spring 上下文实例
+     * 上下文实例简单使用 singleton,保证上下文只创建一次
+     * @return
+     */
+    ApplicationContext getApplicationContext() {
+        if( null == ctx){
+            String[] otherConfigs = getOtherConfigFiles();
+            String[] configFiles = new String[otherConfigs.length + 1]; // 所有配置文件列表
+
+            configFiles[0] = applicationContextFile;
+            System.arraycopy(otherConfigs, 0, configFiles, 1,otherConfigs.length);// 将所有的配置文件列表放入目标配置文件列表
+
+            ctx = new FileSystemXmlApplicationContext(configFiles); // 获取Spring上下文
+        }
+        return ctx;
+    }
+
+    /**
+     * 覆盖 setUp 方法，获取Spring上下文实例
+     */
+    @Override
+    protected void setUp() throws Exception {
+        getApplicationContext();
+    }
+}
+</code></pre>
+
+<h3>创建、配置测试类及创建测试方法</h3>
+
+<p>上述所说的均为测试基类(抽象类),如创建测试类时根据实际情况继承上述某一抽象类即可.<br/>
+在抽象类中已配置了数据库连接配置文件appContextFile.xml,在实际测试类中,仅配置所需用到的Bean配置Spring配置文件. <br/>
+测试方法自行添加,并可在方法getIgnoredMethods()中设置是否忽略,而无需注释.</p>
+
+<h3>通过JUnit 4 执行测试</h3>
+
+<p>右键方法名，选择则“Run As” or “Debug As” → “JUnit Test”即可</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[简明 Vim 练级攻略]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/11/vim-strategy/"/>
+    <updated>2013-03-11T12:52:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/11/vim-strategy</id>
+    <content type="html"><![CDATA[<blockquote><p>原文地址:<a href="http://coolshell.cn/articles/5426.html" title="酷壳-简明 Vim 练级攻略">http://coolshell.cn/articles/5426.html</a></p></blockquote>
+
+<p>你想以最快的速度学习人类史上最好的文本编辑器VIM吗？你先得懂得如何在VIM幸存下来，然后一点一点地学习各种戏法。<br/>
+Vim the Six Billion Dollar editor</p>
+
+<blockquote><blockquote><p>Better, Stronger, Faster.</p></blockquote></blockquote>
+
+<p>学习 <strong>vim</strong> 并且其会成为你最后一个使用的文本编辑器。没有比这个更好的文本编辑器了，非常地难学，但是却不可思议地好用。我建议下面这四个步骤:</p>
+
+<pre><code>1. 存活   
+2. 感觉良好  
+3. 觉得更好,更强,更快  
+4. 使用 VIM 的超能力  
+</code></pre>
+
+<p>当你走完这篇文章，你会成为一个vim的 superstar。</p>
+
+<p>在开始学习以前，我需要给你一些警告：</p>
+
+<pre><code>1. 学习vim在开始时是痛苦的。  
+2. 需要时间  
+3. 需要不断地练习，就像你学习一个乐器一样。  
+4. 不要期望你能在3天内把vim练得比别的编辑器更有效率。   
+5. 事实上，你需要2周时间的苦练，而不是3天。  
+</code></pre>
+
+<h3>第一级 - 存活</h3>
+
+<ol>
+<li>安装 VIM</li>
+<li>启动 VIM</li>
+<li>什么也别干!请先阅读
+当你安装好一个编辑器后，你一定会想在其中输入点什么东西，然后看看这个编辑器是什么样子。但vim不是这样的，请按照下面的命令操作：</li>
+<li>启 动Vim后，vim在 <strong>Normal</strong> 模式下。</li>
+<li>让我们进入 <strong>Insert</strong> 模式，请按下键 <code>i</code> 。(陈皓注：你会看到vim左下角有一个–insert–字样，表示，你可以以插入的方式输入了）</li>
+<li>此时，你可以输入文本了，就像你用“记事本”一样。</li>
+<li>如果你想返回 <strong>Normal</strong> 模式，请按 <code>ESC</code> 键。</li>
+</ol>
+
+
+<p>现在，你知道如何在 <strong>Insert</strong> 和 <strong>Normal</strong> 模式下切换了。<br/>
+下面是一些命令，可以让你在 Normal 模式下幸存下来：
+<code>i → Insert 模式，按 ESC 回到 Normal 模式.</code> <br/>
+<code>x → 删当前光标所在的一个字符。</code><br/>
+<code>:wq → 存盘 + 退出 (:w 存盘, :q 退出)   （陈皓注：:w 后可以跟文件名）</code><br/>
+<code>dd → 删除当前行，并把删除的行存到剪贴板里</code><br/>
+<code>p → 粘贴剪贴板</code> <br/>
+<code>推荐:</code><br/>
+<code>hjkl (强例推荐使用其移动光标，但不必需) →你也可以使用光标键 (←↓↑→). 注: j 就像下箭头。</code>
+<code>:help &lt;command&gt; → 显示相关命令的帮助。你也可以就输入 :help 而不跟命令。（陈皓注：退出帮助需要输入:q）</code></p>
+
+<p>你能在vim幸存下来只需要上述的那5个命令，你就可以编辑文本了，你一定要把这些命令练成一种下意识的状态。于是你就可以开始进阶到第二级了。</p>
+
+<p>但是，在你进入第二级时，需要再说一下 Normal 模式。在一般的编辑器下，当你需要copy一段文字的时候，你需要使用 Ctrl 键，比如：Ctrl-C。也就是说，Ctrl键就好像功能键一样，当你按下了功能键Ctrl后，C就不在是C了，而且就是一个命令或是一个快键键了，<strong>在VIM的Normal模式下，所有的键就是功能键了</strong>。这个你需要知道。</p>
+
+<p>标记:
+下面的文字中，如果是 <code>Ctrl-λ</code>我会写成 <code>&lt;C-λ&gt;</code>.
+<em>以 <code>:</code> 开始的命令你需要输入 <enter>回车</em>，例如:如果我写成 :q 也就是说你要输入 :q&lt;enter>.</p>
+
+<h3>第二级 – 感觉良好</h3>
+
+<p>上面的那些命令只能让你存活下来，现在是时候学习一些更多的命令了，下面是我的建议：（陈皓注：所有的命令都需要在Normal模式下使用，如果你不知道现在在什么样的模式，你就狂按几次ESC键）</p>
+
+<ol>
+<li><p>各种插入模式<br/>
+<code>a → 在光标后插入</code> <br/>
+<code>o → 在当前行后插入一个新行</code><br/>
+<code>O → 在当前行前插入一个新行(大写)</code><br/>
+<code>cw → 替换从光标所在位置后到一个单词结尾的字符</code></p></li>
+<li><p>简单的移动光标  <br/>
+<code>0 → 数字零，到行头</code> <br/>
+<code>^ → 到本行第一个不是blank字符的位置（所谓blank字符就是空格，tab，换行，回车等）</code> <br/>
+<code>$ → 到本行行尾</code> <br/>
+<code>g_ → 到本行最后一个不是blank字符的位置。</code> <br/>
+<code>/pattern → 搜索 pattern 的字符串（陈皓注：如果搜索出多个匹配，可按n键到下一个）</code></p></li>
+<li><p>拷贝/粘贴 （陈皓注：p/P都可以，p是表示在当前位置之后，P表示在当前位置之前） <br/>
+ <code>P → 粘贴</code> <br/>
+ <code>yy → 拷贝当前行当行于 ddP</code></p></li>
+<li><p>Undo/Redo <br/>
+<code>u → undo</code> <br/>
+<code>&lt;C-r&gt; → redo</code></p></li>
+<li><p>打开/保存/退出/改变文件(Buffer) <br/>
+<code>:e &lt;path/to/file&gt; → 打开一个文件</code> <br/>
+<code>:w → 存盘</code> <br/>
+<code>:saveas &lt;path/to/file&gt; → 另存为 &lt;path/to/file&gt;</code>  <br/>
+<code>:x， ZZ 或 :wq → 保存并退出 (:x 表示仅在需要时保存，ZZ不需要输入冒号并回车)</code> <br/>
+<code>:q! → 退出不保存 :qa! 强行退出所有的正在编辑的文件，就算别的文件有更改。</code> <br/>
+<code>:bn 和 :bp → 你可以同时打开很多文件，使用这两个命令来切换下一个或上一个文件。（陈皓注：我喜欢使用:n到下一个文件）</code></p></li>
+</ol>
+
+
+<p>花点时间熟悉一下上面的命令，一旦你掌握他们了，你就几乎可以干其它编辑器都能干的事了。但是到现在为止，你还是觉得使用vim还是有点笨拙，不过没关系，你可以进阶到第三级了。</p>
+
+<h3>第三级 – 更好，更强，更快</h3>
+
+<p>先恭喜你！你干的很不错。我们可以开始一些更为有趣的事了。在第三级，我们只谈那些和vi可以兼容的命令。</p>
+
+<p><strong>更好</strong><br/>
+下面，让我们看一下vim是怎么重复自己的：<br/>
+<code>. → (小数点) 可以重复上一次的命令</code><br/>
+<code>N&lt;command&gt; → 重复某个命令N次</code></p>
+
+<p>下面是一个示例，找开一个文件你可以试试下面的命令：<br/>
+<code>2dd → 删除2行</code><br/>
+<code>3p → 粘贴文本3次</code><br/>
+<code>100idesu [ESC] → 会写下 “desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu “</code><br/>
+<code>. → 重复上一个命令—— 100 “desu “.</code><br/>
+<code>3. → 重复 3 次 “desu” (注意：不是 300，你看，VIM多聪明啊).</code></p>
+
+<p><strong>更强</strong><br/>
+你要让你的光标移动更有效率，你一定要了解下面的这些命令，千万别跳过。<br/>
+<code>NG → 到第 N 行 （陈皓注：注意命令中的G是大写的，另我一般使用 : N 到第N行，如 :137 到第137行）</code><br/>
+<code>gg → 到第一行。（陈皓注：相当于1G，或 :1）</code> <br/>
+<code>G → 到最后一行。</code><br/>
+<code>按单词移动： w → 到下一个单词的开头。 e → 到下一个单词的结尾。</code></p>
+
+<pre><code>如果你认为单词是由默认方式，那么就用小写的e和w。   
+默认上来说，一个单词由字母，数字和下划线组成（陈皓注：程序变量）  
+如果你认为单词是由blank字符分隔符，那么你需要使用大写的E和W。（陈皓注：程序语句）
+</code></pre>
+
+<p>下面，让我来说说最强的光标移动：<br/>
+<code>% : 匹配括号移动，包括 (, {, [. （陈皓注：你需要把光标先移到括号上）</code>
+<code>* 和 #:  匹配光标当前所在的单词，移动光标到下一个（或上一个）匹配单词（*是下一个，#是上一个）</code>
+相信我，上面这三个命令对程序员来说是相当强大的。</p>
+
+<p><strong>更快</strong><br/>
+你一定要记住光标的移动，因为很多命令都可以和这些移动光标的命令连动。很多命令都可以如下来干：
+例如 <code>0y$</code> 命令意味着：<br/>
+<code>0 → 先到行头, y → 从这里开始拷贝, $ → 拷贝到本行最后一个字符</code><br/>
+你可可以输入 <code>ye，从当前位置拷贝到本单词的最后一个字符。</code><br/>
+你也可以输入 <code>y2/foo 来拷贝2个 “foo” 之间的字符串。</code><br/>
+还有很多时间并不一定你就一定要按y才会拷贝，下面的命令也会被拷贝：<br/>
+<code>d (删除 )  v (可视化的选择)  gU (变大写)  gu (变小写) </code></p>
+
+<pre><code>（陈皓注：可视化选择是一个很有意思的命令，   
+     你可以先按v，然后移动光标，你就会看到文本被选择，然后，你可能d，也可y，也可以变大写等）  
+</code></pre>
+
+<h3>第四级 – Vim 超能力</h3>
+
+<p>你只需要掌握前面的命令，你就可以很舒服的使用VIM了。但是，现在，我们向你介绍的是VIM杀手级的功能。<br/>
+下面这些功能是我只用vim的原因。
+在当前行上移动光标: <strong>0 ^ $ f F t T </strong>; <br/>
+<code>0 → 到行头</code><br/>
+<code>^ → 到本行的第一个非blank字符</code><br/>
+<code>$ → 到行尾</code><br/>
+<code>g_ → 到本行最后一个不是blank字符的位置。</code>
+<code>fa → 到下一个为a的字符处，你也可以fs到下一个为s的字符。</code><br/>
+<code>t, → 到逗号前的第一个字符。逗号可以变成其它字符。</code><br/>
+<code>3fa → 在当前行查找第三个出现的a。</code><br/>
+<code>F 和 T → 和 f 和 t 一样，只不过是相反方向。</code></p>
+
+<pre><code>还有一个很有用的命令是 dt" → 删除所有的内容，直到遇到双引号—— "。
+</code></pre>
+
+<p><strong>区域选择 : &lt;action>a&lt;object></strong> 或 <strong>&lt;action>i&lt;object></strong><br/>
+在 <strong>visual</strong> 模式下，这些命令很强大，其命令格式为 &lt;action>a&lt;object> 和 &lt;action>i&lt;object></p>
+
+<pre><code>action可以是任何的命令，如 d (删除), y (拷贝), v (可以视模式选择)。
+object 可能是： w 一个单词， W 一个以空格为分隔的单词， s 一个句字， p 一个段落。  
+也可以是一个特别的字符："、 '、 )、 }、 ]。  
+</code></pre>
+
+<p>假设你有一个字符串 (map (+) (&#8220;foo&#8221;)), 而光标键在第一个 o 的位置。 <br/>
+<code>vi" → 会选择 foo.</code>  <br/>
+<code>va" → 会选择 "foo".</code> <br/>
+<code>vi) → 会选择 "foo".</code> <br/>
+<code>va) → 会选择("foo").</code> <br/>
+<code>v2i) → 会选择 map (+) ("foo")</code>  <br/>
+<code>v2a) → 会选择 (map (+) ("foo"))</code></p>
+
+<p><strong>块操作 : &lt;C-v></strong> <br/>
+块操作，典型的操作： 0 &lt;C-v> &lt;C-d> I&#8211; [ESC]</p>
+
+<pre><code>^ → 到行头   
+&lt;C-v&gt; → 开始块操作 
+&lt;C-d&gt; → 向下移动 (你也可以使用hjkl来移动光标，或是使用%，或是别的)   
+I-- [ESC] → I是插入，插入“--”，按ESC键来为每一行生效。
+在Windows下的vim，你需要使用 &lt;C-q&gt; 而不是 &lt;C-v&gt; ，&lt;C-v&gt; 是拷贝剪贴板。
+</code></pre>
+
+<p><strong>自动提示： &lt;C-n> 和 &lt;C-p></strong> <br/>
+在 <strong>Insert</strong> 模式下，你可以输入一个词的开头，然后按 &lt;C-p>或是&lt;C-n>，自动补齐功能就出现了……</p>
+
+<p><strong>宏录制： qa 操作序列 q, @a, @@</strong></p>
+
+<pre><code>qa 把你的操作记录在寄存器 a。 于是 @a 会replay被录制的宏。 @@ 是一个快捷键用来replay最新录制的宏。
+</code></pre>
+
+<p>示例 : 在一个只有一行且这一行只有“1”的文本中，键入如下命令：</p>
+
+<pre><code>qaYp&lt;C-a&gt;q→ qa 开始录制 Yp 复制行.  &lt;C-a&gt; 增加1.  q 停止录制.  @a → 在1下面写下 2 @@ → 在2 正面写下3
+</code></pre>
+
+<p>现在做 100@@ 会创建新的100行，并把数据增加到 103.</p>
+
+<p><strong>可视化选择： v,V,&lt;C-v></strong> <br/>
+前面，我们看到了 <C-v>的示例 （<code>在Windows下应该是&lt;C-q&gt;</code>），我们可以使用 v 和 V。一但被选好了，你可以做下面的事：</p>
+
+<pre><code>J → 把所有的行连接起来（变成一行）
+&lt; 或 &gt; → 左右缩进
+= → 自动给缩进 （陈皓注：这个功能相当强大，我太喜欢了）
+</code></pre>
+
+<p>在所有被选择的行后加上点东西：<code>&lt;C-v&gt;</code></p>
+
+<pre><code>选中相关的行 (可使用 j 或 &lt;C-d&gt; 或是 /pattern 或是 % 等……)
+$ 到行最后
+A, 输入字符串，按 ESC。
+</code></pre>
+
+<p><strong>分屏: :split 和 vsplit.</strong>
+下面是主要的命令，你可以使用VIM的帮助 :help split. 你可以参考本站以前的一篇文章VIM分屏。</p>
+
+<pre><code>:split → 创建分屏 (:vsplit创建垂直分屏)
+&lt;C-w&gt;&lt;dir&gt; : dir就是方向，可以是 hjkl 或是 ←↓↑→ 中的一个，其用来切换分屏。
+&lt;C-w&gt;_ (或 &lt;C-w&gt;|) : 最大化尺寸 (&lt;C-w&gt;| 垂直分屏)
+&lt;C-w&gt;+ (或 &lt;C-w&gt;-) : 增加尺寸
+</code></pre>
+
+<h3>结束语</h3>
+
+<blockquote><p>上面是作者最常用的90%的命令。
+我建议你每天都学1到2个新的命令。
+在两到三周后，你会感到vim的强大的。
+有时候，学习VIM就像是在死背一些东西。
+幸运的是，vim有很多很不错的工具和优秀的文档。
+运行vimtutor直到你熟悉了那些基本命令。
+其在线帮助文档中你应该要仔细阅读的是 :help usr_02.txt.
+你会学习到诸如  !， 目录，寄存器，插件等很多其它的功能。
+学习vim就像学弹钢琴一样，一旦学会，受益无穷。</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UML 建模之时序图(Sequence Diagram)]]></title>
