@@ -3,7 +3,8 @@ layout: post
 title: "20个非常有用的java程序片段"
 date: 2013-03-10 10:18
 comments: true
-categories: java
+categories: J2SE基础
+tags: J2SE
 ---
 > 原文地址是:[http://coolshell.cn/articles/889.html](http://coolshell.cn/articles/889.html '酷壳-CoolShell.cn')
 

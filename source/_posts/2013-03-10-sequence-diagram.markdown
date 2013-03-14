@@ -3,7 +3,8 @@ layout: post
 title: "UML 建模之时序图(Sequence Diagram)"
 date: 2013-03-10 15:52
 comments: true
-categories: UML
+categories: UML设计
+tags: UML
 ---
 >原文:[http://www.cnblogs.com/ywqu](http://www.cnblogs.com/ywqu "灵动生活")
 

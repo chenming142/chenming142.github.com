@@ -3,7 +3,8 @@ layout: post
 title: "Spring Test整合JUnit 4"
 date: 2013-03-13 23:03
 comments: true
-categories: spring,test 
+categories: J2EE应用
+tags: [J2EE,Spring,JUnit]
 ---
 > JUnit 框架原本就能用来进行单元测试,但是在使用了Spring之后测试就变得复杂了,但是幸运的是Spring提供了[Spring-test](http://chenming142.github.com 'spring-test.jar'),可以用来整合JUnit,使测试变得简单.
 

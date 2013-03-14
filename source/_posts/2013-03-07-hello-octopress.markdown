@@ -3,7 +3,8 @@ layout: post
 title: "Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!"
 date: 2013-03-07 11:08
 comments: true
-categories: github,Octopress 
+categories: 开发工具库
+tags: [Octopress,Github]
 ---
 > `github`本身不仅作为代码共享仓库，并且支持`github-pages`功能，而`octopress`就是在这样的环境下诞生的博客系统. 
      

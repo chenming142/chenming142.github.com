@@ -3,7 +3,8 @@ layout: post
 title: "简明 Vim 练级攻略"
 date: 2013-03-11 12:52
 comments: true
-categories: vim
+categories: 开发工具库
+tags: VIM
 ---
 > 原文地址:[http://coolshell.cn/articles/5426.html](http://coolshell.cn/articles/5426.html '酷壳-简明 Vim 练级攻略')  
 
