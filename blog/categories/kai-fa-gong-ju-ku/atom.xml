@@ -1,96 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>简明 Vim 练级攻略 - chenming142's Blog for github</title>
-  <meta name="author" content="Kevin Chen">
-
-  
-  <meta name="description" content="Tips, tricks, and hacks on Ruby on Rails development.">
-  <meta name="keywords" content="ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping">
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://chenming142.github.com/blog/2013/03/11/vim-strategy/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="chenming142's Blog for github" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">chenming142's Blog for github</a></h1>
-  
-    <h2>实践|思考|总结|分享</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:chenming142.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
+  <title><![CDATA[Category: 开发工具库 | chenming142's Blog for github]]></title>
+  <link href="http://chenming142.github.com/blog/categories/kai-fa-gong-ju-ku/atom.xml" rel="self"/>
+  <link href="http://chenming142.github.com/"/>
+  <updated>2013-03-14T22:42:16+08:00</updated>
+  <id>http://chenming142.github.com/</id>
+  <author>
+    <name><![CDATA[Kevin Chen]]></name>
     
-      <h1 class="entry-title">简明 Vim 练级攻略</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2013-03-11T12:52:00+08:00" pubdate data-updated="true">Mar 11<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><blockquote><p>原文地址:<a href="http://coolshell.cn/articles/5426.html" title="酷壳-简明 Vim 练级攻略">http://coolshell.cn/articles/5426.html</a></p></blockquote>
+  <entry>
+    <title type="html"><![CDATA[简明 Vim 练级攻略]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/11/vim-strategy/"/>
+    <updated>2013-03-11T12:52:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/11/vim-strategy</id>
+    <content type="html"><![CDATA[<blockquote><p>原文地址:<a href="http://coolshell.cn/articles/5426.html" title="酷壳-简明 Vim 练级攻略">http://coolshell.cn/articles/5426.html</a></p></blockquote>
 
 <p>你想以最快的速度学习人类史上最好的文本编辑器VIM吗？你先得懂得如何在VIM幸存下来，然后一点一点地学习各种戏法。<br/>
 Vim the Six Billion Dollar editor</p>
@@ -254,7 +182,7 @@ object 可能是： w 一个单词， W 一个以空格为分隔的单词， s �
 也可以是一个特别的字符："、 '、 )、 }、 ]。  
 </code></pre>
 
-<p>假设你有一个字符串 (map (+) (&#8220;foo&#8221;)), 而光标键在第一个 o 的位置。 <br/>
+<p>假设你有一个字符串 (map (+) ("foo")), 而光标键在第一个 o 的位置。 <br/>
 <code>vi" → 会选择 foo.</code>  <br/>
 <code>va" → 会选择 "foo".</code> <br/>
 <code>vi) → 会选择 "foo".</code> <br/>
@@ -263,7 +191,7 @@ object 可能是： w 一个单词， W 一个以空格为分隔的单词， s �
 <code>v2a) → 会选择 (map (+) ("foo"))</code></p>
 
 <p><strong>块操作 : &lt;C-v></strong> <br/>
-块操作，典型的操作： 0 &lt;C-v> &lt;C-d> I&#8211; [ESC]</p>
+块操作，典型的操作： 0 &lt;C-v> &lt;C-d> I-- [ESC]</p>
 
 <pre><code>^ → 到行头   
 &lt;C-v&gt; → 开始块操作 
@@ -322,160 +250,177 @@ A, 输入字符串，按 ESC。
 其在线帮助文档中你应该要仔细阅读的是 :help usr_02.txt.
 你会学习到诸如  !， 目录，寄存器，插件等很多其它的功能。
 学习vim就像学弹钢琴一样，一旦学会，受益无穷。</p></blockquote>
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
+]]></content>
+  </entry>
   
+  <entry>
+    <title type="html"><![CDATA[Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/07/hello-octopress/"/>
+    <updated>2013-03-07T11:08:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/07/hello-octopress</id>
+    <content type="html"><![CDATA[<blockquote><p><code>github</code>本身不仅作为代码共享仓库，并且支持<code>github-pages</code>功能，而<code>octopress</code>就是在这样的环境下诞生的博客系统.</p></blockquote>
 
-<span class="byline author vcard">Posted by <span class="fn">Kevin Chen</span></span>
+<h4>需要安装的软件</h4>
 
-      
+<pre><code>1. git
+2. ruby(或者说rubyinstaller, 版本号须 &gt;= 1.9.2)
+3. DevKit(windows平台下编译和使用本地C/C++扩展包的工具,即用来模拟Linux平台下的make,gcc,sh命令来进行编译)
+4. python(支持代码高亮) 
+</code></pre>
+
+<h6>关于 github 值得说说的事情</h6>
+
+<ol>
+<li>先注册一个github账号和创建一个repos<br/>
+ 创建一个新的Repository.这里必须重视,若想是博客首页是http://yourname.github.com,则Repositoty的project name就必须是<strong>yourname.github.com</strong>.</li>
+<li>设置SH Keys
+ 履行<code>ssh-keygen -t rsa -C “your_email＠youremail.com”</code>，回车;然后输入两遍暗码.
+ 到c:\Users\用户名.ssh\目次找到id_rsa.pub，并用文本软件打开复制全部(目录是隐藏的)</li>
+<li>将SSH Key添加到GitHub
+ 到github网站选择“Account Settings”>>“SSH Public Keys”>>“Add another public key”，将刚才复制的内容粘贴到key文本框内</li>
+<li>测试<br/>
+ 为确保设置成功，现在可以测试设置成果啦。记住，”<strong>git@github.com</strong>”是默认的，无需修改
+
+<pre><code> $ ssh -T git@github.com  （也可以用 SSH -v git@github.com ）
+</code></pre></li>
+<li>设置个人信息 <br/>
+ 你已经成功安装Git，并设置好SSH Keys，现在设置个人信息： <br/>
+ 设置用户名和电子邮件
+
+<pre><code> $ git config --global user.name "Firstname Lastname"
+ $ git config --global user.email "youremail@youremail.com"
+</code></pre>
+
+<p>如果你的~/目录下生成了 .gitconfig文件,即说明配置成功!你可以打开看看,是否是你配置的信息.OK,就说这么多了.</p></li>
+</ol>
 
 
+<h4>搭建ruby环境和配置工具</h4>
 
+<p>依次安装<code>git</code>,<code>rubyinstaller</code>和<code>python</code>,建议最好安装在C盘(系统盘)下,并把相应路径加入系统环境变量中,以避免不必要的错误。之后进入cmd窗口或git窗口来安装DevKit,解压DevKit,比如C:/DevKit,然后执行如下命令:</p>
 
+<pre><code>c:                          #进入c盘
+cd c:/DevKit  
+ruby -v                     #此命令为了验证 ruby 是否正确安装              
+ruby dk.rb init             #执行该命令时,可能出现编码错误!    
+                            #可能是你在系统环境变量中提前设置了LANG=zh_CN.UTF-8和LC_ALL=zh_CN.UTF-8   
+                            #此时应该先删除这两个环境变量,再执行该命令        
+                            #此处的编码问题还可以使用 chcp 命令查询`活动代码页`序号,936 : 简体中文 
+ruby dk.rb install
+</code></pre>
 
+<p>至此你都未出现任何错误的话,搭建成功!  <br/>
+安装成功后,你可以想测试一下,那么可以使用如下命令:</p>
 
+<pre><code>gem install rdiscount --platform=ruby
+</code></pre>
 
+<p>如果安装成功后,就可以使用一些<code>Ruby</code>的工具了,也为后面搭建博客提供了基础环境.但是也可能会给你带来麻烦,这个另说.</p>
 
+<h4>配置本地编码环境</h4>
+
+<p>Otcopress采用<code>UTF-8无BOM</code>编码格式,故使用其他格式可能产生不可预计的错误.配置本地window的编码格式:</p>
+
+<pre><code>set LANG   = zh_CN.UTF-8
+set LC_ALL = zh_CN.UTF-8
+</code></pre>
+
+<h4>下载并配置Octopress</h4>
+
+<p>假设Octopress安装在<code>~/repos</code>下,在git或cmd下执行命令:</p>
+
+<pre><code>cd repos                                                    #~表示git主目录,不存在repos则 mkdir
+git clone git://github.com/imathis/octopress.git octopress  #octopress表示clone后所在的本地目录   
+                                                            #没有即使用原项目名即 octopress
+</code></pre>
+
+<p>然后更新 Octopress的gem更新源:进入<code>~/repos/octopress</code>目录,用文本编辑器(如EditPlus)打开文件<code>Gemfile</code>,将里面<code>source "http://rubygems.org"</code>改为<code>source "http://ruby.taobao.org/"</code>.最后安装Octopress的依赖项,在git或cmd窗口输入命令:</p>
+
+<pre><code>cd octopress                     #进入 octopress 目录
+gem install bundler              #安装 bundler
+bundle install                   #然后安装一些依赖的工具
+</code></pre>
+
+<p>如果安装一切没有,那么恭喜你,你已经完成了整个环境的搭建,接下来的真正的主角登场了.不过人生总有那么几件不如意的事,那么可能出现那些错误呢?我们来分析一下:</p>
+
+<pre><code>问题    : bundle install时,总是提示某些包没有目录或找不到     
+解决方法 : 找到 ~/repos/octopress/ 目录下打开 Gemfile.lock文件查看specs:下的依赖包的版本    
+          对比 [ruby安装目录(c:\Ruby192)]/lib/ruby/gems/[可能的版本(1.9.1)]/gems下的包的名称      
+          修改Gemfile.lock的版本即可.但是不要修改那些存在 &gt;= 的版本号(这就是我在第一步所说的麻烦) 
+</code></pre>
+
+<h4>在git@github.com上建立Repositories</h4>
+
+<p>登录Github后,需要建立一个命名为<code>username.github.com</code>的Repo,这样命令的好处是,在运行命令<code>rake setpu_github_pages</code>能够自动创建<code>master</code>和<code>source</code>分支.创建(必须拥有github账号)如下图:<img src="/images/common/2013-03-07-hello-octopress/create_repos.jpg" title="create repository of github" alt="create repository" /></p>
+
+<h4>发布Octopress到Github</h4>
+
+<p>进入git bash后,进入到Octopress所在目录,输入命令:</p>
+
+<pre><code>rake setup_github_pages
+</code></pre>
+
+<p>按照提示输入刚才新建的Repos地址,类似:git@github.com:用户名/用户名.github.com</p>
+
+<h4>Octopress设置</h4>
+
+<pre><code>rake install           #安装octopress默认主题
+rake generate          #产生静态网页
+rake preview           #本地预览网站效果,在浏览器输入地址http://127.0.0.1:4000
+</code></pre>
+
+<p>人生不如意十有八九,以上三个命令看似简单,但有可能会成为拦路虎,而成为我们成功的绊脚石,让我们看看又会出现什么?</p>
+
+<pre><code>rake generate失败
+ 1. 检查_config.yml，注意每个冒号后面都有空格
+ 2. 大多数原因是中文解析问题
+      首先所有的markdown文件应为UTF-8格式，然后修改 你ruby安装目录下的convertible.rb：
+      self.content = File.read(File.join(base, name))修改为
+      self.content = File.read(File.join(base, name), :encoding =&gt; "UTF-8")
+
+使用rake 命令遇到问题：       
+     rake aborted! No Rakefile found (looking for: rakefile, Rakefile, rakefile.rb, Rakefile.rb) 
+原因：没有进入工程目录
+</code></pre>
+
+<h4>发表文章</h4>
+
+<p>以发表 Hello World的文章为例:</p>
+
+<pre><code>rake new_post["Hello World"]   #将在 octopress主目录/source/_posts/目录下生成    
+                                '年-月-日-hello-world.markdown'格式的文件   
+</code></pre>
+
+<p>.markdown文件可以用编辑软件打开,添加文章内容,具体用法参考<a href="http://wowubuntu.com/markdown/" title="markdown用法(中文版)">markdown用法(中文版)</a>和<a href="http://octopress.org/" title="octopress">octopress</a></p>
+
+<h4>绑定域名</h4>
+
+<p>github支持绑定独立域名,在<code>source/</code>目录下建立一个无扩展名的<code>CNAME</code>文件(文件名为CNAME),在里面写入域名:</p>
+
+<pre><code>your_domain_name           # 用户名.github.com
+</code></pre>
+
+<h4>更新并发布</h4>
+
+<pre><code>rake gen_deploy         #等同于 rake generate 和 rake deploy两个命令  
+                        #此处有个坑爹的BUG,rake deploy时   
+                          rake aborted!   
+                          No such file or directory -public/_posts/...
+                        #解决方法:在public目录下创建_posts目录然后执行rake deploy
+</code></pre>
+
+<h4>备份</h4>
+
+<pre><code>git add *
+git commit -a -m "your comment message"     #提交信息不能为空
+git push origin source                      #把资源备份保存到 source 分支下[这里有个非常好的好处!]
+git checkout master                         #切换回 master 分支
+</code></pre>
+
+<p>关于此备份,为什么需要备份? <br/>
+博客文章部署到远程master分支下,然后将本地的所有源文件都git push 到source分支下,这样的话你可以在不同的地方都可以写blog.<br/>
+只要你在写博客之前把source分支下的所有文件git pull 到本地即可,当然你的所有修改都必须在source分支体现(现在我还没有想到更好的方法,我只能在每次操作后都是<strong>先删除sourc分支,然后重建分支</strong>),如果有人知道好的方法或不认同该方法都可以<strong>chenming142@sina.com</strong>,谢谢!!</p>
+]]></content>
+  </entry>
   
-
-
-<time datetime="2013-03-11T12:52:00+08:00" pubdate data-updated="true">Mar 11<span>th</span>, 2013</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/kai-fa-gong-ju-ku/'>开发工具库</a>
-  
-</span>
-
-
-    </p>
-    
-      
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2013/03/10/sequence-diagram/" title="Previous Post: UML 建模之时序图(Sequence Diagram)">&laquo; UML 建模之时序图(Sequence Diagram)</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2013/03/13/spring-test/" title="Next Post: Spring Test整合JUnit 4">Spring Test整合JUnit 4 &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-<section id="comment">
-	<h1>发表评论</h1>
-	<!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread"></div>
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"chenming142"};
-(function() {
-	var ds = document.createElement('script');
-	ds.type = 'text/javascript';ds.async = true;
-	ds.src = 'http://static.duoshuo.com/embed.js';
-	ds.charset = 'UTF-8';
-	(document.getElementsByTagName('head')[0] 
-	|| document.getElementsByTagName('body')[0]).appendChild(ds);
-})();
-</script>
-<!-- Duoshuo Comment END -->
-</section>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/03/13/spring-test/">Spring Test整合JUnit 4</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/11/vim-strategy/">简明 Vim 练级攻略</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/10/20-useful-snippets-of-java-program/">20个非常有用的java程序片段</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a>
-      </li>
-    
-  </ul>
-</section>
-<section>
-  <h1>Categories</h1>
-  <ul id="categories">
-    <li class='category'><a href='/blog/categories/j2eeying-yong/'>J2EE应用 (1)</a></li>
-<li class='category'><a href='/blog/categories/j2seji-chu/'>J2SE基础 (2)</a></li>
-<li class='category'><a href='/blog/categories/umlshe-ji/'>UML设计 (1)</a></li>
-<li class='category'><a href='/blog/categories/kai-fa-gong-ju-ku/'>开发工具库 (2)</a></li>
-
-  </ul>
-</section>
-<section>
-  <h1>Tags</h1>
-  <ul class="tag-cloud">
-    <a style="font-size: 90%" href="/tags/j2ee-spring-junit/">J2EE,Spring,JUnit</a>
-<a style="font-size: 210%" href="/tags/j2se/">J2SE</a>
-<a style="font-size: 90%" href="/tags/octopress-github/">Octopress,Github</a>
-<a style="font-size: 90%" href="/tags/uml/">UML</a>
-<a style="font-size: 90%" href="/tags/vim/">VIM</a>
-
-  </ul>
-</section>
-
-  
-</aside>
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Kevin Chen -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>
