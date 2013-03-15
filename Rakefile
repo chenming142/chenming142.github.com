@@ -215,6 +215,9 @@ end
 
 desc "Default deploy task"
 task :deploy do
+  puts "## create directory '_posts' for deploy..."
+  mkdir "#{public_dir}/#{posts_dir}"
+  
   # Check if preview posts exist, which should not be published
   if File.exists?(".preview-mode")
     puts "## Found posts in preview mode, regenerating files ..."
