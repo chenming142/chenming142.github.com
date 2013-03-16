@@ -4,8 +4,8 @@ title: "jquery unique 详解"
 date: 2013-03-15 21:22
 comments: true
 categories: 与JavaScript相关
-tags: jquery
-keywords: javascript, jquery
+tags: jquery javascript
+keywords: javascript jquery 
 description: jquery
 ---
 >最近在工作中使用到了jquery.unique函数,用的过程中出现了很多偏差,所以就查看了jquery源码现在总结一下.    
@@ -51,6 +51,8 @@ description: jquery
 	}();
 方法一使用了两重循环,算法复杂度为`O(n^2)`.实现思路比较直观,即遍历数组,看每个元素是否与后面的元素重复,有重复则移除;但是DOM Element数量较多时性能较差,而jQuery中对大量元素进行去除重复的操作很普遍.   
 方法二将Objct当做HashMap/HashSet来使用,算法复杂度为`O(n)`;遗憾的是JavaScript中无法直接用DOM Element作为Object的key,因此只能将id作为key,然而并非所有的 DOM Element 都是有id 的，所以这种方法并不通用。  
+
+<!-- more -->
 
 我们知道,基于比较的排序算法最多可以将算法复杂度降到`O(nlgn)`，（比如结合使用快速排序和插入排序），之后遍历数组时只要比较相邻元素就可以了：    
 	unique3: function(sortedElems) {

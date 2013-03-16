@@ -29,6 +29,8 @@ __三、时序图实例分析（Sequece Diagram Example Analysis）__
 
 __四、总结（Summay）__
 
+<!-- more -->
+
 ###一、时序图简介（Brief introduction）
    时序图是显示__对象之间交互的图__,这些__对象时按时间顺序排列__的。顺序图中显示的是__参与交互对象之间消息交互的顺序__。时序图中包括建模元素主要有:__对象、控制焦点、消息__等等。
 ###二、时序图元素（Sequence Diagram Elements）

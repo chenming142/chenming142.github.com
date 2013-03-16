@@ -4,7 +4,7 @@
   <title><![CDATA[chenming142's Blog for github]]></title>
   <link href="http://chenming142.github.com/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-15T23:48:49+08:00</updated>
+  <updated>2013-03-16T20:33:10+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -66,6 +66,9 @@
 
 <p>方法一使用了两重循环,算法复杂度为<code>O(n^2)</code>.实现思路比较直观,即遍历数组,看每个元素是否与后面的元素重复,有重复则移除;但是DOM Element数量较多时性能较差,而jQuery中对大量元素进行去除重复的操作很普遍. <br/>
 方法二将Objct当做HashMap/HashSet来使用,算法复杂度为<code>O(n)</code>;遗憾的是JavaScript中无法直接用DOM Element作为Object的key,因此只能将id作为key,然而并非所有的 DOM Element 都是有id 的，所以这种方法并不通用。</p>
+
+<!-- more -->
+
 
 <p>我们知道,基于比较的排序算法最多可以将算法复杂度降到<code>O(nlgn)</code>，（比如结合使用快速排序和插入排序），之后遍历数组时只要比较相邻元素就可以了：</p>
 
@@ -230,6 +233,9 @@ compareDocumentPosition() 的返回值的每个二进制位表示不同的含义
 6. <strong>AbstractTransactionalDataSourceSpringContextTests</strong> - 通过JDBC访问数据库,检查数据库操作正确性</p>
 
 <p>上述抽象类按照先后顺序逐步加强了每个抽象类的功能，并且按照逐步继承的关系，使得子抽象类具有父抽象类的所有特性，因此最终的AbstractTransactionalDataSourceSpringContextTests抽象类具有其所有祖先抽象类的特性以及其自身的特性，实际应用中可以根据需要选择需要使用的抽象基类进行扩展.</p>
+
+<!-- more -->
+
 
 <p><strong>基于AbstractDependencyInjectionSpringContextTests的抽象测试类</strong></p>
 
@@ -592,6 +598,9 @@ Vim the Six Billion Dollar editor</p>
 下面的文字中，如果是 <code>Ctrl-λ</code>我会写成 <code>&lt;C-λ&gt;</code>.
 <em>以 <code>:</code> 开始的命令你需要输入 <enter>回车</em>，例如:如果我写成 :q 也就是说你要输入 :q&lt;enter>.</p>
 
+<!-- more -->
+
+
 <h3>第二级 – 感觉良好</h3>
 
 <p>上面的那些命令只能让你存活下来，现在是时候学习一些更多的命令了，下面是我的建议：（陈皓注：所有的命令都需要在Normal模式下使用，如果你不知道现在在什么样的模式，你就狂按几次ESC键）</p>
@@ -800,6 +809,9 @@ A, 输入字符串，按 ESC。
 
 <p><strong>四、总结（Summay）</strong></p>
 
+<!-- more -->
+
+
 <h3>一、时序图简介（Brief introduction）</h3>
 
 <p>   时序图是显示<strong>对象之间交互的图</strong>,这些<strong>对象时按时间顺序排列</strong>的。顺序图中显示的是<strong>参与交互对象之间消息交互的顺序</strong>。时序图中包括建模元素主要有:<strong>对象、控制焦点、消息</strong>等等。</p>
@@ -944,6 +956,13 @@ try{
      }
  }
 </code></pre></li>
+</ol>
+
+
+<!-- more -->
+
+
+<ol>
 <li>把java.util.Date 转换成java.sql.Date
 
 <pre><code> java.util.Date utilDate = new java.util.Date();
@@ -1450,6 +1469,9 @@ public class Derived extends Base{
 
 <p>当然，上面的结论是错误的。如果你编译并运行这个程序，你会发现，程序实际输出的是<code>set when declared</code>。怎么为这样呢？难道是基类Base 的preProcess() 方法被调用啦？也不是！你可以在基类的preProcess中输出点什么看看，你会发现程序运行时，<strong>Base.preProcess()</strong> 并没有被调用到（不然这对于Java所有的应用程序将会是一个极具灾难性的Bug）</p>
 
+<!-- more -->
+
+
 <p>虽然上面的结论是错误的，但推导过程是合理的，只是不完整，下面是整个运行的流程：</p>
 
 <pre><code>1. 进入 Derived 构造函数
@@ -1539,6 +1561,9 @@ C++的程序员应该都知道，在C++的世界中在<code>构造函数中调�
 
 <p>如果你的~/目录下生成了 .gitconfig文件,即说明配置成功!你可以打开看看,是否是你配置的信息.OK,就说这么多了.</p></li>
 </ol>
+
+
+<!-- more -->
 
 
 <h4>搭建ruby环境和配置工具</h4>

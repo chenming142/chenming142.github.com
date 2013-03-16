@@ -4,7 +4,7 @@ title: "Spring Test整合JUnit 4"
 date: 2013-03-13 23:03
 comments: true
 categories: J2EE应用
-tags: [J2EE,Spring,JUnit]
+tags: J2EE Spring JUnit
 ---
 > JUnit 框架原本就能用来进行单元测试,但是在使用了Spring之后测试就变得复杂了,但是幸运的是Spring提供了[Spring-test](http://chenming142.github.com 'spring-test.jar'),可以用来整合JUnit,使测试变得简单.
 
@@ -28,6 +28,8 @@ Spring的测试机制是基于JUnit的扩展,在org.springframework.test包下,�
 6. __AbstractTransactionalDataSourceSpringContextTests__ - 通过JDBC访问数据库,检查数据库操作正确性  
 
 上述抽象类按照先后顺序逐步加强了每个抽象类的功能，并且按照逐步继承的关系，使得子抽象类具有父抽象类的所有特性，因此最终的AbstractTransactionalDataSourceSpringContextTests抽象类具有其所有祖先抽象类的特性以及其自身的特性，实际应用中可以根据需要选择需要使用的抽象基类进行扩展.
+
+<!-- more -->
 
 __基于AbstractDependencyInjectionSpringContextTests的抽象测试类__
 	package com.test.common;

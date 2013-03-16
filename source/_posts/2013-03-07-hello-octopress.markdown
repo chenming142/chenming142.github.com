@@ -4,7 +4,7 @@ title: "Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!"
 date: 2013-03-07 11:08
 comments: true
 categories: 开发工具库
-tags: [Octopress,Github]
+tags: Octopress Github
 ---
 > `github`本身不仅作为代码共享仓库，并且支持`github-pages`功能，而`octopress`就是在这样的环境下诞生的博客系统. 
      
@@ -31,6 +31,8 @@ tags: [Octopress,Github]
 		$ git config --global user.name "Firstname Lastname"
 		$ git config --global user.email "youremail@youremail.com"
 如果你的~/目录下生成了 .gitconfig文件,即说明配置成功!你可以打开看看,是否是你配置的信息.OK,就说这么多了.
+
+<!-- more -->
 
 #### 搭建ruby环境和配置工具
 依次安装`git`,`rubyinstaller`和`python`,建议最好安装在C盘(系统盘)下,并把相应路径加入系统环境变量中,以避免不必要的错误。之后进入cmd窗口或git窗口来安装DevKit,解压DevKit,比如C:/DevKit,然后执行如下命令:

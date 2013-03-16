@@ -102,3 +102,6 @@ facebook_like: false
 
 # Duoshuo Comments
 duoshuo_show_comment_count: true
+
+#JiaThis
+jiathis: true

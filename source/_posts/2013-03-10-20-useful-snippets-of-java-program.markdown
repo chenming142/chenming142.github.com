@@ -61,6 +61,9 @@ tags: J2SE
 				test.fetch();
 			}
 		}
+
+<!-- more -->
+
 6. 把java.util.Date 转换成java.sql.Date
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
