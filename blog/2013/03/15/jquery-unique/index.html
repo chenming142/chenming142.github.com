@@ -10,7 +10,7 @@
 
   
   <meta name="description" content="jquery">
-  <meta name="keywords" content="javascript, jquery">
+  <meta name="keywords" content="javascript jquery">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -138,6 +138,9 @@
 
 <p>方法一使用了两重循环,算法复杂度为<code>O(n^2)</code>.实现思路比较直观,即遍历数组,看每个元素是否与后面的元素重复,有重复则移除;但是DOM Element数量较多时性能较差,而jQuery中对大量元素进行去除重复的操作很普遍. <br/>
 方法二将Objct当做HashMap/HashSet来使用,算法复杂度为<code>O(n)</code>;遗憾的是JavaScript中无法直接用DOM Element作为Object的key,因此只能将id作为key,然而并非所有的 DOM Element 都是有id 的，所以这种方法并不通用。</p>
+
+<!-- more -->
+
 
 <p>我们知道,基于比较的排序算法最多可以将算法复杂度降到<code>O(nlgn)</code>，（比如结合使用快速排序和插入排序），之后遍历数组时只要比较相邻元素就可以了：</p>
 
@@ -274,12 +277,10 @@ compareDocumentPosition() 的返回值的每个二进制位表示不同的含义
 
   <footer>
     <p class="meta">
-      
   
 
 <span class="byline author vcard">Posted by <span class="fn">Kevin Chen</span></span>
 
-      
 
 
 
@@ -300,8 +301,7 @@ compareDocumentPosition() 的返回值的每个二进制位表示不同的含义
   
 </span>
 
-
-    </p>
+</p>
     
       
     
@@ -384,12 +384,16 @@ var duoshuoQuery = {short_name:"chenming142"};
 <section>
   <h1>Tags</h1>
   <ul class="tag-cloud">
-    <a style="font-size: 90%" href="/tags/j2ee-spring-junit/">J2EE,Spring,JUnit</a>
-<a style="font-size: 210%" href="/tags/j2se/">J2SE</a>
-<a style="font-size: 90%" href="/tags/octopress-github/">Octopress,Github</a>
-<a style="font-size: 90%" href="/tags/uml/">UML</a>
-<a style="font-size: 90%" href="/tags/vim/">VIM</a>
-<a style="font-size: 90%" href="/tags/jquery/">jquery</a>
+    <a style="font-size: 110%" href="/tags/github/"> Github </a>
+<a style="font-size: 110%" href="/tags/j2ee/"> J2EE </a>
+<a style="font-size: 180%" href="/tags/j2se/"> J2SE </a>
+<a style="font-size: 110%" href="/tags/junit/"> JUnit </a>
+<a style="font-size: 110%" href="/tags/octopress/"> Octopress </a>
+<a style="font-size: 110%" href="/tags/spring/"> Spring </a>
+<a style="font-size: 110%" href="/tags/uml/"> UML </a>
+<a style="font-size: 110%" href="/tags/vim/"> VIM </a>
+<a style="font-size: 110%" href="/tags/javascript/"> javascript </a>
+<a style="font-size: 110%" href="/tags/jquery/"> jquery </a>
 
   </ul>
 </section>

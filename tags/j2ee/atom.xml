@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Tag: J2EE,Spring,JUnit | chenming142's Blog for github]]></title>
-  <link href="http://chenming142.github.com/tags/j2ee-spring-junit/atom.xml" rel="self"/>
+  <title><![CDATA[Tag: J2EE | chenming142's Blog for github]]></title>
+  <link href="http://chenming142.github.com/tags/j2ee/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-15T23:48:49+08:00</updated>
+  <updated>2013-03-16T20:33:10+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -43,6 +43,9 @@
 6. <strong>AbstractTransactionalDataSourceSpringContextTests</strong> - 通过JDBC访问数据库,检查数据库操作正确性</p>
 
 <p>上述抽象类按照先后顺序逐步加强了每个抽象类的功能，并且按照逐步继承的关系，使得子抽象类具有父抽象类的所有特性，因此最终的AbstractTransactionalDataSourceSpringContextTests抽象类具有其所有祖先抽象类的特性以及其自身的特性，实际应用中可以根据需要选择需要使用的抽象基类进行扩展.</p>
+
+<!-- more -->
+
 
 <p><strong>基于AbstractDependencyInjectionSpringContextTests的抽象测试类</strong></p>
 

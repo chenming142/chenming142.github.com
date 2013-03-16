@@ -124,6 +124,9 @@ public class Derived extends Base{
 
 <p>当然，上面的结论是错误的。如果你编译并运行这个程序，你会发现，程序实际输出的是<code>set when declared</code>。怎么为这样呢？难道是基类Base 的preProcess() 方法被调用啦？也不是！你可以在基类的preProcess中输出点什么看看，你会发现程序运行时，<strong>Base.preProcess()</strong> 并没有被调用到（不然这对于Java所有的应用程序将会是一个极具灾难性的Bug）</p>
 
+<!-- more -->
+
+
 <p>虽然上面的结论是错误的，但推导过程是合理的，只是不完整，下面是整个运行的流程：</p>
 
 <pre><code>1. 进入 Derived 构造函数
@@ -175,12 +178,10 @@ C++的程序员应该都知道，在C++的世界中在<code>构造函数中调�
 
   <footer>
     <p class="meta">
-      
   
 
 <span class="byline author vcard">Posted by <span class="fn">Kevin Chen</span></span>
 
-      
 
 
 
@@ -201,8 +202,7 @@ C++的程序员应该都知道，在C++的世界中在<code>构造函数中调�
   
 </span>
 
-
-    </p>
+</p>
     
       
     
@@ -287,12 +287,16 @@ var duoshuoQuery = {short_name:"chenming142"};
 <section>
   <h1>Tags</h1>
   <ul class="tag-cloud">
-    <a style="font-size: 90%" href="/tags/j2ee-spring-junit/">J2EE,Spring,JUnit</a>
-<a style="font-size: 210%" href="/tags/j2se/">J2SE</a>
-<a style="font-size: 90%" href="/tags/octopress-github/">Octopress,Github</a>
-<a style="font-size: 90%" href="/tags/uml/">UML</a>
-<a style="font-size: 90%" href="/tags/vim/">VIM</a>
-<a style="font-size: 90%" href="/tags/jquery/">jquery</a>
+    <a style="font-size: 110%" href="/tags/github/"> Github </a>
+<a style="font-size: 110%" href="/tags/j2ee/"> J2EE </a>
+<a style="font-size: 180%" href="/tags/j2se/"> J2SE </a>
+<a style="font-size: 110%" href="/tags/junit/"> JUnit </a>
+<a style="font-size: 110%" href="/tags/octopress/"> Octopress </a>
+<a style="font-size: 110%" href="/tags/spring/"> Spring </a>
+<a style="font-size: 110%" href="/tags/uml/"> UML </a>
+<a style="font-size: 110%" href="/tags/vim/"> VIM </a>
+<a style="font-size: 110%" href="/tags/javascript/"> javascript </a>
+<a style="font-size: 110%" href="/tags/jquery/"> jquery </a>
 
   </ul>
 </section>

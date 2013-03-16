@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 开发工具库 | chenming142's Blog for github]]></title>
   <link href="http://chenming142.github.com/blog/categories/kai-fa-gong-ju-ku/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-15T23:48:49+08:00</updated>
+  <updated>2013-03-16T20:33:10+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -76,6 +76,9 @@ Vim the Six Billion Dollar editor</p>
 <p>标记:
 下面的文字中，如果是 <code>Ctrl-λ</code>我会写成 <code>&lt;C-λ&gt;</code>.
 <em>以 <code>:</code> 开始的命令你需要输入 <enter>回车</em>，例如:如果我写成 :q 也就是说你要输入 :q&lt;enter>.</p>
+
+<!-- more -->
+
 
 <h3>第二级 – 感觉良好</h3>
 
@@ -293,6 +296,9 @@ A, 输入字符串，按 ESC。
 
 <p>如果你的~/目录下生成了 .gitconfig文件,即说明配置成功!你可以打开看看,是否是你配置的信息.OK,就说这么多了.</p></li>
 </ol>
+
+
+<!-- more -->
 
 
 <h4>搭建ruby环境和配置工具</h4>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: J2SE基础 | chenming142's Blog for github]]></title>
   <link href="http://chenming142.github.com/blog/categories/j2seji-chu/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-15T23:48:49+08:00</updated>
+  <updated>2013-03-16T20:33:10+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -84,6 +84,13 @@ try{
      }
  }
 </code></pre></li>
+</ol>
+
+
+<!-- more -->
+
+
+<ol>
 <li>把java.util.Date 转换成java.sql.Date
 
 <pre><code> java.util.Date utilDate = new java.util.Date();
@@ -589,6 +596,9 @@ public class Derived extends Base{
 <p>很多人都会觉得那段程序的输出应该是<code>set in preProcess()</code>，这是因为当子类Derived 的构造函数被调用时，其会隐晦地调用其基类Base的构造函数（通过super()函数），于是基类Base的构造函数会调用preProcess() 函数，因为这个类的实例是Derived的，而且在子类Derived中对这个函数使用了override关键字，所以，实际上调用到的是：<code>Derived.preProcess()</code>，而这个方法设置了whenAmISet 成员变量的值为：<code>set in preProcess()</code>。</p>
 
 <p>当然，上面的结论是错误的。如果你编译并运行这个程序，你会发现，程序实际输出的是<code>set when declared</code>。怎么为这样呢？难道是基类Base 的preProcess() 方法被调用啦？也不是！你可以在基类的preProcess中输出点什么看看，你会发现程序运行时，<strong>Base.preProcess()</strong> 并没有被调用到（不然这对于Java所有的应用程序将会是一个极具灾难性的Bug）</p>
+
+<!-- more -->
+
 
 <p>虽然上面的结论是错误的，但推导过程是合理的，只是不完整，下面是整个运行的流程：</p>
 

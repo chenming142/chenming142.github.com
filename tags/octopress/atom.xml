@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Tag: Octopress,Github | chenming142's Blog for github]]></title>
-  <link href="http://chenming142.github.com/tags/octopress-github/atom.xml" rel="self"/>
+  <title><![CDATA[Tag: Octopress | chenming142's Blog for github]]></title>
+  <link href="http://chenming142.github.com/tags/octopress/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-15T23:48:49+08:00</updated>
+  <updated>2013-03-16T20:33:10+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -53,6 +53,9 @@
 
 <p>如果你的~/目录下生成了 .gitconfig文件,即说明配置成功!你可以打开看看,是否是你配置的信息.OK,就说这么多了.</p></li>
 </ol>
+
+
+<!-- more -->
 
 
 <h4>搭建ruby环境和配置工具</h4>

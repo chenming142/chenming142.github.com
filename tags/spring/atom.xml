@@ -1,96 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Spring Test整合JUnit 4 - chenming142's Blog for github</title>
-  <meta name="author" content="Kevin Chen">
-
-  
-  <meta name="description" content="Tips, tricks, and hacks on Ruby on Rails development.">
-  <meta name="keywords" content="ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping">
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://chenming142.github.com/blog/2013/03/13/spring-test/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="chenming142's Blog for github" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">chenming142's Blog for github</a></h1>
-  
-    <h2>实践|思考|总结|分享</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:chenming142.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
+  <title><![CDATA[Tag: Spring | chenming142's Blog for github]]></title>
+  <link href="http://chenming142.github.com/tags/spring/atom.xml" rel="self"/>
+  <link href="http://chenming142.github.com/"/>
+  <updated>2013-03-16T20:33:10+08:00</updated>
+  <id>http://chenming142.github.com/</id>
+  <author>
+    <name><![CDATA[Kevin Chen]]></name>
     
-      <h1 class="entry-title">Spring Test整合JUnit 4</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2013-03-13T23:03:00+08:00" pubdate data-updated="true">Mar 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><blockquote><p>JUnit 框架原本就能用来进行单元测试,但是在使用了Spring之后测试就变得复杂了,但是幸运的是Spring提供了<a href="http://chenming142.github.com" title="spring-test.jar">Spring-test</a>,可以用来整合JUnit,使测试变得简单.</p></blockquote>
+  <entry>
+    <title type="html"><![CDATA[Spring Test整合JUnit 4]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/13/spring-test/"/>
+    <updated>2013-03-13T23:03:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/13/spring-test</id>
+    <content type="html"><![CDATA[<blockquote><p>JUnit 框架原本就能用来进行单元测试,但是在使用了Spring之后测试就变得复杂了,但是幸运的是Spring提供了<a href="http://chenming142.github.com" title="spring-test.jar">Spring-test</a>,可以用来整合JUnit,使测试变得简单.</p></blockquote>
 
 <h3>加入依赖包</h3>
 
@@ -413,167 +341,7 @@ public abstract class AbstractServiceTestJUnit extends TestCase {
 <h3>通过JUnit 4 执行测试</h3>
 
 <p>右键方法名，选择则“Run As” or “Debug As” → “JUnit Test”即可</p>
-</div>
-
-
-  <footer>
-    <p class="meta">
+]]></content>
+  </entry>
   
-
-<span class="byline author vcard">Posted by <span class="fn">Kevin Chen</span></span>
-
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-13T23:03:00+08:00" pubdate data-updated="true">Mar 13<span>th</span>, 2013</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/j2eeying-yong/'>J2EE应用</a>
-  
-</span>
-
-</p>
-    
-      
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2013/03/11/vim-strategy/" title="Previous Post: 简明 Vim 练级攻略">&laquo; 简明 Vim 练级攻略</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2013/03/15/jquery-unique/" title="Next Post: jquery unique 详解">jquery unique 详解 &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-<section id="comment">
-	<h1>发表评论</h1>
-	<!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread"></div>
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"chenming142"};
-(function() {
-	var ds = document.createElement('script');
-	ds.type = 'text/javascript';ds.async = true;
-	ds.src = 'http://static.duoshuo.com/embed.js';
-	ds.charset = 'UTF-8';
-	(document.getElementsByTagName('head')[0] 
-	|| document.getElementsByTagName('body')[0]).appendChild(ds);
-})();
-</script>
-<!-- Duoshuo Comment END -->
-</section>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/03/15/jquery-unique/">jquery unique 详解</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/13/spring-test/">Spring Test整合JUnit 4</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/11/vim-strategy/">简明 Vim 练级攻略</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/10/20-useful-snippets-of-java-program/">20个非常有用的java程序片段</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a>
-      </li>
-    
-  </ul>
-</section>
-<section>
-  <h1>Categories</h1>
-  <ul id="categories">
-    <li class='category'><a href='/blog/categories/j2eeying-yong/'>J2EE应用 (1)</a></li>
-<li class='category'><a href='/blog/categories/j2seji-chu/'>J2SE基础 (2)</a></li>
-<li class='category'><a href='/blog/categories/umlshe-ji/'>UML设计 (1)</a></li>
-<li class='category'><a href='/blog/categories/yu-javascriptxiang-guan/'>与JavaScript相关 (1)</a></li>
-<li class='category'><a href='/blog/categories/kai-fa-gong-ju-ku/'>开发工具库 (2)</a></li>
-
-  </ul>
-</section>
-<section>
-  <h1>Tags</h1>
-  <ul class="tag-cloud">
-    <a style="font-size: 110%" href="/tags/github/"> Github </a>
-<a style="font-size: 110%" href="/tags/j2ee/"> J2EE </a>
-<a style="font-size: 180%" href="/tags/j2se/"> J2SE </a>
-<a style="font-size: 110%" href="/tags/junit/"> JUnit </a>
-<a style="font-size: 110%" href="/tags/octopress/"> Octopress </a>
-<a style="font-size: 110%" href="/tags/spring/"> Spring </a>
-<a style="font-size: 110%" href="/tags/uml/"> UML </a>
-<a style="font-size: 110%" href="/tags/vim/"> VIM </a>
-<a style="font-size: 110%" href="/tags/javascript/"> javascript </a>
-<a style="font-size: 110%" href="/tags/jquery/"> jquery </a>
-
-  </ul>
-</section>
-
-  
-</aside>
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Kevin Chen -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>
