@@ -2,41 +2,45 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://chenming142.github.com/blog/2013/03/07/hello-octopress/</loc>
-        <lastmod>2013-03-16T19:42:49+08:00</lastmod>
+        <lastmod>2013-03-16T20:38:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://chenming142.github.com/blog/2013/03/08/java-constructor-trap/</loc>
-        <lastmod>2013-03-16T19:42:49+08:00</lastmod>
+        <lastmod>2013-03-16T20:38:09+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://chenming142.github.com/blog/2013/03/10/20-useful-snippets-of-java-program/
         </loc>
-        <lastmod>2013-03-16T19:42:49+08:00</lastmod>
+        <lastmod>2013-03-16T20:38:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://chenming142.github.com/blog/2013/03/10/sequence-diagram/</loc>
-        <lastmod>2013-03-16T19:42:49+08:00</lastmod>
+        <lastmod>2013-03-16T20:38:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://chenming142.github.com/blog/2013/03/11/vim-strategy/</loc>
-        <lastmod>2013-03-16T19:42:49+08:00</lastmod>
+        <lastmod>2013-03-16T20:38:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://chenming142.github.com/blog/2013/03/13/spring-test/</loc>
-        <lastmod>2013-03-16T19:42:49+08:00</lastmod>
+        <lastmod>2013-03-16T20:38:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://chenming142.github.com/blog/2013/03/15/jquery-unique/</loc>
-        <lastmod>2013-03-16T19:42:49+08:00</lastmod>
+        <lastmod>2013-03-16T20:38:09+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://chenming142.github.com/blog/2013/03/17/jquery-type/</loc>
+        <lastmod>2013-03-19T07:35:48+08:00</lastmod>
     </url>
     <url>
         <loc>http://chenming142.github.com/blog/archives/</loc>
-        <lastmod>2013-03-16T19:34:48+08:00</lastmod>
+        <lastmod>2013-03-19T07:35:48+08:00</lastmod>
     </url>
     <url>
         <loc>http://chenming142.github.com/</loc>
-        <lastmod>2013-03-16T19:34:48+08:00</lastmod>
+        <lastmod>2013-03-19T07:35:48+08:00</lastmod>
     </url>
     <url>
         <loc>http://chenming142.github.com/robots.txt</loc>
