@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: JUnit | chenming142's Blog for github]]></title>
   <link href="http://chenming142.github.com/tags/junit/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-19T07:35:48+08:00</updated>
+  <updated>2013-03-23T11:45:41+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -47,290 +47,594 @@
 <!-- more -->
 
 
-<p><strong>基于AbstractDependencyInjectionSpringContextTests的抽象测试类</strong></p>
+<p><strong>基于AbstractDependencyInjectionSpringContextTests的抽象测试类</strong>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">test</span><span class="o">.</span><span class="na">common</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.springframework.test.AbstractDependencyInjectionSpringContextTests</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * </span>
+</span><span class='line'><span class="cm"> * 基于AbstractDependencyInjectionSpringContextTests的抽象测试类</span>
+</span><span class='line'><span class="cm"> * 具体测试时，继承此抽象类，完成对Service的测试。此时可以不用关注事务相关的问题。</span>
+</span><span class='line'><span class="cm"> * </span>
+</span><span class='line'><span class="cm"> * 注意：在实际测试时，发现如果在Spring配置文件中指定了如下所示的Spring使用的资源文件列表</span>
+</span><span class='line'><span class="cm"> *      &amp;lt;bean id=&quot;propertyConfigure&quot;</span>
+</span><span class='line'><span class="cm"> *          class=&quot;org.springframework.beans.factory.config.PropertyPlaceholderConfigurer&quot;&amp;gt;</span>
+</span><span class='line'><span class="cm"> *          &amp;lt;property name=&quot;locations&quot;&amp;gt;</span>
+</span><span class='line'><span class="cm"> *              &amp;lt;list&amp;gt;</span>
+</span><span class='line'><span class="cm"> *                  &amp;lt;value&amp;gt;file:WebContent/WEB-INF/db.properties&amp;lt;/value&amp;gt;</span>
+</span><span class='line'><span class="cm"> *              &amp;lt;/list&amp;gt;</span>
+</span><span class='line'><span class="cm"> *          &amp;lt;/property&amp;gt;</span>
+</span><span class='line'><span class="cm"> *      &amp;lt;/bean&amp;gt;</span>
+</span><span class='line'><span class="cm"> *则上文中的[file:] 必须加上，否则系统会抛一个FileNotFoundException，而实际运行时，则必须将此处去掉。</span>
+</span><span class='line'><span class="cm"> * @author Administrator</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractServiceInjectionTest</span>
+</span><span class='line'>    <span class="kd">extends</span> <span class="n">AbstractDependencyInjectionSpringContextTests</span> <span class="o">{</span>
+</span><span class='line'>    <span class="c1">// 配置文件地址的前缀</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">filePathSufix</span> <span class="o">=</span> <span class="s">&quot;file:WebContent/WEB-INF/springConfig/&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="c1">// applicationContext.xml文件地址</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">appContextFile</span> <span class="o">=</span> <span class="s">&quot;file:WebContent/WEB-INF/springConfig/applicationContext.xml&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">AbstractServiceInjectionTest</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">AbstractServiceInjectionTest</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 抽象方法 - 子类必须实现的获取需要配置的文件地址</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">abstract</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getOtherConfigs</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 覆盖的获取配置文件地址的方法</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     * @author Administrator</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getConfigLocations</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">String</span><span class="o">[]</span> <span class="n">otherConfigs</span> <span class="o">=</span> <span class="n">getOtherConfigs</span><span class="o">();</span>
+</span><span class='line'>        <span class="c1">//所有配置文件列表</span>
+</span><span class='line'>        <span class="n">String</span><span class="o">[]</span> <span class="n">configFiles</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">otherConfigs</span><span class="o">.</span><span class="na">length</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+</span><span class='line'>        <span class="n">configFiles</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">appContextFile</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">otherConfigs</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">configFiles</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">otherConfigs</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">configFiles</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 抽象方法 - 子类必须实现的需忽略的方法列表</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">abstract</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getIgnoredMethods</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">isDisabledInThisEnvironment</span><span class="o">(</span><span class="n">String</span> <span class="n">testMethodName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">for</span><span class="o">(</span><span class="n">String</span> <span class="n">methodName</span> <span class="o">:</span> <span class="n">getIgnoredMethods</span><span class="o">()){</span>
+</span><span class='line'>            <span class="k">if</span><span class="o">(</span><span class="n">methodName</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">testMethodName</span><span class="o">)){</span>
+</span><span class='line'>                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<strong>基于AbstractTransactionalSpringContextTests扩展的抽象类 - 可以自动回滚事务的测试抽象基类</strong>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">test</span><span class="o">.</span><span class="na">common</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.springframework.test.AbstractTransactionalSpringContextTests</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * AbstractTransactionalSpringContextTests提供了一套数据库自动回滚的功能，方便恢复数据库现场，从而不必每次测试完成后都重新恢复数据库的操作。</span>
+</span><span class='line'><span class="cm"> * 基于AbstractTransactionalSpringContextTests扩展的抽象类 - 可以自动回滚事务的测试抽象基类</span>
+</span><span class='line'><span class="cm"> * </span>
+</span><span class='line'><span class="cm"> * 如果在测试时，需要将测试结果持久化，可以直接在测试的方法末尾加上“setComplete()”方法。</span>
+</span><span class='line'><span class="cm"> * 由此，可以看出基于AbstractTransactionalSpringContextTests抽象基类的扩展，同样可以将数据持久化到数据库中，</span>
+</span><span class='line'><span class="cm"> * 因此，实际测试中，可以使用此方式实现不启用自动事务回滚功能。</span>
+</span><span class='line'><span class="cm"> * </span>
+</span><span class='line'><span class="cm"> * 说明：如果使用Spring的事务管理功能，此处在事务处理上可能会有一些冲突，例如将以“query”开头的方法的propagation设置为“NEVER”，</span>
+</span><span class='line'><span class="cm"> * 测试时可能会造成事务自动回滚或者不回滚的异常，</span>
+</span><span class='line'><span class="cm"> * 此时，需要做的操作是将以“query”开头的方法的propagation设置为默认的“REQUIRED”，同时加上read-only=&quot;true&quot;，可以解决此问题。</span>
+</span><span class='line'><span class="cm"> * </span>
+</span><span class='line'><span class="cm"> * 另外，AbstractTransactionalSpringContextTests提供了一些可以在事务处理过程中进行操作的各种入口。</span>
+</span><span class='line'><span class="cm"> *  onSetUpBeforeTransaction()与onTearDownAfterTransaction()：子类可以覆盖这两个方法，可以在事务测试方法运行的前后执行一些数据库初始化的操作并在事务完成后将其清除；</span>
+</span><span class='line'><span class="cm"> *  onSetUpInTransaction()与onTearDownInTransaction()：这对方法和上面介绍的方法完成的功能相同，只不过它们在测试方法的相同事务中执行的。</span>
+</span><span class='line'><span class="cm"> *  AbstractTransactionalSpringContextTests还提供了一组用于测试延迟数据加载的方法：</span>
+</span><span class='line'><span class="cm"> *      endTransaction()与startNewTransaction()。</span>
+</span><span class='line'><span class="cm"> *  当用户在测试Hibernate、JPA等允许延迟数据加载的应用时，模拟数据在Service层事务中被部分加载，当传递到Web层时重新打开事务完成延迟部分数据加载的测试场景。</span>
+</span><span class='line'><span class="cm"> *  可以在测试方法中显式调用endTransaction()方法以模拟从Service层中获取部分数据后返回，</span>
+</span><span class='line'><span class="cm"> *  然后，通过startNewTransaction()开启一个和原事务无关新事务——模拟在Web层中重新打开事务，接下来就可以访问延迟加载的数据，进行测试了。</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractServiceTransactionalTest</span>
+</span><span class='line'>    <span class="kd">extends</span> <span class="n">AbstractTransactionalSpringContextTests</span> <span class="o">{</span>
+</span><span class='line'>    <span class="c1">// 配置文件地址的前缀,如果直接配置在WEB-INF目录下的话,可不用前缀</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">filePathSufix</span> <span class="o">=</span> <span class="s">&quot;file:WebContent/WEB-INF/springConfig/&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="c1">// applicationContext.xml文件地址,如果直接配置在WEB-INF目录下的话,直接写比如spring/jdbc-config.xml</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">appContextFile</span> <span class="o">=</span> <span class="s">&quot;file:WebContent/WEB-INF/springConfig/applicationContext.xml&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">AbstractServiceTransactionalTest</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">AbstractServiceTransactionalTest</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 抽象方法 - 子类必须实现的获取需要配置的文件地址</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">abstract</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getOtherConfigs</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 覆盖的获取配置文件地址的方法</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     * @author Administrator</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getConfigLocations</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">String</span><span class="o">[]</span> <span class="n">otherConfigs</span> <span class="o">=</span> <span class="n">getOtherConfigs</span><span class="o">();</span>
+</span><span class='line'>        <span class="c1">//所有配置文件列表</span>
+</span><span class='line'>        <span class="n">String</span><span class="o">[]</span> <span class="n">configFiles</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">otherConfigs</span><span class="o">.</span><span class="na">length</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+</span><span class='line'>        <span class="n">configFiles</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">appContextFile</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">otherConfigs</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">configFiles</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">otherConfigs</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">configFiles</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 抽象方法 - 子类必须实现的需忽略的方法列表</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">abstract</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getIgnoredMethods</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">isDisabledInThisEnvironment</span><span class="o">(</span><span class="n">String</span> <span class="n">testMethodName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">for</span><span class="o">(</span><span class="n">String</span> <span class="n">methodName</span> <span class="o">:</span> <span class="n">getIgnoredMethods</span><span class="o">()){</span>
+</span><span class='line'>            <span class="k">if</span><span class="o">(</span><span class="n">methodName</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">testMethodName</span><span class="o">)){</span>
+</span><span class='line'>                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<pre><code>package com.test.common;
+<p><strong>基于AbstractTransactionalDataSourceSpringContextTests抽象类具有其所有祖先抽象类的特性以及其自身的特性</strong>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">test</span><span class="o">.</span><span class="na">common</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.springframework.test.AbstractTransactionalDataSourceSpringContextTests</span><span class="o">;</span>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * 使用JdbcTemplate获取数据库数据的方式，多用于更新以及复杂的业务逻辑中的数据验证。</span>
+</span><span class='line'><span class="cm"> * 有了Spring的测试机制，对于使用Spring的应用，可以方便的进行集成测试，从而简化开发的工作量，减少繁琐的重复工作，提供工作效率。</span>
+</span><span class='line'><span class="cm"> * </span>
+</span><span class='line'><span class="cm"> * 注意：如果采用byName的自动装配机制，数据源Bean的名称必须取名为“dataSource”。</span>
+</span><span class='line'><span class="cm"> * </span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractJdbcServiceTest</span> <span class="kd">extends</span> <span class="n">AbstractTransactionalDataSourceSpringContextTests</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">filePathSufix</span> <span class="o">=</span> <span class="s">&quot;file:WebContent/WEB-INF/springConfig/&quot;</span><span class="o">;</span> <span class="c1">// 配置文件地址的前缀</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">appContextFile</span> <span class="o">=</span> <span class="s">&quot;file:WebContent/WEB-INF/springConfig/applicationContext.xml&quot;</span><span class="o">;</span><span class="c1">// applicationContext.xml文件地址</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">AbstractJdbcServiceTest</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">AbstractJdbcServiceTest</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 抽象方法 - 子类必须实现的获取需要配置的文件地址</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">abstract</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getOtherConfigs</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 覆盖的获取配置文件地址的方法</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     * @author Administrator</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getConfigLocations</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">String</span><span class="o">[]</span> <span class="n">otherConfigs</span> <span class="o">=</span> <span class="n">getOtherConfigs</span><span class="o">();</span>
+</span><span class='line'>        <span class="c1">//所有配置文件列表</span>
+</span><span class='line'>        <span class="n">String</span><span class="o">[]</span> <span class="n">configFiles</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">otherConfigs</span><span class="o">.</span><span class="na">length</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+</span><span class='line'>        <span class="n">configFiles</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">appContextFile</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">otherConfigs</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">configFiles</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">otherConfigs</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">configFiles</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 抽象方法 - 子类必须实现的需忽略的方法列表</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">abstract</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getIgnoredMethods</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">isDisabledInThisEnvironment</span><span class="o">(</span><span class="n">String</span> <span class="n">testMethodName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">for</span><span class="o">(</span><span class="n">String</span> <span class="n">methodName</span> <span class="o">:</span> <span class="n">getIgnoredMethods</span><span class="o">()){</span>
+</span><span class='line'>            <span class="k">if</span><span class="o">(</span><span class="n">methodName</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">testMethodName</span><span class="o">)){</span>
+</span><span class='line'>                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
-
-/**
- * 
- * 基于AbstractDependencyInjectionSpringContextTests的抽象测试类
- * 具体测试时，继承此抽象类，完成对Service的测试。此时可以不用关注事务相关的问题。
- * 
- * 注意：在实际测试时，发现如果在Spring配置文件中指定了如下所示的Spring使用的资源文件列表
- *      &lt;bean id="propertyConfigure"
- *          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"&gt;
- *          &lt;property name="locations"&gt;
- *              &lt;list&gt;
- *                  &lt;value&gt;file:WebContent/WEB-INF/db.properties&lt;/value&gt;
- *              &lt;/list&gt;
- *          &lt;/property&gt;
- *      &lt;/bean&gt;
- *则上文中的[file:] 必须加上，否则系统会抛一个FileNotFoundException，而实际运行时，则必须将此处去掉。
- * @author Administrator
- */
-public abstract class AbstractServiceInjectionTest 
-    extends AbstractDependencyInjectionSpringContextTests {
-    // 配置文件地址的前缀
-    String filePathSufix = "file:WebContent/WEB-INF/springConfig/"; 
-    // applicationContext.xml文件地址
-    String appContextFile = "file:WebContent/WEB-INF/springConfig/applicationContext.xml";
-
-    public AbstractServiceInjectionTest() {
-        super();
-    }
-
-    public AbstractServiceInjectionTest(String name) {
-        super(name);
-    }
-    /**
-     * 抽象方法 - 子类必须实现的获取需要配置的文件地址
-     * @return
-     */
-    abstract String[] getOtherConfigs();
-
-    /**
-     * 覆盖的获取配置文件地址的方法
-     * @return
-     * @author Administrator
-     */
-    @Override
-    protected String[] getConfigLocations() {
-        String[] otherConfigs = getOtherConfigs();
-        //所有配置文件列表
-        String[] configFiles = new String[otherConfigs.length + 1]; 
-        configFiles[0] = appContextFile;
-        System.arraycopy(otherConfigs, 0, configFiles, 1, otherConfigs.length);
-        return configFiles;
-    }
-
-    /**
-     * 抽象方法 - 子类必须实现的需忽略的方法列表
-     * @return
-     */
-    abstract String[] getIgnoredMethods();
-
-    @Override
-    protected boolean isDisabledInThisEnvironment(String testMethodName) {
-        for(String methodName : getIgnoredMethods()){
-            if(methodName.equals(testMethodName)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-}
-</code></pre>
-
-<p><strong>基于AbstractTransactionalSpringContextTests扩展的抽象类 - 可以自动回滚事务的测试抽象基类</strong></p>
-
-<pre><code>package com.test.common;
-
-import org.springframework.test.AbstractTransactionalSpringContextTests;
-
-/**
- * AbstractTransactionalSpringContextTests提供了一套数据库自动回滚的功能，方便恢复数据库现场，从而不必每次测试完成后都重新恢复数据库的操作。
- * 基于AbstractTransactionalSpringContextTests扩展的抽象类 - 可以自动回滚事务的测试抽象基类
- * 
- * 如果在测试时，需要将测试结果持久化，可以直接在测试的方法末尾加上“setComplete()”方法。
- * 由此，可以看出基于AbstractTransactionalSpringContextTests抽象基类的扩展，同样可以将数据持久化到数据库中，
- * 因此，实际测试中，可以使用此方式实现不启用自动事务回滚功能。
- * 
- * 说明：如果使用Spring的事务管理功能，此处在事务处理上可能会有一些冲突，例如将以“query”开头的方法的propagation设置为“NEVER”，
- * 测试时可能会造成事务自动回滚或者不回滚的异常，
- * 此时，需要做的操作是将以“query”开头的方法的propagation设置为默认的“REQUIRED”，同时加上read-only="true"，可以解决此问题。
- * 
- * 另外，AbstractTransactionalSpringContextTests提供了一些可以在事务处理过程中进行操作的各种入口。
- *  onSetUpBeforeTransaction()与onTearDownAfterTransaction()：子类可以覆盖这两个方法，可以在事务测试方法运行的前后执行一些数据库初始化的操作并在事务完成后将其清除；
- *  onSetUpInTransaction()与onTearDownInTransaction()：这对方法和上面介绍的方法完成的功能相同，只不过它们在测试方法的相同事务中执行的。
- *  AbstractTransactionalSpringContextTests还提供了一组用于测试延迟数据加载的方法：
- *      endTransaction()与startNewTransaction()。
- *  当用户在测试Hibernate、JPA等允许延迟数据加载的应用时，模拟数据在Service层事务中被部分加载，当传递到Web层时重新打开事务完成延迟部分数据加载的测试场景。
- *  可以在测试方法中显式调用endTransaction()方法以模拟从Service层中获取部分数据后返回，
- *  然后，通过startNewTransaction()开启一个和原事务无关新事务——模拟在Web层中重新打开事务，接下来就可以访问延迟加载的数据，进行测试了。
- */
-public abstract class AbstractServiceTransactionalTest 
-    extends AbstractTransactionalSpringContextTests {
-    // 配置文件地址的前缀,如果直接配置在WEB-INF目录下的话,可不用前缀
-    String filePathSufix = "file:WebContent/WEB-INF/springConfig/"; 
-    // applicationContext.xml文件地址,如果直接配置在WEB-INF目录下的话,直接写比如spring/jdbc-config.xml
-    String appContextFile = "file:WebContent/WEB-INF/springConfig/applicationContext.xml";
-
-    public AbstractServiceTransactionalTest() {
-        super();
-    }
-    public AbstractServiceTransactionalTest(String name) {
-        super(name);
-    }
-
-    /**
-     * 抽象方法 - 子类必须实现的获取需要配置的文件地址
-     * @return
-     */
-    abstract String[] getOtherConfigs();
-
-    /**
-     * 覆盖的获取配置文件地址的方法
-     * @return
-     * @author Administrator
-     */
-    @Override
-    protected String[] getConfigLocations() {
-        String[] otherConfigs = getOtherConfigs();
-        //所有配置文件列表
-        String[] configFiles = new String[otherConfigs.length + 1]; 
-        configFiles[0] = appContextFile;
-        System.arraycopy(otherConfigs, 0, configFiles, 1, otherConfigs.length);
-        return configFiles;
-    }
-
-    /**
-     * 抽象方法 - 子类必须实现的需忽略的方法列表
-     * @return
-     */
-    abstract String[] getIgnoredMethods();
-
-    @Override
-    protected boolean isDisabledInThisEnvironment(String testMethodName) {
-        for(String methodName : getIgnoredMethods()){
-            if(methodName.equals(testMethodName)){
-                return true;
-            }
-        }
-        return false;
-    }
-}
-</code></pre>
-
-<p><strong>基于AbstractTransactionalDataSourceSpringContextTests抽象类具有其所有祖先抽象类的特性以及其自身的特性</strong></p>
-
-<pre><code>package com.test.common;
-
-import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
-/**
- * 使用JdbcTemplate获取数据库数据的方式，多用于更新以及复杂的业务逻辑中的数据验证。
- * 有了Spring的测试机制，对于使用Spring的应用，可以方便的进行集成测试，从而简化开发的工作量，减少繁琐的重复工作，提供工作效率。
- * 
- * 注意：如果采用byName的自动装配机制，数据源Bean的名称必须取名为“dataSource”。
- * 
- */
-public abstract class AbstractJdbcServiceTest extends AbstractTransactionalDataSourceSpringContextTests {
-    String filePathSufix = "file:WebContent/WEB-INF/springConfig/"; // 配置文件地址的前缀
-    String appContextFile = "file:WebContent/WEB-INF/springConfig/applicationContext.xml";// applicationContext.xml文件地址
-
-    public AbstractJdbcServiceTest() {
-        super();
-    }
-
-    public AbstractJdbcServiceTest(String name) {
-        super(name);
-    }
-    /**
-     * 抽象方法 - 子类必须实现的获取需要配置的文件地址
-     * @return
-     */
-    abstract String[] getOtherConfigs();
-
-    /**
-     * 覆盖的获取配置文件地址的方法
-     * @return
-     * @author Administrator
-     */
-    @Override
-    protected String[] getConfigLocations() {
-        String[] otherConfigs = getOtherConfigs();
-        //所有配置文件列表
-        String[] configFiles = new String[otherConfigs.length + 1]; 
-        configFiles[0] = appContextFile;
-        System.arraycopy(otherConfigs, 0, configFiles, 1, otherConfigs.length);
-        return configFiles;
-    }
-
-    /**
-     * 抽象方法 - 子类必须实现的需忽略的方法列表
-     * @return
-     */
-    abstract String[] getIgnoredMethods();
-
-    @Override
-    protected boolean isDisabledInThisEnvironment(String testMethodName) {
-        for(String methodName : getIgnoredMethods()){
-            if(methodName.equals(testMethodName)){
-                return true;
-            }
-        }
-        return false;
-    }
-}
-</code></pre>
-
-<p><strong>直接使用JUnit进行测试的抽象基类</strong></p>
-
-<pre><code>package com.test.common;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-
-import junit.framework.TestCase;
-
-/**
- * 直接使用JUnit进行测试的抽象基类
- * @author Administrator
- *
- */
-public abstract class AbstractServiceTestJUnit extends TestCase {
-    /**
-     * applicationContext.xml文件的路径,
-     * 如果配置文件没有放在classpath下，必须使用此写法；
-     * 如果配置文件放在classpath下，则可以直接文件名
-     */
-    String applicationContextFile = "WebContent\\WEB-INF\\springConfig\\applicationContext.xml";
-
-    static ApplicationContext ctx;
-
-    public AbstractServiceTestJUnit() {
-        super();
-    }
-
-    public AbstractServiceTestJUnit(String name) {
-        super(name);
-    }
-
-    /**
-     * 抽象方法 - applicationContext.xml文件以外的配置文件的路径列表
-     * @return
-     */
-    abstract String[] getOtherConfigFiles();
-
-    /**
-     * 获取 Spring 上下文实例
-     * 上下文实例简单使用 singleton,保证上下文只创建一次
-     * @return
-     */
-    ApplicationContext getApplicationContext() {
-        if( null == ctx){
-            String[] otherConfigs = getOtherConfigFiles();
-            String[] configFiles = new String[otherConfigs.length + 1]; // 所有配置文件列表
-
-            configFiles[0] = applicationContextFile;
-            System.arraycopy(otherConfigs, 0, configFiles, 1,otherConfigs.length);// 将所有的配置文件列表放入目标配置文件列表
-
-            ctx = new FileSystemXmlApplicationContext(configFiles); // 获取Spring上下文
-        }
-        return ctx;
-    }
-
-    /**
-     * 覆盖 setUp 方法，获取Spring上下文实例
-     */
-    @Override
-    protected void setUp() throws Exception {
-        getApplicationContext();
-    }
-}
-</code></pre>
+<p><strong>直接使用JUnit进行测试的抽象基类</strong>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">test</span><span class="o">.</span><span class="na">common</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.springframework.context.ApplicationContext</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.springframework.context.support.FileSystemXmlApplicationContext</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">junit.framework.TestCase</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * 直接使用JUnit进行测试的抽象基类</span>
+</span><span class='line'><span class="cm"> * @author Administrator</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractServiceTestJUnit</span> <span class="kd">extends</span> <span class="n">TestCase</span> <span class="o">{</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * applicationContext.xml文件的路径,</span>
+</span><span class='line'><span class="cm">     * 如果配置文件没有放在classpath下，必须使用此写法；</span>
+</span><span class='line'><span class="cm">     * 如果配置文件放在classpath下，则可以直接文件名</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">applicationContextFile</span> <span class="o">=</span> <span class="s">&quot;WebContent\\WEB-INF\\springConfig\\applicationContext.xml&quot;</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">static</span> <span class="n">ApplicationContext</span> <span class="n">ctx</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">AbstractServiceTestJUnit</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">AbstractServiceTestJUnit</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 抽象方法 - applicationContext.xml文件以外的配置文件的路径列表</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">abstract</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getOtherConfigFiles</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 获取 Spring 上下文实例</span>
+</span><span class='line'><span class="cm">     * 上下文实例简单使用 singleton,保证上下文只创建一次</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="n">ApplicationContext</span> <span class="nf">getApplicationContext</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span><span class="o">(</span> <span class="kc">null</span> <span class="o">==</span> <span class="n">ctx</span><span class="o">){</span>
+</span><span class='line'>            <span class="n">String</span><span class="o">[]</span> <span class="n">otherConfigs</span> <span class="o">=</span> <span class="n">getOtherConfigFiles</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">String</span><span class="o">[]</span> <span class="n">configFiles</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">otherConfigs</span><span class="o">.</span><span class="na">length</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span> <span class="c1">// 所有配置文件列表</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">configFiles</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">applicationContextFile</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">otherConfigs</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">configFiles</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span><span class="n">otherConfigs</span><span class="o">.</span><span class="na">length</span><span class="o">);</span><span class="c1">// 将所有的配置文件列表放入目标配置文件列表</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">ctx</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileSystemXmlApplicationContext</span><span class="o">(</span><span class="n">configFiles</span><span class="o">);</span> <span class="c1">// 获取Spring上下文</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">ctx</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 覆盖 setUp 方法，获取Spring上下文实例</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">getApplicationContext</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>创建、配置测试类及创建测试方法</h3>
 

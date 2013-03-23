@@ -94,29 +94,49 @@
 
 <p>让我们先来看两个类: <strong>Base</strong> 和 <strong>Derived</strong> 类.注意其中的 <em>whenAmISet</em> 的成员变量,和方法 <em>preProcess()</em>.</p>
 
-<pre><code>public class Base{
-    Base(){
-        preProcess();
-    }
-    void preProcess();
-}
-public class Derived extends Base{
-    public String whenAmISet = "set when declared";
-    @Override void preProcess(){
-        whenAmISet = "set in preProcess()";
-    }
-}
-</code></pre>
+<figure class='code'><figcaption><span>Java Syntax Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Base</span><span class="o">{</span>
+</span><span class='line'>      <span class="n">Base</span><span class="o">(){</span>
+</span><span class='line'>          <span class="n">preProcess</span><span class="o">();</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="nf">preProcess</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Derived</span> <span class="kd">extends</span> <span class="n">Base</span><span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="n">whenAmISet</span> <span class="o">=</span> <span class="s">&quot;set when declared&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="nd">@Override</span> <span class="kt">void</span> <span class="n">preProcess</span><span class="o">(){</span>
+</span><span class='line'>          <span class="n">whenAmISet</span> <span class="o">=</span> <span class="s">&quot;set in preProcess()&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>如果我们构造一个子类实例,那么 <strong>whenAmISet</strong> 的值会是什么呢?</p>
 
-<pre><code>public class Main{
-    public static void main(String[] args){
-        Derived d = new Derived();
-        System.out.println( d.whenAmISet );
-    }
-}
-</code></pre>
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>   <span class="kr">public</span> <span class="kr">class</span> <span class="nx">Main</span><span class="p">{</span>
+</span><span class='line'>      <span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">main</span><span class="p">(</span><span class="nb">String</span><span class="p">[]</span> <span class="nx">args</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">Derived</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Derived</span><span class="p">();</span>
+</span><span class='line'>          <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span> <span class="nx">d</span><span class="p">.</span><span class="nx">whenAmISet</span> <span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>再续继往下阅读之前，请先给自己一些时间想一下上面的这段程序的输出是什么？是的，这看起来的确相当简单，甚至不需要编译和运行上面的代码，我们也应该知道其答案，那么，你觉得你知道答案吗？你确定你的答案正确吗？</p>
 

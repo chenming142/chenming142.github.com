@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 与JavaScript相关 | chenming142's Blog for github]]></title>
   <link href="http://chenming142.github.com/blog/categories/yu-javascriptxiang-guan/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-19T07:35:48+08:00</updated>
+  <updated>2013-03-23T11:45:41+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -40,250 +40,503 @@
 
 <h3>使用库进行判断数据类型</h3>
 
-<pre><code>(function($, S, undefined){
-    var host = this,
-        class2type = {}, // [[Class]] -&gt; type pairs
-        OP = Object.prototype,
-        toString = OP.toString,
-        hasOwn = OP.hasOwnProperty,
-        TRUE = true,FALSE = false;
-    $ = host &amp;&amp; ( host[$] = {} ) ;
-
-    var hasEnumBug = !({toString:1}.propertyIsEnumerable('toString')),
-        emumProperties = [
-            'hasOwnProperty',
-            'isPrototypeOf',
-            'propertyIsEnumerable',
-            'toString',
-            'toLocaleString',
-            'valueOf'
-        ],
-        meta = {
-            /**
-             * Copies all the properties of s to r
-             * @param r
-             * @param s
-             * @param ov
-             * @param wl
-             * @param deep
-             * @return {*}
-             */
-            mix : function(r, s, ov, wl, deep){
-                if(!s || !r){return r;}
-                if(ov === undefined){ov = true;}
-                var i, p, len;
-                if(wl &amp;&amp; (len = wl.length)){
-                    for(i = 0; i &lt; len; i++){
-                        p = wl[i];
-                        if( p in s){_mix(p, r, s, ov, deep);}
-                    }
-                }else{
-                    for(p in s){
-                        _mix(p, r, s, ov, deep);
-                    }
-                    if(hasEnumBug){
-                        for (var j = 0; j &lt; emumProperties.length; j++) {
-                            p = emumProperties[j];
-                            if (ov &amp;&amp; hasOwn.call(s, p)) {
-                                r[p] = s[p];
-                            }
-                        }
-                    }
-                }
-                return r;
-            }
-        },
-        _mix = function(p, r, s, ov, deep){
-            if(ov || !(p in r)){
-                var target = r[p], src = s[p];
-                if(target === src){return ;}
-                if( deep &amp;&amp; src &amp;&amp; (S.isArray(src)) ){
-                    var clone = target &amp;&amp; (S.isArray(target) || S.isPlainObject(target)) ?
-                        target :
-                        ( S.isArray(src) ? [] : {});
-                    r[p] = S.mix( clone, src, ov, undefined);
-                }else if( src !== undefined ){
-                    r[p] =s[p];
-                }
-            }
-        },
-        seed = ( host &amp;&amp; host[S] ) || {};
-    S = host[S] = meta.mix( seed, meta );
-
-    /**
-     * If the type of val is null, undefined, number, string, boolean, return true.
-     * @param val
-     * @return {Boolean}
-     */
-    function isValidParamValue( val ){
-        var t = typeof val;
-        return val == null || ( t !== 'object' &amp;&amp; t !== 'function' );
-    }
-    S.mix(KISSY, {
-        isNull : function( o ){
-            return o === null;
-        },
-        isUndefined : function( o ){
-            return o === undefined;
-        },
-        isEmptyObject : function(obj){
-            for(var name in obj){
-                if( name !== undefined ){
-                    return FALSE;
-                }
-            }
-            return TRUE;
-        },
-        isPlainObject : function(o){
-            return o &amp;&amp; toString.call(o) === '[object Object]' &amp;&amp; 'isPrototypeOf' in o;
-        },
-        type : function( o ){
-            return o == null ?
-                String( o ) : class2type[ toString.call(o) ] || "object";
-        },
-        each : function(object, fn, context){
-            if( object ){
-                var key, val, i = 0,
-                    length = object &amp;&amp; object.length,
-                    isObj = length === undefined || S.type(object) === 'function';
-                context = context || null;
-                if( isObj ){
-                    for( key in object ){
-                        if( fn.call( context, object[key], key, object ) === FALSE ){
-                            break;
-                        }
-                    }
-                }else{
-                    for (val = object[0];
-                         i &lt; length &amp;&amp; fn.call(context, val, i, object) !== FALSE; val = object[++i]) {
-                    }
-                }
-            }
-            return object;
-        }
-    });
-    S.each('Boolean Number String Function Array Date RegExp Object'.split(' '),function(name, lc){
-        class2type['[object ' + name + ']'] = (lc = name.toLowerCase());
-        S['is' + name] = function( o ){
-            return S.type(o) == lc;
-        }
-    });
-
-    $.extend = function( ){
-        var options, name, src, copy, copyIsArray, clone,
-            target = arguments[0] || {},
-            i = 1,
-            length = arguments.length,
-            deep = false;
-        if( typeof target === "boolean" ){
-            deep = target;
-            target = arguments[1] || {};
-            i = 2;
-        }
-        if( typeof target !== "object" &amp;&amp; !$.isFunction(target)){
-            target = {};
-        }
-        if( length === i ){//extend jQuery itself
-            target = this;
-            --i;
-        }
-        for( ; i &lt; length; i++){
-            if( (options = arguments[i]) != null ){
-                for( name in options ){
-                    src = target[ name ];
-                    copy = options[ name ];
-                    if( target === copy ){continue;}
-                    if( deep &amp;&amp; copy &amp;&amp; ( $.isPlainObject(copy) || ( copyIsArray = $.isArray(copy) ) ) ){
-                        if( copyIsArray ){
-                            copyIsArray = false;
-                            clone = src &amp;&amp; $.isArray(src) ? src : [];
-                        }else{
-                            clone = src &amp;&amp; $.isPlainObject(src) ? src : {};
-                        }
-                        target[ name ] = $.extend( deep, clone, copy );
-                    }else if( copy !== undefined ){
-                        target[ name ] = copy;
-                    }
-                }
-            }
-        }
-        return target;
-    };
-    $.extend({
-        isFunction :function(obj){
-            return $.type(obj) === 'function';
-        },
-        isArray : Array.isArray || function(obj){
-            return $.type(obj) === 'array';
-        },
-        isNumeric : function(obj){
-            return !isNaN( parseFloat(obj) ) &amp;&amp; isFinite(obj);
-        },
-        isWindow : function(obj){
-            return obj != null &amp;&amp; obj == obj.window;
-        },
-        type : function( o ){
-            return o == null ?
-                String( o ) : class2type[ toString.call(o) ] || "object";
-        },
-        isEmptyObject : function(obj){
-            for(var name in obj){
-                if( name !== undefined ){
-                    return FALSE;
-                }
-            }
-            return TRUE;
-        },
-        isPlainObject : function(obj){
-            if( !obj || $.type(obj) !== "object" || obj.nodeType || $.isWindow(obj) ){
-                return false;
-            }
-            try{
-                if( obj.constructor &amp;&amp;
-                    !hasOwn.call(obj, "constructor") &amp;&amp;
-                    !hasOwn.call(obj.constructor.prototype, "isPrototypeOf")){
-                    return false;
-                }
-            } catch (e){
-                return false;
-            }
-            var key;
-            for( key in obj ){}
-            return key === undefined || hasOwn.call( obj, key );
-        },
-        each : function( object, callback, args ){
-            var name, i = 0,
-                length = object.length,
-                isObj = length === undefined || $.isFunction( object );
-            if( args ){
-                if( isObj ){
-                    for( name in object ){
-                        if( callback.apply( object[name] , args) === false ){break;}
-                    }
-                }else{
-                    for( ; i &lt; length; ){
-                        if( callback.apply( object[i++], args) === false){break;}
-                    }
-                }
-            }else{
-                if ( isObj ) {
-                    for ( name in object ) {
-                        if ( callback.call( object[ name ], name, object[ name ] ) === false ) {break;}
-                    }
-                } else {
-                    for ( ; i &lt; length; ) {
-                        if ( callback.call( object[ i ], i, object[ i++ ] ) === false ) {break;}
-                    }
-                }
-            }
-            return object;
-        }
-    });
-    $.each("Boolean Number String Function Array Date RegExp Object".split(" "), function(i, name){
-        class2type[ "[object "+ name +"]" ] = name.toLowerCase();
-    });
-})('jQuery', 'KISSY', undefined);
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
+<span class='line-number'>231</span>
+<span class='line-number'>232</span>
+<span class='line-number'>233</span>
+<span class='line-number'>234</span>
+<span class='line-number'>235</span>
+<span class='line-number'>236</span>
+<span class='line-number'>237</span>
+<span class='line-number'>238</span>
+<span class='line-number'>239</span>
+<span class='line-number'>240</span>
+<span class='line-number'>241</span>
+<span class='line-number'>242</span>
+<span class='line-number'>243</span>
+<span class='line-number'>244</span>
+<span class='line-number'>245</span>
+<span class='line-number'>246</span>
+<span class='line-number'>247</span>
+<span class='line-number'>248</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">,</span> <span class="nx">S</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">host</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">class2type</span> <span class="o">=</span> <span class="p">{},</span> <span class="c1">// [[Class]] -&amp;gt; type pairs</span>
+</span><span class='line'>        <span class="nx">OP</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">toString</span> <span class="o">=</span> <span class="nx">OP</span><span class="p">.</span><span class="nx">toString</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">hasOwn</span> <span class="o">=</span> <span class="nx">OP</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">TRUE</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span><span class="nx">FALSE</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">$</span> <span class="o">=</span> <span class="nx">host</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="p">(</span> <span class="nx">host</span><span class="p">[</span><span class="nx">$</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span> <span class="p">)</span> <span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">hasEnumBug</span> <span class="o">=</span> <span class="o">!</span><span class="p">({</span><span class="nx">toString</span><span class="o">:</span><span class="mi">1</span><span class="p">}.</span><span class="nx">propertyIsEnumerable</span><span class="p">(</span><span class="s1">&#39;toString&#39;</span><span class="p">)),</span>
+</span><span class='line'>        <span class="nx">emumProperties</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>            <span class="s1">&#39;hasOwnProperty&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;isPrototypeOf&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;propertyIsEnumerable&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;toString&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;toLocaleString&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;valueOf&#39;</span>
+</span><span class='line'>        <span class="p">],</span>
+</span><span class='line'>        <span class="nx">meta</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>            <span class="cm">/**</span>
+</span><span class='line'><span class="cm">             * Copies all the properties of s to r</span>
+</span><span class='line'><span class="cm">             * @param r</span>
+</span><span class='line'><span class="cm">             * @param s</span>
+</span><span class='line'><span class="cm">             * @param ov</span>
+</span><span class='line'><span class="cm">             * @param wl</span>
+</span><span class='line'><span class="cm">             * @param deep</span>
+</span><span class='line'><span class="cm">             * @return {*}</span>
+</span><span class='line'><span class="cm">             */</span>
+</span><span class='line'>            <span class="nx">mix</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">ov</span><span class="p">,</span> <span class="nx">wl</span><span class="p">,</span> <span class="nx">deep</span><span class="p">){</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">s</span> <span class="o">||</span> <span class="o">!</span><span class="nx">r</span><span class="p">){</span><span class="k">return</span> <span class="nx">r</span><span class="p">;}</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span><span class="nx">ov</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">){</span><span class="nx">ov</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;}</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">p</span><span class="p">,</span> <span class="nx">len</span><span class="p">;</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span><span class="nx">wl</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="p">(</span><span class="nx">len</span> <span class="o">=</span> <span class="nx">wl</span><span class="p">.</span><span class="nx">length</span><span class="p">)){</span>
+</span><span class='line'>                    <span class="k">for</span><span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>                        <span class="nx">p</span> <span class="o">=</span> <span class="nx">wl</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>                        <span class="k">if</span><span class="p">(</span> <span class="nx">p</span> <span class="k">in</span> <span class="nx">s</span><span class="p">){</span><span class="nx">_mix</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">ov</span><span class="p">,</span> <span class="nx">deep</span><span class="p">);}</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                    <span class="k">for</span><span class="p">(</span><span class="nx">p</span> <span class="k">in</span> <span class="nx">s</span><span class="p">){</span>
+</span><span class='line'>                        <span class="nx">_mix</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">ov</span><span class="p">,</span> <span class="nx">deep</span><span class="p">);</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                    <span class="k">if</span><span class="p">(</span><span class="nx">hasEnumBug</span><span class="p">){</span>
+</span><span class='line'>                        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">emumProperties</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                            <span class="nx">p</span> <span class="o">=</span> <span class="nx">emumProperties</span><span class="p">[</span><span class="nx">j</span><span class="p">];</span>
+</span><span class='line'>                            <span class="k">if</span> <span class="p">(</span><span class="nx">ov</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">hasOwn</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">p</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>                                <span class="nx">r</span><span class="p">[</span><span class="nx">p</span><span class="p">]</span> <span class="o">=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">p</span><span class="p">];</span>
+</span><span class='line'>                            <span class="p">}</span>
+</span><span class='line'>                        <span class="p">}</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>                <span class="k">return</span> <span class="nx">r</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">_mix</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">ov</span><span class="p">,</span> <span class="nx">deep</span><span class="p">){</span>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span><span class="nx">ov</span> <span class="o">||</span> <span class="o">!</span><span class="p">(</span><span class="nx">p</span> <span class="k">in</span> <span class="nx">r</span><span class="p">)){</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nx">r</span><span class="p">[</span><span class="nx">p</span><span class="p">],</span> <span class="nx">src</span> <span class="o">=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">p</span><span class="p">];</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span><span class="nx">target</span> <span class="o">===</span> <span class="nx">src</span><span class="p">){</span><span class="k">return</span> <span class="p">;}</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span> <span class="nx">deep</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">src</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="p">(</span><span class="nx">S</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">src</span><span class="p">))</span> <span class="p">){</span>
+</span><span class='line'>                    <span class="kd">var</span> <span class="nx">clone</span> <span class="o">=</span> <span class="nx">target</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="p">(</span><span class="nx">S</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="o">||</span> <span class="nx">S</span><span class="p">.</span><span class="nx">isPlainObject</span><span class="p">(</span><span class="nx">target</span><span class="p">))</span> <span class="o">?</span>
+</span><span class='line'>                        <span class="nx">target</span> <span class="o">:</span>
+</span><span class='line'>                        <span class="p">(</span> <span class="nx">S</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">src</span><span class="p">)</span> <span class="o">?</span> <span class="p">[]</span> <span class="o">:</span> <span class="p">{});</span>
+</span><span class='line'>                    <span class="nx">r</span><span class="p">[</span><span class="nx">p</span><span class="p">]</span> <span class="o">=</span> <span class="nx">S</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span> <span class="nx">clone</span><span class="p">,</span> <span class="nx">src</span><span class="p">,</span> <span class="nx">ov</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">);</span>
+</span><span class='line'>                <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="nx">src</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">){</span>
+</span><span class='line'>                    <span class="nx">r</span><span class="p">[</span><span class="nx">p</span><span class="p">]</span> <span class="o">=</span><span class="nx">s</span><span class="p">[</span><span class="nx">p</span><span class="p">];</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">seed</span> <span class="o">=</span> <span class="p">(</span> <span class="nx">host</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">host</span><span class="p">[</span><span class="nx">S</span><span class="p">]</span> <span class="p">)</span> <span class="o">||</span> <span class="p">{};</span>
+</span><span class='line'>    <span class="nx">S</span> <span class="o">=</span> <span class="nx">host</span><span class="p">[</span><span class="nx">S</span><span class="p">]</span> <span class="o">=</span> <span class="nx">meta</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span> <span class="nx">seed</span><span class="p">,</span> <span class="nx">meta</span> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * If the type of val is null, undefined, number, string, boolean, return true.</span>
+</span><span class='line'><span class="cm">     * @param val</span>
+</span><span class='line'><span class="cm">     * @return {Boolean}</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">function</span> <span class="nx">isValidParamValue</span><span class="p">(</span> <span class="nx">val</span> <span class="p">){</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">val</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">val</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="p">(</span> <span class="nx">t</span> <span class="o">!==</span> <span class="s1">&#39;object&#39;</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">t</span> <span class="o">!==</span> <span class="s1">&#39;function&#39;</span> <span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nx">S</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">KISSY</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">isNull</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">o</span> <span class="p">){</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">o</span> <span class="o">===</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">isUndefined</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">o</span> <span class="p">){</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">o</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">isEmptyObject</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+</span><span class='line'>            <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">name</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">){</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span> <span class="nx">name</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">){</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="nx">FALSE</span><span class="p">;</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">TRUE</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">isPlainObject</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">){</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">o</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">toString</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;[object Object]&#39;</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="s1">&#39;isPrototypeOf&#39;</span> <span class="k">in</span> <span class="nx">o</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">type</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">o</span> <span class="p">){</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">o</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span>
+</span><span class='line'>                <span class="nb">String</span><span class="p">(</span> <span class="nx">o</span> <span class="p">)</span> <span class="o">:</span> <span class="nx">class2type</span><span class="p">[</span> <span class="nx">toString</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">]</span> <span class="o">||</span> <span class="s2">&quot;object&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">each</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">fn</span><span class="p">,</span> <span class="nx">context</span><span class="p">){</span>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span> <span class="nx">object</span> <span class="p">){</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">val</span><span class="p">,</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>                    <span class="nx">length</span> <span class="o">=</span> <span class="nx">object</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">object</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
+</span><span class='line'>                    <span class="nx">isObj</span> <span class="o">=</span> <span class="nx">length</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">||</span> <span class="nx">S</span><span class="p">.</span><span class="nx">type</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">;</span>
+</span><span class='line'>                <span class="nx">context</span> <span class="o">=</span> <span class="nx">context</span> <span class="o">||</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span> <span class="nx">isObj</span> <span class="p">){</span>
+</span><span class='line'>                    <span class="k">for</span><span class="p">(</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">object</span> <span class="p">){</span>
+</span><span class='line'>                        <span class="k">if</span><span class="p">(</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span> <span class="nx">context</span><span class="p">,</span> <span class="nx">object</span><span class="p">[</span><span class="nx">key</span><span class="p">],</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">object</span> <span class="p">)</span> <span class="o">===</span> <span class="nx">FALSE</span> <span class="p">){</span>
+</span><span class='line'>                            <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>                        <span class="p">}</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                    <span class="k">for</span> <span class="p">(</span><span class="nx">val</span> <span class="o">=</span> <span class="nx">object</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>                         <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">length</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">val</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">object</span><span class="p">)</span> <span class="o">!==</span> <span class="nx">FALSE</span><span class="p">;</span> <span class="nx">val</span> <span class="o">=</span> <span class="nx">object</span><span class="p">[</span><span class="o">++</span><span class="nx">i</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">object</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="nx">S</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="s1">&#39;Boolean Number String Function Array Date RegExp Object&#39;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span><span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">lc</span><span class="p">){</span>
+</span><span class='line'>        <span class="nx">class2type</span><span class="p">[</span><span class="s1">&#39;[object &#39;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nx">lc</span> <span class="o">=</span> <span class="nx">name</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">());</span>
+</span><span class='line'>        <span class="nx">S</span><span class="p">[</span><span class="s1">&#39;is&#39;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">o</span> <span class="p">){</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">S</span><span class="p">.</span><span class="nx">type</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="o">==</span> <span class="nx">lc</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="p">){</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">options</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">src</span><span class="p">,</span> <span class="nx">copy</span><span class="p">,</span> <span class="nx">copyIsArray</span><span class="p">,</span> <span class="nx">clone</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">target</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">||</span> <span class="p">{},</span>
+</span><span class='line'>            <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">length</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">deep</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span> <span class="k">typeof</span> <span class="nx">target</span> <span class="o">===</span> <span class="s2">&quot;boolean&quot;</span> <span class="p">){</span>
+</span><span class='line'>            <span class="nx">deep</span> <span class="o">=</span> <span class="nx">target</span><span class="p">;</span>
+</span><span class='line'>            <span class="nx">target</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">||</span> <span class="p">{};</span>
+</span><span class='line'>            <span class="nx">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span> <span class="k">typeof</span> <span class="nx">target</span> <span class="o">!==</span> <span class="s2">&quot;object&quot;</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="o">!</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">target</span><span class="p">)){</span>
+</span><span class='line'>            <span class="nx">target</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span> <span class="nx">length</span> <span class="o">===</span> <span class="nx">i</span> <span class="p">){</span><span class="c1">//extend jQuery itself</span>
+</span><span class='line'>            <span class="nx">target</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>            <span class="o">--</span><span class="nx">i</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="nx">options</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="o">!=</span> <span class="kc">null</span> <span class="p">){</span>
+</span><span class='line'>                <span class="k">for</span><span class="p">(</span> <span class="nx">name</span> <span class="k">in</span> <span class="nx">options</span> <span class="p">){</span>
+</span><span class='line'>                    <span class="nx">src</span> <span class="o">=</span> <span class="nx">target</span><span class="p">[</span> <span class="nx">name</span> <span class="p">];</span>
+</span><span class='line'>                    <span class="nx">copy</span> <span class="o">=</span> <span class="nx">options</span><span class="p">[</span> <span class="nx">name</span> <span class="p">];</span>
+</span><span class='line'>                    <span class="k">if</span><span class="p">(</span> <span class="nx">target</span> <span class="o">===</span> <span class="nx">copy</span> <span class="p">){</span><span class="k">continue</span><span class="p">;}</span>
+</span><span class='line'>                    <span class="k">if</span><span class="p">(</span> <span class="nx">deep</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">copy</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="p">(</span> <span class="nx">$</span><span class="p">.</span><span class="nx">isPlainObject</span><span class="p">(</span><span class="nx">copy</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span> <span class="nx">copyIsArray</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">copy</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span> <span class="p">){</span>
+</span><span class='line'>                        <span class="k">if</span><span class="p">(</span> <span class="nx">copyIsArray</span> <span class="p">){</span>
+</span><span class='line'>                            <span class="nx">copyIsArray</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>                            <span class="nx">clone</span> <span class="o">=</span> <span class="nx">src</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">$</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">src</span><span class="p">)</span> <span class="o">?</span> <span class="nx">src</span> <span class="o">:</span> <span class="p">[];</span>
+</span><span class='line'>                        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                            <span class="nx">clone</span> <span class="o">=</span> <span class="nx">src</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">$</span><span class="p">.</span><span class="nx">isPlainObject</span><span class="p">(</span><span class="nx">src</span><span class="p">)</span> <span class="o">?</span> <span class="nx">src</span> <span class="o">:</span> <span class="p">{};</span>
+</span><span class='line'>                        <span class="p">}</span>
+</span><span class='line'>                        <span class="nx">target</span><span class="p">[</span> <span class="nx">name</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span> <span class="nx">deep</span><span class="p">,</span> <span class="nx">clone</span><span class="p">,</span> <span class="nx">copy</span> <span class="p">);</span>
+</span><span class='line'>                    <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="nx">copy</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">){</span>
+</span><span class='line'>                        <span class="nx">target</span><span class="p">[</span> <span class="nx">name</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">copy</span><span class="p">;</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">target</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>        <span class="nx">isFunction</span> <span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">$</span><span class="p">.</span><span class="nx">type</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">isArray</span> <span class="o">:</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span> <span class="o">||</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">$</span><span class="p">.</span><span class="nx">type</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;array&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">isNumeric</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">!</span><span class="nb">isNaN</span><span class="p">(</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">)</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nb">isFinite</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">isWindow</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">obj</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">obj</span> <span class="o">==</span> <span class="nx">obj</span><span class="p">.</span><span class="nb">window</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">type</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">o</span> <span class="p">){</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">o</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span>
+</span><span class='line'>                <span class="nb">String</span><span class="p">(</span> <span class="nx">o</span> <span class="p">)</span> <span class="o">:</span> <span class="nx">class2type</span><span class="p">[</span> <span class="nx">toString</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">]</span> <span class="o">||</span> <span class="s2">&quot;object&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">isEmptyObject</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+</span><span class='line'>            <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">name</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">){</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span> <span class="nx">name</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="p">){</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="nx">FALSE</span><span class="p">;</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">TRUE</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">isPlainObject</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">obj</span> <span class="o">||</span> <span class="nx">$</span><span class="p">.</span><span class="nx">type</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="o">!==</span> <span class="s2">&quot;object&quot;</span> <span class="o">||</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">nodeType</span> <span class="o">||</span> <span class="nx">$</span><span class="p">.</span><span class="nx">isWindow</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">){</span>
+</span><span class='line'>                <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">try</span><span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span>
+</span><span class='line'>                    <span class="o">!</span><span class="nx">hasOwn</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;constructor&quot;</span><span class="p">)</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span>
+</span><span class='line'>                    <span class="o">!</span><span class="nx">hasOwn</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="s2">&quot;isPrototypeOf&quot;</span><span class="p">)){</span>
+</span><span class='line'>                    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+</span><span class='line'>                <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">key</span><span class="p">;</span>
+</span><span class='line'>            <span class="k">for</span><span class="p">(</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">obj</span> <span class="p">){}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">key</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">||</span> <span class="nx">hasOwn</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span> <span class="nx">obj</span><span class="p">,</span> <span class="nx">key</span> <span class="p">);</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">each</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">object</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">args</span> <span class="p">){</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>                <span class="nx">length</span> <span class="o">=</span> <span class="nx">object</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
+</span><span class='line'>                <span class="nx">isObj</span> <span class="o">=</span> <span class="nx">length</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">||</span> <span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span> <span class="nx">object</span> <span class="p">);</span>
+</span><span class='line'>            <span class="k">if</span><span class="p">(</span> <span class="nx">args</span> <span class="p">){</span>
+</span><span class='line'>                <span class="k">if</span><span class="p">(</span> <span class="nx">isObj</span> <span class="p">){</span>
+</span><span class='line'>                    <span class="k">for</span><span class="p">(</span> <span class="nx">name</span> <span class="k">in</span> <span class="nx">object</span> <span class="p">){</span>
+</span><span class='line'>                        <span class="k">if</span><span class="p">(</span> <span class="nx">callback</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span> <span class="nx">object</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="o">===</span> <span class="kc">false</span> <span class="p">){</span><span class="k">break</span><span class="p">;}</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                    <span class="k">for</span><span class="p">(</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">length</span><span class="p">;</span> <span class="p">){</span>
+</span><span class='line'>                        <span class="k">if</span><span class="p">(</span> <span class="nx">callback</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span> <span class="nx">object</span><span class="p">[</span><span class="nx">i</span><span class="o">++</span><span class="p">],</span> <span class="nx">args</span><span class="p">)</span> <span class="o">===</span> <span class="kc">false</span><span class="p">){</span><span class="k">break</span><span class="p">;}</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="p">(</span> <span class="nx">isObj</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">for</span> <span class="p">(</span> <span class="nx">name</span> <span class="k">in</span> <span class="nx">object</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="k">if</span> <span class="p">(</span> <span class="nx">callback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span> <span class="nx">object</span><span class="p">[</span> <span class="nx">name</span> <span class="p">],</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">object</span><span class="p">[</span> <span class="nx">name</span> <span class="p">]</span> <span class="p">)</span> <span class="o">===</span> <span class="kc">false</span> <span class="p">)</span> <span class="p">{</span><span class="k">break</span><span class="p">;}</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">for</span> <span class="p">(</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">length</span><span class="p">;</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="k">if</span> <span class="p">(</span> <span class="nx">callback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span> <span class="nx">object</span><span class="p">[</span> <span class="nx">i</span> <span class="p">],</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">object</span><span class="p">[</span> <span class="nx">i</span><span class="o">++</span> <span class="p">]</span> <span class="p">)</span> <span class="o">===</span> <span class="kc">false</span> <span class="p">)</span> <span class="p">{</span><span class="k">break</span><span class="p">;}</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">object</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="s2">&quot;Boolean Number String Function Array Date RegExp Object&quot;</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">),</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">name</span><span class="p">){</span>
+</span><span class='line'>        <span class="nx">class2type</span><span class="p">[</span> <span class="s2">&quot;[object &quot;</span><span class="o">+</span> <span class="nx">name</span> <span class="o">+</span><span class="s2">&quot;]&quot;</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">name</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">})(</span><span class="s1">&#39;jQuery&#39;</span><span class="p">,</span> <span class="s1">&#39;KISSY&#39;</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   
@@ -309,162 +562,324 @@
 
 <h3>去除重复元素的实现方法</h3>
 
-<pre><code>$ = function() {
-    return {
-        unique1: function(elems) {
-            for (var i = 0; i &lt; elems.length; ++i) {         // 外层++i
-                for (var j = i + 1; j &lt; elems.length; ++j) { // 内层j = i +1
-                    if (elems[i] === elems[j]) {             // 判断是否重复的
-                        elems.splice(i--, 1);                // 如果重复,就去掉
-                        break;                               // i-- 与break,保证外层始终从0开始
-                    }
-                }
-            }
-            return elems;
-        },
-        unique2: function(elemsWithId) {
-            var obj = {};
-            for (var i = 0; i &lt; elemsWithId.length; ++i) {
-                var elem = elemsWithId[i];
-                obj[elem.getAttribute('id')] = obj[elem.getAttribute('id')] || elem;
-            }
-            elemsWithId.length = 0;
-            for (var id in obj) {
-                elemsWithId.push(obj[id])
-            }
-            return elemsWithId;
-        }
-    }
-}();
-</code></pre>
-
-<p>方法一使用了两重循环,算法复杂度为<code>O(n^2)</code>.实现思路比较直观,即遍历数组,看每个元素是否与后面的元素重复,有重复则移除;但是DOM Element数量较多时性能较差,而jQuery中对大量元素进行去除重复的操作很普遍. <br/>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">$</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">unique1</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elems</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">elems</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>         <span class="c1">// 外层++i</span>
+</span><span class='line'>                <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">elems</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">j</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 内层j = i +1</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="p">(</span><span class="nx">elems</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">elems</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span> <span class="p">{</span>             <span class="c1">// 判断是否重复的</span>
+</span><span class='line'>                        <span class="nx">elems</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="o">--</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>                <span class="c1">// 如果重复,就去掉</span>
+</span><span class='line'>                        <span class="k">break</span><span class="p">;</span>                               <span class="c1">// i-- 与break,保证外层始终从0开始</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">elems</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">unique2</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elemsWithId</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nx">elemsWithId</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>                <span class="nx">obj</span><span class="p">[</span><span class="nx">elem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">elem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)]</span> <span class="o">||</span> <span class="nx">elem</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">id</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="nx">id</span><span class="p">])</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">elemsWithId</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}();</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+方法一使用了两重循环,算法复杂度为<code>O(n^2)</code>.实现思路比较直观,即遍历数组,看每个元素是否与后面的元素重复,有重复则移除;但是DOM Element数量较多时性能较差,而jQuery中对大量元素进行去除重复的操作很普遍. <br/>
 方法二将Objct当做HashMap/HashSet来使用,算法复杂度为<code>O(n)</code>;遗憾的是JavaScript中无法直接用DOM Element作为Object的key,因此只能将id作为key,然而并非所有的 DOM Element 都是有id 的，所以这种方法并不通用。</p>
 
 <!-- more -->
 
 
-<p>我们知道,基于比较的排序算法最多可以将算法复杂度降到<code>O(nlgn)</code>，（比如结合使用快速排序和插入排序），之后遍历数组时只要比较相邻元素就可以了：</p>
-
-<pre><code>unique3: function(sortedElems) {
-    for ( var i = 1; i &lt; sortedElems.length; i++ ) {
-        if ( sortedElems[i] === sortedElems[ i - 1 ] ) {
-            sortedElems.splice( i--, 1 );
-        }
-    }
-    return sortedElems;
-}
-</code></pre>
-
-<p>JavaScript中有内置的排序算法。因此，在JavaScript中，先排序后去除重复是较好的做法。</p>
+<p>我们知道,基于比较的排序算法最多可以将算法复杂度降到<code>O(nlgn)</code>，（比如结合使用快速排序和插入排序），之后遍历数组时只要比较相邻元素就可以了：  <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">unique3</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">sortedElems</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">sortedElems</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="nx">sortedElems</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">sortedElems</span><span class="p">[</span> <span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">sortedElems</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span> <span class="nx">i</span><span class="o">--</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">sortedElems</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+JavaScript中有内置的排序算法。因此，在JavaScript中，先排序后去除重复是较好的做法。</p>
 
 <h3>先排序后去除重复</h3>
 
-<pre><code>var sortOrder, siblingCheck;
-sortOrder = function( a, b ) {
-    var al, bl,
-        ap = [],
-        bp = [],
-        aup = a.parentNode,
-        bup = b.parentNode,
-        cur = aup;
-    // If the nodes are siblings (or identical) we can do a quick check
-    if ( aup === bup ) {
-        return siblingCheck( a, b );
-    // If no parents were found then the nodes are disconnected
-    } else if ( !aup ) {
-        return -1;
-    } else if ( !bup ) {
-        return 1;
-    }
-    // Otherwise they're somewhere else in the tree so we need
-    // to build up a full list of the parentNodes for comparison
-    while ( cur ) {
-        ap.unshift( cur );
-        cur = cur.parentNode;
-    }
-    cur = bup;
-    while ( cur ) {
-        bp.unshift( cur );
-        cur = cur.parentNode;
-    }
-    al = ap.length;
-    bl = bp.length;
-    // Start walking down the tree looking for a discrepancy
-    for ( var i = 0; i &lt; al &amp;&amp; i &lt; bl; i++ ) {
-        if ( ap[i] !== bp[i] ) {
-            return siblingCheck( ap[i], bp[i] );
-        }
-    }
-    // We ended someplace up the tree so do a sibling check
-    return i === al ?
-        siblingCheck( a, bp[i], -1 ) :
-        siblingCheck( ap[i], b, 1 );
-};
-siblingCheck = function( a, b, ret ) {
-    if ( a === b ) {
-        return ret;
-    }
-    var cur = a.nextSibling;
-    while ( cur ) {
-        if ( cur === b ) {
-            return -1;
-        }
-        cur = cur.nextSibling;
-    }
-    return 1;
-};
-</code></pre>
-
-<p>使用Array内置的sort 方法,并传入了自定义的排序函数sortOrder. <br/>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">sortOrder</span><span class="p">,</span> <span class="nx">siblingCheck</span><span class="p">;</span>
+</span><span class='line'><span class="nx">sortOrder</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">al</span><span class="p">,</span> <span class="nx">bl</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">ap</span> <span class="o">=</span> <span class="p">[],</span>
+</span><span class='line'>        <span class="nx">bp</span> <span class="o">=</span> <span class="p">[],</span>
+</span><span class='line'>        <span class="nx">aup</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">bup</span> <span class="o">=</span> <span class="nx">b</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">cur</span> <span class="o">=</span> <span class="nx">aup</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// If the nodes are siblings (or identical) we can do a quick check</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nx">aup</span> <span class="o">===</span> <span class="nx">bup</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">siblingCheck</span><span class="p">(</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="p">);</span>
+</span><span class='line'>    <span class="c1">// If no parents were found then the nodes are disconnected</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">aup</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">bup</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// Otherwise they&#39;re somewhere else in the tree so we need</span>
+</span><span class='line'>    <span class="c1">// to build up a full list of the parentNodes for comparison</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span> <span class="nx">cur</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">ap</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span> <span class="nx">cur</span> <span class="p">);</span>
+</span><span class='line'>        <span class="nx">cur</span> <span class="o">=</span> <span class="nx">cur</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nx">cur</span> <span class="o">=</span> <span class="nx">bup</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span> <span class="nx">cur</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">bp</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span> <span class="nx">cur</span> <span class="p">);</span>
+</span><span class='line'>        <span class="nx">cur</span> <span class="o">=</span> <span class="nx">cur</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nx">al</span> <span class="o">=</span> <span class="nx">ap</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">bl</span> <span class="o">=</span> <span class="nx">bp</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// Start walking down the tree looking for a discrepancy</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">al</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">bl</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="nx">ap</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">!==</span> <span class="nx">bp</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">siblingCheck</span><span class="p">(</span> <span class="nx">ap</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">bp</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// We ended someplace up the tree so do a sibling check</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">i</span> <span class="o">===</span> <span class="nx">al</span> <span class="o">?</span>
+</span><span class='line'>        <span class="nx">siblingCheck</span><span class="p">(</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">bp</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="o">:</span>
+</span><span class='line'>        <span class="nx">siblingCheck</span><span class="p">(</span> <span class="nx">ap</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">b</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">siblingCheck</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">ret</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nx">a</span> <span class="o">===</span> <span class="nx">b</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">cur</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">nextSibling</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span> <span class="nx">cur</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="nx">cur</span> <span class="o">===</span> <span class="nx">b</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="nx">cur</span> <span class="o">=</span> <span class="nx">cur</span><span class="p">.</span><span class="nx">nextSibling</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+使用Array内置的sort 方法,并传入了自定义的排序函数sortOrder. <br/>
 sortOrder函数的做法是:获取两个被比较元素的所有"直系祖宗",从而确定两个元素在DOM树种的位置;一般来说,两个元素有共同的根,那么就从根元素开始依次向下遍历,直到"分叉点",再对分叉点的元素进行比较.如果直到遍历结束,仍未能到达分叉点(如元素a先遍历,那么i就与al相等),则直接将a与b当前遍历到的"祖宗"进行比较.</p>
 
 <h3>排序时进行检查</h3>
 
-<p>优化:先判断元素中是否存在重复的,如果元素不重复,那么就可以不执行后面的遍历并去除重复操作了.实现如下:</p>
-
-<pre><code>var hasDuplicate = false,
-    baseHasDuplicate = true;
-[0, 0].sort(function(){
-    baseHasDuplicate = false;
-});
-var uniqueSort = function( results ) {
-    if ( sortOrder ) {
-        hasDuplicate = baseHasDuplicate;
-        results.sort( sortOrder );
-        if ( hasDuplicate ) {
-            for ( var i = 1; i &lt; results.length; i++ ) {
-                if ( results[i] === results[ i - 1 ] ) {
-                    results.splice( i--, 1 );
-                }
-            }
-        }
-    }
-    return results;
-};
-</code></pre>
-
-<p>一个特殊的例外是某些浏览器可能进行了特殊的优化，那么在元素相等时可能就没有调用我们的排序函数了；这种情况下，排序时检查重复的方案就不可行。因此，如果浏览器在元素相等的情况下会调用我们的排序函数，那么就将 hasDuplicate 置为 false，并在排序过程中检查重复；否则，无论如何都视为存在重复，仍然进行遍历去除重复的操作。</p>
+<p>优化:先判断元素中是否存在重复的,如果元素不重复,那么就可以不执行后面的遍历并去除重复操作了.实现如下:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">hasDuplicate</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">baseHasDuplicate</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">].</span><span class="nx">sort</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>    <span class="nx">baseHasDuplicate</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">uniqueSort</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">results</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nx">sortOrder</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">hasDuplicate</span> <span class="o">=</span> <span class="nx">baseHasDuplicate</span><span class="p">;</span>
+</span><span class='line'>        <span class="nx">results</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span> <span class="nx">sortOrder</span> <span class="p">);</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="nx">hasDuplicate</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">results</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="p">(</span> <span class="nx">results</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">results</span><span class="p">[</span> <span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="nx">results</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span> <span class="nx">i</span><span class="o">--</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">results</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+一个特殊的例外是某些浏览器可能进行了特殊的优化，那么在元素相等时可能就没有调用我们的排序函数了；这种情况下，排序时检查重复的方案就不可行。因此，如果浏览器在元素相等的情况下会调用我们的排序函数，那么就将 hasDuplicate 置为 false，并在排序过程中检查重复；否则，无论如何都视为存在重复，仍然进行遍历去除重复的操作。</p>
 
 <h3>使用compareDocumentPosition()进行优化</h3>
 
-<p>事实上，除 IE 之外浏览器都有内置的 compareDocumentPosition() 方法，用于比较两个 DOM Element 的位置，因此我们可以引入 compareDocumentPosition() 进行优化:</p>
-
-<pre><code>if (document.documentElement.compareDocumentPosition) {
-    var sort = function(a, b) {
-        if (a === b) {
-            hasDuplicate = true;
-            return 0;
-        }
-        if (!a.compareDocumentPosition || !b.compareDocumentPosition) {
-            return a.compareDocumentPosition ? -1 : 1;
-        }
-        return a.compareDocumentPosition(b) &amp; 4 ? -1 : 1;
-    }
-}
-</code></pre>
-
-<p>a.compareDocumentPosition(b) &amp; 4 表示取返回值的二进制表示的倒数第三位; <br/>
+<p>事实上，除 IE 之外浏览器都有内置的 compareDocumentPosition() 方法，用于比较两个 DOM Element 的位置，因此我们可以引入 compareDocumentPosition() 进行优化: <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">.</span><span class="nx">compareDocumentPosition</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">sort</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">a</span> <span class="o">===</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">hasDuplicate</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">a</span><span class="p">.</span><span class="nx">compareDocumentPosition</span> <span class="o">||</span> <span class="o">!</span><span class="nx">b</span><span class="p">.</span><span class="nx">compareDocumentPosition</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">compareDocumentPosition</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">compareDocumentPosition</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="mi">4</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+a.compareDocumentPosition(b) &amp; 4 表示取返回值的二进制表示的倒数第三位; <br/>
 compareDocumentPosition() 的返回值的每个二进制位表示不同的含义，其中倒数第三位表示元素 a 是否在元素 b 的 “前面”</p>
 
 <p>jQuery 的 unique() 在去除重复前先进行了排序，并使用了多种优化手段，实现了性能较好并且比较通用的去除重复的 DOM Element 的功能。</p>
