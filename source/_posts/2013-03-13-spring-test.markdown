@@ -32,6 +32,7 @@ Spring的测试机制是基于JUnit的扩展,在org.springframework.test包下,�
 <!-- more -->
 
 __基于AbstractDependencyInjectionSpringContextTests的抽象测试类__
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 	package com.test.common;
 
 	import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
@@ -105,8 +106,9 @@ __基于AbstractDependencyInjectionSpringContextTests的抽象测试类__
 		}
 		
 	}
-
+{% endcodeblock %}
 __基于AbstractTransactionalSpringContextTests扩展的抽象类 - 可以自动回滚事务的测试抽象基类__
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 	package com.test.common;
 
 	import org.springframework.test.AbstractTransactionalSpringContextTests;
@@ -183,8 +185,10 @@ __基于AbstractTransactionalSpringContextTests扩展的抽象类 - 可以自动
 			return false;
 		}
 	}
+{% endcodeblock %}
 
 __基于AbstractTransactionalDataSourceSpringContextTests抽象类具有其所有祖先抽象类的特性以及其自身的特性__
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 	package com.test.common;
 
 	import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
@@ -243,8 +247,10 @@ __基于AbstractTransactionalDataSourceSpringContextTests抽象类具有其所�
 			return false;
 		}
 	}
+{% endcodeblock %}
 
 __直接使用JUnit进行测试的抽象基类__
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 	package com.test.common;
 
 	import org.springframework.context.ApplicationContext;
@@ -307,6 +313,7 @@ __直接使用JUnit进行测试的抽象基类__
 			getApplicationContext();
 		}
 	}
+{% endcodeblock %}
 ###创建、配置测试类及创建测试方法
 上述所说的均为测试基类(抽象类),如创建测试类时根据实际情况继承上述某一抽象类即可.  
 在抽象类中已配置了数据库连接配置文件appContextFile.xml,在实际测试类中,仅配置所需用到的Bean配置Spring配置文件.   

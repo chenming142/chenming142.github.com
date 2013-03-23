@@ -9,6 +9,7 @@ tags: J2SE
 >原文:[http://blog.csdn.net/haoel/article/details/4319793](http://blog.csdn.net/haoel/article/details/4319793 "陈皓专栏")   
 
 让我们先来看两个类: __Base__ 和 __Derived__ 类.注意其中的 _whenAmISet_ 的成员变量,和方法 _preProcess()_.
+{% codeblock Java Syntax Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 	public class Base{
 	    Base(){
 			preProcess();
@@ -21,13 +22,16 @@ tags: J2SE
 			whenAmISet = "set in preProcess()";
 		}
 	}
+{% endcodeblock %}
 如果我们构造一个子类实例,那么 __whenAmISet__ 的值会是什么呢?
+{% codeblock Java Syntax lang:js http://j.mp/pPUUmW MDN Documentation %}
 	public class Main{
 		public static void main(String[] args){
 			Derived d = new Derived();
 			System.out.println( d.whenAmISet );
 		}
 	}
+{% endcodeblock %}
 再续继往下阅读之前，请先给自己一些时间想一下上面的这段程序的输出是什么？是的，这看起来的确相当简单，甚至不需要编译和运行上面的代码，我们也应该知道其答案，那么，你觉得你知道答案吗？你确定你的答案正确吗？
 
 很多人都会觉得那段程序的输出应该是`set in preProcess()`，这是因为当子类Derived 的构造函数被调用时，其会隐晦地调用其基类Base的构造函数（通过super()函数），于是基类Base的构造函数会调用preProcess() 函数，因为这个类的实例是Derived的，而且在子类Derived中对这个函数使用了override关键字，所以，实际上调用到的是：`Derived.preProcess()`，而这个方法设置了whenAmISet 成员变量的值为：`set in preProcess()`。

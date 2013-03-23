@@ -22,6 +22,7 @@ description: jquery
 从测试结果看,1.4版本虽未能够完美实现去除重复元素,但是某些情况(即数组是有序的)下也是能处理数值和字符型数值数组的;而1.7.2版已能完美支持了.
 
 ###去除重复元素的实现方法
+{% codeblock Javascript Array Syntax lang:js http://j.mp/pPUUmW MDN Documentation %}
 	$ = function() {
 		return {
 			unique1: function(elems) {
@@ -49,12 +50,14 @@ description: jquery
 			}
 		}
 	}();
+{% endcodeblock %}
 方法一使用了两重循环,算法复杂度为`O(n^2)`.实现思路比较直观,即遍历数组,看每个元素是否与后面的元素重复,有重复则移除;但是DOM Element数量较多时性能较差,而jQuery中对大量元素进行去除重复的操作很普遍.   
 方法二将Objct当做HashMap/HashSet来使用,算法复杂度为`O(n)`;遗憾的是JavaScript中无法直接用DOM Element作为Object的key,因此只能将id作为key,然而并非所有的 DOM Element 都是有id 的，所以这种方法并不通用。  
 
 <!-- more -->
 
 我们知道,基于比较的排序算法最多可以将算法复杂度降到`O(nlgn)`，（比如结合使用快速排序和插入排序），之后遍历数组时只要比较相邻元素就可以了：    
+{% codeblock Javascript Array Syntax lang:js http://j.mp/pPUUmW MDN Documentation %}
 	unique3: function(sortedElems) {
 		for ( var i = 1; i < sortedElems.length; i++ ) {
 			if ( sortedElems[i] === sortedElems[ i - 1 ] ) {
@@ -63,9 +66,11 @@ description: jquery
 		}
 		return sortedElems;
 	}
+{% endcodeblock %}
 JavaScript中有内置的排序算法。因此，在JavaScript中，先排序后去除重复是较好的做法。
 
 ###先排序后去除重复
+{% codeblock Javascript Array Syntax lang:js http://j.mp/pPUUmW MDN Documentation %}
 	var sortOrder, siblingCheck;
 	sortOrder = function( a, b ) {
 		var al, bl,
@@ -120,11 +125,13 @@ JavaScript中有内置的排序算法。因此，在JavaScript中，先排序后
 		}
 		return 1;
 	};
+{% endcodeblock %}
 使用Array内置的sort 方法,并传入了自定义的排序函数sortOrder.   
 sortOrder函数的做法是:获取两个被比较元素的所有"直系祖宗",从而确定两个元素在DOM树种的位置;一般来说,两个元素有共同的根,那么就从根元素开始依次向下遍历,直到"分叉点",再对分叉点的元素进行比较.如果直到遍历结束,仍未能到达分叉点(如元素a先遍历,那么i就与al相等),则直接将a与b当前遍历到的"祖宗"进行比较.
 
 ###排序时进行检查
 优化:先判断元素中是否存在重复的,如果元素不重复,那么就可以不执行后面的遍历并去除重复操作了.实现如下:
+{% codeblock Javascript Array Syntax lang:js http://j.mp/pPUUmW MDN Documentation %}
 	var hasDuplicate = false,
 		baseHasDuplicate = true;
 	[0, 0].sort(function(){
@@ -144,10 +151,12 @@ sortOrder函数的做法是:获取两个被比较元素的所有"直系祖宗",�
 		}
 		return results;
 	};
+{% endcodeblock %}
 一个特殊的例外是某些浏览器可能进行了特殊的优化，那么在元素相等时可能就没有调用我们的排序函数了；这种情况下，排序时检查重复的方案就不可行。因此，如果浏览器在元素相等的情况下会调用我们的排序函数，那么就将 hasDuplicate 置为 false，并在排序过程中检查重复；否则，无论如何都视为存在重复，仍然进行遍历去除重复的操作。 
 
 ###使用compareDocumentPosition()进行优化
 事实上，除 IE 之外浏览器都有内置的 compareDocumentPosition() 方法，用于比较两个 DOM Element 的位置，因此我们可以引入 compareDocumentPosition() 进行优化:   
+{% codeblock Javascript Array Syntax lang:js http://j.mp/pPUUmW MDN Documentation %}
 	if (document.documentElement.compareDocumentPosition) {
 		var sort = function(a, b) {
 			if (a === b) {
@@ -160,6 +169,7 @@ sortOrder函数的做法是:获取两个被比较元素的所有"直系祖宗",�
 			return a.compareDocumentPosition(b) & 4 ? -1 : 1;
 		}
 	}
+{% endcodeblock %}
 a.compareDocumentPosition(b) & 4 表示取返回值的二进制表示的倒数第三位;   
 compareDocumentPosition() 的返回值的每个二进制位表示不同的含义，其中倒数第三位表示元素 a 是否在元素 b 的 “前面”
 

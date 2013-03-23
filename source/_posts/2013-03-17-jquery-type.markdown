@@ -22,6 +22,7 @@ description:
 <!--more--> 
 
 ### 使用库进行判断数据类型
+{% codeblock Javascript Array Syntax lang:js http://j.mp/pPUUmW MDN Documentation %}
 	(function($, S, undefined){
 		var host = this,
 			class2type = {}, // [[Class]] -> type pairs
@@ -265,4 +266,4 @@ description:
 			class2type[ "[object "+ name +"]" ] = name.toLowerCase();
 		});
 	})('jQuery', 'KISSY', undefined);
-
+{% endcodeblock %}

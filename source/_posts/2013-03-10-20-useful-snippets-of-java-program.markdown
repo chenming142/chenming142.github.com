@@ -10,10 +10,16 @@ tags: J2SE
 
 下面是20个非常有用的Java程序片段，希望能对你有用。  
 
-1.	字符串有整型的相互转换    
+1.字符串有整型的相互转换  
+
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		string a = String.valueOf(2);             // integer to numeric string
 		int i = Integer.parseInt(a);              // numeric string to an int
-2. 	向文件末尾添加内容  
+{% endcodeblock %}
+
+2.向文件末尾添加内容 
+
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		BufferWriter out = null;   
 		try{   
 		    out = new BufferWriter(new FileWriter("filename", true));
@@ -25,14 +31,25 @@ tags: J2SE
 			    out.close();
 		    }
 		}
-3. 得到当前方法的名称
+{% endcodeblock %}
+
+3.得到当前方法的名称
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		string methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
-4. 转字符串到日期格式
+{% endcodeblock %}
+
+4.转字符串到日期格式
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		java.util.Date = java.text.DateFormat.getDateInstance().parse(date, String);
-		或者是:   
+{% endcodeblock %}
+或者是:   
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 		Date d = sdf.parse( myString );
-5. 使用JDBC连接Oracle
+{% endcodeblock %}
+
+5.使用JDBC连接Oracle
+{% codeblock Java Syntax lang:js http://j.mp/pPUUmW MDN Documentation %}
 		public class OracleJDBCTest{  
 		  String driverClass = "oracle.jdbc.driver.OracleDriver";
 		  Connection con;   
@@ -61,13 +78,17 @@ tags: J2SE
 				test.fetch();
 			}
 		}
-
+{% endcodeblock %}
 <!-- more -->
 
-6. 把java.util.Date 转换成java.sql.Date
+6.把java.util.Date 转换成java.sql.Date
+{% codeblock Java Syntax lang:js http://j.mp/pPUUmW MDN Documentation %}
 		java.util.Date utilDate = new java.util.Date();
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-7. 使用NIO进行快速的文件拷贝
+{% endcodeblock %}
+
+7.使用NIO进行快速的文件拷贝
+{% codeblock Java Syntax lang:js http://j.mp/pPUUmW MDN Documentation %}
 		public static void fileCopy( File in , File out )throws IOException{
 			FileChannel inChannel = new FileInputStream( in ).getChannel();
 			FileChannel outChannel = new FileOutputStream( in ).getChannel();
@@ -90,7 +111,10 @@ tags: J2SE
 				}
 			}
 		}
-8. 创建图片的缩略图
+{% endcodeblock %}
+
+8.创建图片的缩略图
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		private void createThumbnail(String filename, int thumbWidth,   
 			int thumbHeight, int quality, String outFilename)  
         	throws InterruptedException, FileNotFoundException, IOException{  
@@ -130,8 +154,11 @@ tags: J2SE
         	encoder.encode(thumbImage);  
         	out.close();  
     	} 
-9. 创建 JSON 格式的数据
+{% endcodeblock %}
+
+9.创建 JSON 格式的数据
 请先阅读这篇文章 了解一些细节，并下面这个JAR 文件：[json-rpc-1.0.jar (75 kb)](http://viralpatel.net/blogs/download/json/json-rpc-1.0.jar 'json-rpc-1.0');
+{% codeblock Java Syntax lang:js http://j.mp/pPUUmW MDN Documentation %}
 		import org.json.JSONObject;  
 		...  
 		...  
@@ -141,8 +168,11 @@ tags: J2SE
 		...  
 		String output = json.toString();  
 		... 
-10. 使用iText JAR生成PDF
+{% endcodeblock %}
+
+10.使用iText JAR生成PDF
 阅读这篇[文章](http://viralpatel.net/blogs/generate-pdf-file-in-java-using-itext-jar/ 'PDF Generation in Java using iText JAR') 了解更多细节
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		import java.io.File;  
 		import java.io.FileOutputStream;  
 		import java.io.OutputStream;  
@@ -171,14 +201,20 @@ tags: J2SE
 				}  
 			}  	
 		}
-11. HTTP 代理设置
+{% endcodeblock %}
+
+11.HTTP 代理设置
 阅读这篇 [文章](http://viralpatel.net/blogs/http-proxy-setting-java-setting-proxy-java/ 'HTTP Proxy setting in Java. Setting up proxy.') 了解更多细节。
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		System.getProperties().put("http.proxyHost", "someProxyURL");  
 		System.getProperties().put("http.proxyPort", "someProxyPort");  
 		System.getProperties().put("http.proxyUser", "someUserName");  
 		System.getProperties().put("http.proxyPassword", "somePassword"); 
-12. 单实例Singleton 示例
+{% endcodeblock %}
+
+12.单实例Singleton 示例
 请先阅读这篇[文章](http://viralpatel.net/blogs/java-singleton-design-pattern-tutorial-example-singleton-j2ee-design-pattern/ 'Java Singleton design pattern tutorial.') 了解更多信息
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		public class SimpleSingleton {  
 			private static SimpleSingleton singleInstance =  new SimpleSingleton();  
 		  
@@ -193,7 +229,9 @@ tags: J2SE
 				return singleInstance;  
 			}  
 		} 
+{% endcodeblock %}
 或另一种实现方式
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		public enum SimpleSingleton {  
 			INSTANCE;  
 			public void doSomething() {  
@@ -202,8 +240,11 @@ tags: J2SE
 		  
 		//Call the method from Singleton:  
 		SimpleSingleton.INSTANCE.doSomething(); 
-13. 抓屏程序
+{% endcodeblock %}
+
+13.抓屏程序
 阅读这篇[文章](http://viralpatel.net/blogs/how-to-take-screen-shots-in-java-taking-screenshots-java/ 'How to take screen shots in Java') 获得更多信息。
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		import java.awt.Dimension;  
 		import java.awt.Rectangle;  
 		import java.awt.Robot;  
@@ -224,7 +265,10 @@ tags: J2SE
 		  
 		}  
 		... 
-14. 列出文件和目录
+{% endcodeblock %}
+
+14.列出文件和目录
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		File dir = new File("directoryName");  
 		String[] children = dir.list();  
 		if (children == null) {  
@@ -255,7 +299,10 @@ tags: J2SE
 		  }  
 		};  
 		files = dir
-15. 创建ZIP和JAR文件
+{% endcodeblock %}
+
+15.创建ZIP和JAR文件
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		import java.util.zip.*;  
 		import java.io.*;  
 		  
@@ -306,8 +353,11 @@ tags: J2SE
 				zos.close();  
 			}  
 		} 
-16. 解析/读取XML 文件  
+{% endcodeblock %}
+
+16.解析/读取XML 文件  
 XML文件:
+{% codeblock XML Syntax lang:xml http://j.mp/pPUUmW MDN Documentation %}
 		<?xml version="1.0"?> 
 		<students> 
 			<student> 
@@ -326,7 +376,9 @@ XML文件:
 				<age>18</age> 
 			</student> 
 		</students> 
+{% endcodeblock %}
 Java代码:
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		package net.viralpatel.java.xmlparser;  
 		  
 		import java.io.File;  
@@ -387,7 +439,10 @@ Java代码:
 				parser.getAllUserNames("c:\\test.xml");  
 			}  
 		}
-17. 把 Array 转换成 Map 
+{% endcodeblock %}
+
+17.把 Array 转换成 Map 
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		import java.util.Map;  
 		import org.apache.commons.lang.ArrayUtils;  
 		public class Main {  
@@ -404,7 +459,10 @@ Java代码:
 			System.out.println("Capital of France is " + countryCapitals.get("France"));  
 		  }  
 		} 
-18. 发送邮件
+{% endcodeblock %}
+
+18.发送邮件
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		import javax.mail.*;  
 		import javax.mail.internet.*;  
 		import java.util.*;  
@@ -443,7 +501,10 @@ Java代码:
 			msg.setContent(message, "text/plain");  
 			Transport.send(msg);  
 		} 
-19. 发送代数据的HTTP 请求
+{% endcodeblock %}
+
+19.发送代数据的HTTP 请求
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		import java.io.BufferedReader;  
 		import java.io.InputStreamReader;  
 		import java.net.URL;  
@@ -462,7 +523,10 @@ Java代码:
 				}  
 			}  
 		}
-20. 改变数组的大小
+{% endcodeblock %}
+
+20.改变数组的大小
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
 		/** 
 		* Reallocates an array with a new size, and copies the contents 
 		* of the old array to the new array. 
@@ -490,3 +554,4 @@ Java代码:
 		   for (int i=0; i<a.length; i++)  
 			  System.out.println (a[i]);  
 		}
+{% endcodeblock %}
