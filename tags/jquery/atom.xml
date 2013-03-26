@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Tag: jQuery | chenming142's Blog for github]]></title>
+  <title><![CDATA[Tag: jquery | chenming142's Blog for github]]></title>
   <link href="http://chenming142.github.com/tags/jquery/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-23T11:45:41+08:00</updated>
+  <updated>2013-03-26T22:42:26+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -537,6 +537,358 @@
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[jquery unique 详解]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/15/jquery-unique/"/>
+    <updated>2013-03-15T21:22:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/15/jquery-unique</id>
+    <content type="html"><![CDATA[<blockquote><p>最近在工作中使用到了jquery.unique函数,用的过程中出现了很多偏差,所以就查看了jquery源码现在总结一下.</p></blockquote>
+
+<p>先看看jQuery.unique(array)api是:</p>
+
+<pre><code>删除数组中重复元素.只处理删除DOM元素数组,而不能处理字符串或者数字数组.
+</code></pre>
+
+<p>再来看看jquery.unique的测试结果:<br/>
+<img src="/images/common/2013-03-15-jquery-unique/20130315214713.jpg" title="jquery-1.4.unique" alt="jquery-1.4" />
+[<strong>jquey-1.4</strong>] <br/>
+<img src="/images/common/2013-03-15-jquery-unique/20130315214630.jpg" title="jquery-1.7.2.unique" alt="jquery-1.7" />
+[<strong>jquey-1.7.2</strong>]</p>
+
+<p>从测试结果看,1.4版本虽未能够完美实现去除重复元素,但是某些情况(即数组是有序的)下也是能处理数值和字符型数值数组的;而1.7.2版已能完美支持了.</p>
+
+<h3>去除重复元素的实现方法</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">$</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">unique1</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elems</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">elems</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>         <span class="c1">// 外层++i</span>
+</span><span class='line'>                <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">elems</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">j</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 内层j = i +1</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="p">(</span><span class="nx">elems</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">elems</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span> <span class="p">{</span>             <span class="c1">// 判断是否重复的</span>
+</span><span class='line'>                        <span class="nx">elems</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="o">--</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>                <span class="c1">// 如果重复,就去掉</span>
+</span><span class='line'>                        <span class="k">break</span><span class="p">;</span>                               <span class="c1">// i-- 与break,保证外层始终从0开始</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">elems</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nx">unique2</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elemsWithId</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nx">elemsWithId</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>                <span class="nx">obj</span><span class="p">[</span><span class="nx">elem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">elem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)]</span> <span class="o">||</span> <span class="nx">elem</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">id</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="nx">id</span><span class="p">])</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">elemsWithId</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}();</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+方法一使用了两重循环,算法复杂度为<code>O(n^2)</code>.实现思路比较直观,即遍历数组,看每个元素是否与后面的元素重复,有重复则移除;但是DOM Element数量较多时性能较差,而jQuery中对大量元素进行去除重复的操作很普遍. <br/>
+方法二将Objct当做HashMap/HashSet来使用,算法复杂度为<code>O(n)</code>;遗憾的是JavaScript中无法直接用DOM Element作为Object的key,因此只能将id作为key,然而并非所有的 DOM Element 都是有id 的，所以这种方法并不通用。</p>
+
+<!-- more -->
+
+
+<p>我们知道,基于比较的排序算法最多可以将算法复杂度降到<code>O(nlgn)</code>，（比如结合使用快速排序和插入排序），之后遍历数组时只要比较相邻元素就可以了：  <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">unique3</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">sortedElems</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">sortedElems</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="nx">sortedElems</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">sortedElems</span><span class="p">[</span> <span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">sortedElems</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span> <span class="nx">i</span><span class="o">--</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">sortedElems</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+JavaScript中有内置的排序算法。因此，在JavaScript中，先排序后去除重复是较好的做法。</p>
+
+<h3>先排序后去除重复</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">sortOrder</span><span class="p">,</span> <span class="nx">siblingCheck</span><span class="p">;</span>
+</span><span class='line'><span class="nx">sortOrder</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">al</span><span class="p">,</span> <span class="nx">bl</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">ap</span> <span class="o">=</span> <span class="p">[],</span>
+</span><span class='line'>        <span class="nx">bp</span> <span class="o">=</span> <span class="p">[],</span>
+</span><span class='line'>        <span class="nx">aup</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">bup</span> <span class="o">=</span> <span class="nx">b</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">cur</span> <span class="o">=</span> <span class="nx">aup</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// If the nodes are siblings (or identical) we can do a quick check</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nx">aup</span> <span class="o">===</span> <span class="nx">bup</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">siblingCheck</span><span class="p">(</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="p">);</span>
+</span><span class='line'>    <span class="c1">// If no parents were found then the nodes are disconnected</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">aup</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">bup</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// Otherwise they&#39;re somewhere else in the tree so we need</span>
+</span><span class='line'>    <span class="c1">// to build up a full list of the parentNodes for comparison</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span> <span class="nx">cur</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">ap</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span> <span class="nx">cur</span> <span class="p">);</span>
+</span><span class='line'>        <span class="nx">cur</span> <span class="o">=</span> <span class="nx">cur</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nx">cur</span> <span class="o">=</span> <span class="nx">bup</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span> <span class="nx">cur</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">bp</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span> <span class="nx">cur</span> <span class="p">);</span>
+</span><span class='line'>        <span class="nx">cur</span> <span class="o">=</span> <span class="nx">cur</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nx">al</span> <span class="o">=</span> <span class="nx">ap</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">bl</span> <span class="o">=</span> <span class="nx">bp</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// Start walking down the tree looking for a discrepancy</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">al</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">bl</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="nx">ap</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">!==</span> <span class="nx">bp</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">siblingCheck</span><span class="p">(</span> <span class="nx">ap</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">bp</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// We ended someplace up the tree so do a sibling check</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">i</span> <span class="o">===</span> <span class="nx">al</span> <span class="o">?</span>
+</span><span class='line'>        <span class="nx">siblingCheck</span><span class="p">(</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">bp</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="o">:</span>
+</span><span class='line'>        <span class="nx">siblingCheck</span><span class="p">(</span> <span class="nx">ap</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">b</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="nx">siblingCheck</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">ret</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nx">a</span> <span class="o">===</span> <span class="nx">b</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">cur</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">nextSibling</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span> <span class="nx">cur</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="nx">cur</span> <span class="o">===</span> <span class="nx">b</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="nx">cur</span> <span class="o">=</span> <span class="nx">cur</span><span class="p">.</span><span class="nx">nextSibling</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+使用Array内置的sort 方法,并传入了自定义的排序函数sortOrder. <br/>
+sortOrder函数的做法是:获取两个被比较元素的所有"直系祖宗",从而确定两个元素在DOM树种的位置;一般来说,两个元素有共同的根,那么就从根元素开始依次向下遍历,直到"分叉点",再对分叉点的元素进行比较.如果直到遍历结束,仍未能到达分叉点(如元素a先遍历,那么i就与al相等),则直接将a与b当前遍历到的"祖宗"进行比较.</p>
+
+<h3>排序时进行检查</h3>
+
+<p>优化:先判断元素中是否存在重复的,如果元素不重复,那么就可以不执行后面的遍历并去除重复操作了.实现如下:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">hasDuplicate</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">baseHasDuplicate</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">].</span><span class="nx">sort</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>    <span class="nx">baseHasDuplicate</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">uniqueSort</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">results</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="nx">sortOrder</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">hasDuplicate</span> <span class="o">=</span> <span class="nx">baseHasDuplicate</span><span class="p">;</span>
+</span><span class='line'>        <span class="nx">results</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span> <span class="nx">sortOrder</span> <span class="p">);</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="nx">hasDuplicate</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span> <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">results</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="p">(</span> <span class="nx">results</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">results</span><span class="p">[</span> <span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">]</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="nx">results</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span> <span class="nx">i</span><span class="o">--</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">results</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+一个特殊的例外是某些浏览器可能进行了特殊的优化，那么在元素相等时可能就没有调用我们的排序函数了；这种情况下，排序时检查重复的方案就不可行。因此，如果浏览器在元素相等的情况下会调用我们的排序函数，那么就将 hasDuplicate 置为 false，并在排序过程中检查重复；否则，无论如何都视为存在重复，仍然进行遍历去除重复的操作。</p>
+
+<h3>使用compareDocumentPosition()进行优化</h3>
+
+<p>事实上，除 IE 之外浏览器都有内置的 compareDocumentPosition() 方法，用于比较两个 DOM Element 的位置，因此我们可以引入 compareDocumentPosition() 进行优化: <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">.</span><span class="nx">compareDocumentPosition</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">sort</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">a</span> <span class="o">===</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">hasDuplicate</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">a</span><span class="p">.</span><span class="nx">compareDocumentPosition</span> <span class="o">||</span> <span class="o">!</span><span class="nx">b</span><span class="p">.</span><span class="nx">compareDocumentPosition</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">compareDocumentPosition</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">compareDocumentPosition</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="mi">4</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+a.compareDocumentPosition(b) &amp; 4 表示取返回值的二进制表示的倒数第三位; <br/>
+compareDocumentPosition() 的返回值的每个二进制位表示不同的含义，其中倒数第三位表示元素 a 是否在元素 b 的 “前面”</p>
+
+<p>jQuery 的 unique() 在去除重复前先进行了排序，并使用了多种优化手段，实现了性能较好并且比较通用的去除重复的 DOM Element 的功能。</p>
+
+<h3>最后的最后</h3>
+
+<p><img src="/images/common/2013-03-15-jquery-unique/20130315234659.jpg" title="ff jquey-1.7" alt="ff jquery-1.7" />
+[<strong>ff jquery-1.7</strong>]
+这又是什么原因,你知道了吗?</p>
 ]]></content>
   </entry>
   

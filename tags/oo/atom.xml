@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: OO | chenming142's Blog for github]]></title>
+  <link href="http://chenming142.github.com/tags/oo/atom.xml" rel="self"/>
+  <link href="http://chenming142.github.com/"/>
+  <updated>2013-03-26T22:42:26+08:00</updated>
+  <id>http://chenming142.github.com/</id>
+  <author>
+    <name><![CDATA[Kevin Chen]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Java的类与面向对象特性]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/23/classify/"/>
+    <updated>2013-03-23T11:51:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/23/classify</id>
+    <content type="html"><![CDATA[<blockquote><p>在面向对象的编程语言中,类是编程的核心;对于类,我们可以理解它是定义了一个新的数据类型;一旦定义后,就可以使用这个新类型创建该类型的对象.</p>
+
+<blockquote><p>类是对象的模板,而对象就是类的实例.</p></blockquote></blockquote>
+
+<h3>什么是类?</h3>
+
+<p>类是描述对象的"基本原型",它定义一种对象所能拥有的数据和能完成的操作,在面向对象的程序设计中,类是程序的基本单元,它是由一组结构化的数据和在其上的一组操作构成.</p>
+
+<p>在Java中,存在类的概念,定义类时使用class关键字即可.
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">Clazz</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">Clazz</span><span class="o">(){</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&amp;gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[1]</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="s">&quot;parent constructor clazz!&quot;</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&amp;gt; 父类构造器代码块被执行 &amp;lt;---&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&amp;gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[2]</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">Clazz</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(){</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>                                                            <span class="c1">//[3]</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;parent initialize clazz!&quot;</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Clazzer</span> <span class="kd">extends</span> <span class="n">Clazz</span><span class="o">{</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 静态代码块 - 类变量(静态变量)可以向前引用(即：先引用,再定义)</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">static</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">info</span> <span class="o">=</span> <span class="s">&quot;fancydeepin&quot;</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&amp;gt; 子类静态代码块被执行   &amp;lt;---&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 类变量(静态变量)在类的初始化之前初始化,无论类的实例将被创建多少个</span>
+</span><span class='line'><span class="cm">     *  -都将只在初始化时候在栈内存上分配一次空间</span>
+</span><span class='line'><span class="cm">     *  -凡 static 修饰的,都将按位置被顺序执行,name 的值最终输出 fancy 而不是上面的 fancydeepin</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">info</span> <span class="o">=</span> <span class="s">&quot;fancy&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="c1">//                                                      //[1]</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 实例变量(非静态变量)，定义时指定初始值，会比在构造器赋予值更早执行</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;subclass initialize Clazzer&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">Clazzer</span><span class="o">(){</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&amp;gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[2]</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="s">&quot;subclass constructor Clazzer&quot;</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&amp;gt; 子类构造器代码块被执行 &amp;lt;---&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&amp;gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[3]</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">Clazzer</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span><span class="kd">super</span><span class="o">(</span><span class="n">name</span><span class="o">);}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+</span><span class='line'>        <span class="n">Clazzer</span> <span class="n">c</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Clazzer</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<!-- more -->
+
+
+<h3>有关面向对象的概念</h3>
+
+<ul>
+<li><p>封装 : 封装指的是一个对象的内部状态对外界是透明的，对象与对象之间只关心对方有什么方法，而不关心属性。封装实际上使用“方法”将类的数据隐藏起来，控制用户对类的修改和访问数据的程度。</p>
+
+<pre><code> 在Java中,访问控制是通过访问限定符决定的（从严到宽）   
+ private     : 仅本类成员可见  
+ default     : 本类＋同包类可见（默认）  
+ protected   : 本类＋同包＋不同包的子类  
+ public      : 完全公开  
+</code></pre></li>
+<li><p>继承 : 基于一个已存在的类构造一个新类。继承已存在的类就是复用这些类的方法和属性，在此基础上，还可以在新类中添加一些新的方法和属性。</p>
+
+<pre><code> 在Java中,继承存在如下特点:
+ 父类到子类是从一般到特殊的关系。
+ 继承用关键字extends
+ Java中只允许单继承
+ 父类中的私有属性可以继承但是不能访问
+ 构造方法不能被子类继承
+</code></pre></li>
+<li><p>多态 : 是允许一个接口被多个通用的类动作使用的特性，具体使用那个动作与应用场合有关。即多态使我们可以把一个子类对象看作是一个父类对象类型；多态指的是编译时的类型变化，而运行时类型不变。</p>
+
+<pre><code> Java中很多对象（一般都是具有父子类关系的对象）在运行时都会出现两种类型：编译时类型和运行时类型。     
+</code></pre>
+
+例如Person person = new Student();这行代码将会生成一个person变量，该变量在编译时类型是Person；运行时类型是Student。
+
+<pre><code> Java的引用变量有两个类型：编译时类型和运行时类型。
+ 编译时类型由声明该变量时使用的类型决定，运行时类型由实际赋给该变量的对象决定。
+</code></pre>
+
+如果编译时类型与运行时类型不一致时，会出现所谓的<strong>多态</strong>。因为子类其实是一种特殊的父类，因此Java允许把一个子类对象直接赋值给一个父类引用，无须任何类型转换（或称向上转型），由系统自动完成。
+
+<pre><code> 引用变量在编译阶段只能调用其编译时类型所具有的方法；但在运行时则执行它运行时类型所具有的方法。
+
+ 多态分为两种：编译时多态和运行时多态。
+ 编译时多态即（重载）：
+ 定义即声明时类型（主观概念）把它看作什么；
+ 在同一个类中至少有两个方法用同一个名字，但有不同的参数列表或返回值，在方法重载的情况下，参数类型决定于编译时类型。
+
+ 运行时多态即（覆盖）：
+ 真实（实例化时）类型（客观概念） 实际上他是什么；
+ 在子类中重新定义父类中已有的方法。
+</code></pre></li>
+</ul>
+
+
+<p><strong>与方法不同的是，对象的属性则不具备多态性。通过引用变量来访问其包含的实例属性时，系统总是试图访问它编译时类所定义的属性，而非它运行时所定义的属性。</strong></p>
+
+<h3>Java（继承时）的实例化过程分析</h3>
+
+<ul>
+<li>进入子类构造函数</li>
+<li>为子类的成员变量分配内存</li>
+<li>（隐含）调用父类的构造函数</li>
+<li>为父类的成员变量分配内存</li>
+<li>父类的成员变量默认初始化或赋值初始化</li>
+<li>执行父类构造函数的函数体</li>
+<li>子类的成员变量默认初始化或赋值初始化</li>
+<li>执行父类构造函数的函数体</li>
+</ul>
+
+
+<p>通过上述分析我们可以得出,最开始定义类的那段代码的输出结果是:</p>
+
+<pre><code>---&gt; 子类静态代码块被执行   &lt;---              
+-----&gt;name:parent initialize clazz!               
+---&gt; 父类构造器代码块被执行 &lt;---                 
+-----&gt;name:parent constructor clazz!               
+-----&gt;name:subclass initialize Clazzer                
+---&gt; 子类构造器代码块被执行 &lt;---      
+-----&gt;name:subclass constructor Clazzer     
+</code></pre>
+
+<p>此处如果不理解可参考<a href="/blog/2013/03/08/java-constructor-trap/" title="Java构造时成员初始化的陷阱">Java构造时成员初始化的陷阱</a></p>
+
+<h3>子类与父类存在同名属性问题</h3>
+
+<p>在上述代码中,子类与父类存在同名函数<code>name</code>,而且只有父类存在成员方法<code>getName</code>,那么如果在子类main方法中执行如下语句,结果是什么呢?
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;new Clazzer() ---&gt; c.getName()=&quot;</span><span class="o">+</span><span class="n">c</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+得到的结果是:parent constructor clazz!   <br/>
+通过调试,我们可以看到在c = new Clazzer()对象中存在两个同名属性name,如下图:
+<img src="/images/common/2013-03-23-classify/20130325224638.jpg" title="c = new Clazzer()" alt="c = new Clazzer()" /> <br/>
+通过代码我们可知,虽然实例化的是子类对象,但是调用方法时,取得的却是"父类"的属性。</p>
+
+<pre><code>当子类继承父类的成员变量或方法同名时：   
+同名静态方法被隐藏，同名实例方法被覆盖；   
+可见同名成员变量均被隐藏；   
+同名不可见方法和成员变量不存在覆盖或隐藏问题，因为不可见。   
+</code></pre>
+
+<p><strong>成员隐藏：当子类“覆盖”父类的（可见同名）成员变量时，父类方法使用的是父类的成员变量，子类方法使用的是子类的成员变量。</strong>  <br/>
+根据<strong>多态</strong>特性,我们亦可验证如下代码:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kd">class</span> <span class="nc">Foo</span> <span class="o">{</span>
+</span><span class='line'>     <span class="kd">public</span> <span class="kt">int</span> <span class="n">a</span><span class="o">;</span>
+</span><span class='line'>     <span class="kd">public</span> <span class="nf">Foo</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>           <span class="n">a</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+</span><span class='line'>     <span class="o">}</span>
+</span><span class='line'>     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addFive</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>           <span class="n">a</span> <span class="o">+=</span> <span class="mi">5</span><span class="o">;</span>
+</span><span class='line'>     <span class="o">}</span>
+</span><span class='line'>     <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getA</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>           <span class="k">return</span> <span class="k">this</span><span class="o">.</span> <span class="n">a</span><span class="o">;</span>
+</span><span class='line'>     <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Bar</span> <span class="kd">extends</span> <span class="n">Foo</span><span class="o">{</span>
+</span><span class='line'>     <span class="kd">public</span> <span class="kt">int</span> <span class="n">a</span><span class="o">;</span>
+</span><span class='line'>     <span class="kd">public</span> <span class="nf">Bar</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>           <span class="n">a</span> <span class="o">=</span> <span class="mi">20</span><span class="o">;</span>
+</span><span class='line'>     <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addFive</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>           <span class="n">a</span> <span class="o">+=</span> <span class="mi">5</span><span class="o">;</span>
+</span><span class='line'>     <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getA</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="k">this</span><span class="o">.</span> <span class="n">a</span><span class="o">;}</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="cm">/**</span>
+</span><span class='line'><span class="cm">      * @param args</span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">Foo</span> <span class="n">foo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bar</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">foo</span><span class="o">.</span><span class="na">addFive</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">Bar</span> <span class="n">bar</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bar</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span> <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">&quot;Value: foo.a = &quot;</span> <span class="o">+</span> <span class="n">foo</span><span class="o">.</span><span class="na">a</span> <span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span> <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">&quot;Value: foo.getA() = &quot;</span> <span class="o">+</span> <span class="n">foo</span><span class="o">.</span><span class="na">getA</span><span class="o">());</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span> <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">&quot;Value: bar.a = &quot;</span> <span class="o">+</span> <span class="n">bar</span><span class="o">.</span><span class="na">a</span> <span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span> <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">&quot;Value: bar.getA() = &quot;</span> <span class="o">+</span> <span class="n">bar</span><span class="o">.</span><span class="na">getA</span><span class="o">());</span>
+</span><span class='line'>     <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<pre><code>结果分别是:
+Value: foo.a      = 3
+Value: foo.getA() = 25
+Value: bar.a      = 20
+Value: bar.getA() = 20
+</code></pre>
+
+<p><strong>运行时环境中，通过引用类型变量来访问所引用对象的方法和属性时，Java虚拟机采用以下绑定规则：</strong></p>
+
+<ul>
+<li>实例方法与引用变量实际引用的对象的方法绑定（如果没有则通过继承特性取父类成员方法），属于动态绑定</li>
+<li>静态方法与引用变量所声明的类型的方法绑定，属于静态绑定</li>
+<li>成员变量（包括静态和实例变量）与引用变量所声明的类型的成员变量绑定，属于静态绑定</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
