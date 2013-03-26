@@ -70,6 +70,196 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/03/26/beanutils/">Java中Map与TO自动转换</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-26T11:05:00+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>在JAVA开发过程中需要经常使用到TO，TO能方便的对对象成员变量的存取与持久化；但是业务流程开发过程中，我们通常使用Map来进行参数的获取和临时保存，所以在Map与TO之间进行自动转换是非常必要地。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/23/classify/">Java的类与面向对象特性</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-23T11:51:00+08:00" pubdate data-updated="true">Mar 23<span>rd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>在面向对象的编程语言中,类是编程的核心;对于类,我们可以理解它是定义了一个新的数据类型;一旦定义后,就可以使用这个新类型创建该类型的对象.</p>
+
+<blockquote><p>类是对象的模板,而对象就是类的实例.</p></blockquote></blockquote>
+
+<h3>什么是类?</h3>
+
+<p>类是描述对象的&#8221;基本原型&#8221;,它定义一种对象所能拥有的数据和能完成的操作,在面向对象的程序设计中,类是程序的基本单元,它是由一组结构化的数据和在其上的一组操作构成.</p>
+
+<p>在Java中,存在类的概念,定义类时使用class关键字即可.</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">class</span> <span class="nc">Clazz</span> <span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazz</span><span class="o">(){</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[1]</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="s">&quot;parent constructor clazz!&quot;</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&gt; 父类构造器代码块被执行 &lt;---&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[2]</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazz</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(){</span>
+</span><span class='line'>          <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>                                                              <span class="c1">//[3]</span>
+</span><span class='line'>      <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;parent initialize clazz!&quot;</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Clazzer</span> <span class="kd">extends</span> <span class="n">Clazz</span><span class="o">{</span>
+</span><span class='line'>      <span class="cm">/**</span>
+</span><span class='line'><span class="cm">      * 静态代码块 - 类变量(静态变量)可以向前引用(即：先引用,再定义)</span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>      <span class="kd">static</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">info</span> <span class="o">=</span> <span class="s">&quot;fancydeepin&quot;</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&gt; 子类静态代码块被执行   &lt;---&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="cm">/**</span>
+</span><span class='line'><span class="cm">      * 类变量(静态变量)在类的初始化之前初始化,无论类的实例将被创建多少个</span>
+</span><span class='line'><span class="cm">      *  -都将只在初始化时候在栈内存上分配一次空间</span>
+</span><span class='line'><span class="cm">      *  -凡 static 修饰的,都将按位置被顺序执行,name 的值最终输出 fancy 而不是上面的 fancydeepin</span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">info</span> <span class="o">=</span> <span class="s">&quot;fancy&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="c1">//                                                         //[1]</span>
+</span><span class='line'>      <span class="cm">/**</span>
+</span><span class='line'><span class="cm">      * 实例变量(非静态变量)，定义时指定初始值，会比在构造器赋予值更早执行</span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>      <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;subclass initialize Clazzer&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazzer</span><span class="o">(){</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[2]</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="s">&quot;subclass constructor Clazzer&quot;</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&gt; 子类构造器代码块被执行 &lt;---&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[3]</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazzer</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span><span class="kd">super</span><span class="o">(</span><span class="n">name</span><span class="o">);}</span>
+</span><span class='line'>      
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+</span><span class='line'>          <span class="n">Clazzer</span> <span class="n">c</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Clazzer</span><span class="o">();</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/23/classify/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/03/17/jquery-type/">jQuery 数据类型详解</a></h1>
     
     
@@ -822,6 +1012,14 @@ Vim the Six Billion Dollar editor</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/26/beanutils/">Java中Map与TO自动转换</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/23/classify/">Java的类与面向对象特性</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/03/17/jquery-type/">jQuery 数据类型详解</a>
       </li>
     
@@ -859,7 +1057,7 @@ Vim the Six Billion Dollar editor</p>
   <h1>Categories</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/j2eeying-yong/'>J2EE应用 (1)</a></li>
-<li class='category'><a href='/blog/categories/j2seji-chu/'>J2SE基础 (2)</a></li>
+<li class='category'><a href='/blog/categories/j2seji-chu/'>J2SE基础 (4)</a></li>
 <li class='category'><a href='/blog/categories/umlshe-ji/'>UML设计 (1)</a></li>
 <li class='category'><a href='/blog/categories/yu-javascriptxiang-guan/'>与JavaScript相关 (2)</a></li>
 <li class='category'><a href='/blog/categories/kai-fa-gong-ju-ku/'>开发工具库 (2)</a></li>
@@ -869,17 +1067,18 @@ Vim the Six Billion Dollar editor</p>
 <section>
   <h1>Tags</h1>
   <ul class="tag-cloud">
-    <a style="font-size: 110%" href="/tags/github/"> Github </a>
+    <a style="font-size: 110%" href="/tags/class/"> Class </a>
+<a style="font-size: 110%" href="/tags/github/"> Github </a>
 <a style="font-size: 110%" href="/tags/j2ee/"> J2EE </a>
 <a style="font-size: 180%" href="/tags/j2se/"> J2SE </a>
 <a style="font-size: 110%" href="/tags/junit/"> JUnit </a>
+<a style="font-size: 110%" href="/tags/oo/"> OO </a>
 <a style="font-size: 110%" href="/tags/octopress/"> Octopress </a>
 <a style="font-size: 110%" href="/tags/spring/"> Spring </a>
 <a style="font-size: 110%" href="/tags/uml/"> UML </a>
 <a style="font-size: 110%" href="/tags/vim/"> VIM </a>
-<a style="font-size: 110%" href="/tags/jquery/"> jQuery </a>
-<a style="font-size: 180%" href="/tags/javascript/"> javascript </a>
-<a style="font-size: 110%" href="/tags/jquery/"> jquery </a>
+<a style="font-size: 145%" href="/tags/javascript/"> javascript </a>
+<a style="font-size: 145%" href="/tags/jquery/"> jquery </a>
 
   </ul>
 </section>

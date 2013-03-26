@@ -4,7 +4,7 @@ title: "jQuery 数据类型详解"
 date: 2013-03-17 15:31
 comments: true
 categories: 与JavaScript相关
-tags: javascript jQuery
+tags: javascript jquery
 keywords: 
 description: 
 ---

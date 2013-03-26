@@ -1,0 +1,195 @@
+---
+layout: post
+title: "Java的类与面向对象特性"
+date: 2013-03-23 11:51
+comments: true
+categories: J2SE基础 
+tags: Class OO J2SE
+keywords: 面向对象 类 OO
+description: 
+---
+>在面向对象的编程语言中,类是编程的核心;对于类,我们可以理解它是定义了一个新的数据类型;一旦定义后,就可以使用这个新类型创建该类型的对象.   
+> > 类是对象的模板,而对象就是类的实例.
+
+### 什么是类?
+类是描述对象的"基本原型",它定义一种对象所能拥有的数据和能完成的操作,在面向对象的程序设计中,类是程序的基本单元,它是由一组结构化的数据和在其上的一组操作构成.
+
+在Java中,存在类的概念,定义类时使用class关键字即可.
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
+	package com.oo;
+
+	class Clazz {
+		public Clazz(){
+			System.out.println("----->name:"+name);             //[1]
+			this.name = "parent constructor clazz!";
+			System.out.println("---> 父类构造器代码块被执行 <---");
+			System.out.println("----->name:"+name);             //[2]
+		}
+		public Clazz(String name){
+			this.name = name;
+		}
+		public String getName(){
+			return this.name;
+		}
+																//[3]
+		private String name = "parent initialize clazz!";
+	}
+
+	public class Clazzer extends Clazz{
+		/**
+		 * 静态代码块 - 类变量(静态变量)可以向前引用(即：先引用,再定义)
+		 */
+		static {
+			info = "fancydeepin";
+			System.out.println("---> 子类静态代码块被执行   <---");
+		}
+		/**
+		 * 类变量(静态变量)在类的初始化之前初始化,无论类的实例将被创建多少个
+		 * 	-都将只在初始化时候在栈内存上分配一次空间
+		 * 	-凡 static 修饰的,都将按位置被顺序执行,name 的值最终输出 fancy 而不是上面的 fancydeepin
+		 */
+		public static String info = "fancy";
+		// 														//[1]
+		/**
+		 * 实例变量(非静态变量)，定义时指定初始值，会比在构造器赋予值更早执行
+		 */
+		private String name = "subclass initialize Clazzer";
+		public Clazzer(){
+			System.out.println("----->name:"+name);             //[2]
+			this.name = "subclass constructor Clazzer";
+			System.out.println("---> 子类构造器代码块被执行 <---");
+			System.out.println("----->name:"+name);             //[3]
+		}
+		public Clazzer(String name){super(name);}
+		
+		public static void main(String[] args){
+			Clazzer c = new Clazzer();
+		}
+	}
+{% endcodeblock %}
+<!-- more -->
+
+### 有关面向对象的概念
++  封装 : 封装指的是一个对象的内部状态对外界是透明的，对象与对象之间只关心对方有什么方法，而不关心属性。封装实际上使用“方法”将类的数据隐藏起来，控制用户对类的修改和访问数据的程度。  
+    	在Java中,访问控制是通过访问限定符决定的（从严到宽）   
+		private     : 仅本类成员可见  
+		default     : 本类＋同包类可见（默认）  
+		protected   : 本类＋同包＋不同包的子类  
+		public      : 完全公开  
+
++  继承 : 基于一个已存在的类构造一个新类。继承已存在的类就是复用这些类的方法和属性，在此基础上，还可以在新类中添加一些新的方法和属性。
+		在Java中,继承存在如下特点:
+		父类到子类是从一般到特殊的关系。
+		继承用关键字extends
+		Java中只允许单继承
+		父类中的私有属性可以继承但是不能访问
+		构造方法不能被子类继承
+
++  多态 : 是允许一个接口被多个通用的类动作使用的特性，具体使用那个动作与应用场合有关。即多态使我们可以把一个子类对象看作是一个父类对象类型；多态指的是编译时的类型变化，而运行时类型不变。
+		Java中很多对象（一般都是具有父子类关系的对象）在运行时都会出现两种类型：编译时类型和运行时类型。     
+例如Person person = new Student();这行代码将会生成一个person变量，该变量在编译时类型是Person；运行时类型是Student。
+		Java的引用变量有两个类型：编译时类型和运行时类型。
+		编译时类型由声明该变量时使用的类型决定，运行时类型由实际赋给该变量的对象决定。
+如果编译时类型与运行时类型不一致时，会出现所谓的__多态__。因为子类其实是一种特殊的父类，因此Java允许把一个子类对象直接赋值给一个父类引用，无须任何类型转换（或称向上转型），由系统自动完成。
+		引用变量在编译阶段只能调用其编译时类型所具有的方法；但在运行时则执行它运行时类型所具有的方法。
+
+		多态分为两种：编译时多态和运行时多态。
+		编译时多态即（重载）：
+		定义即声明时类型（主观概念）把它看作什么；
+		在同一个类中至少有两个方法用同一个名字，但有不同的参数列表或返回值，在方法重载的情况下，参数类型决定于编译时类型。
+
+		运行时多态即（覆盖）：
+		真实（实例化时）类型（客观概念） 实际上他是什么；
+		在子类中重新定义父类中已有的方法。
+
+__与方法不同的是，对象的属性则不具备多态性。通过引用变量来访问其包含的实例属性时，系统总是试图访问它编译时类所定义的属性，而非它运行时所定义的属性。__
+
+### Java（继承时）的实例化过程分析
++  进入子类构造函数
++  为子类的成员变量分配内存
++  （隐含）调用父类的构造函数
++  为父类的成员变量分配内存
++  父类的成员变量默认初始化或赋值初始化
++  执行父类构造函数的函数体
++  子类的成员变量默认初始化或赋值初始化   
++  执行父类构造函数的函数体
+
+通过上述分析我们可以得出,最开始定义类的那段代码的输出结果是:   
+	---> 子类静态代码块被执行   <---              
+	----->name:parent initialize clazz!               
+	---> 父类构造器代码块被执行 <---                 
+	----->name:parent constructor clazz!               
+	----->name:subclass initialize Clazzer                
+	---> 子类构造器代码块被执行 <---      
+	----->name:subclass constructor Clazzer     
+此处如果不理解可参考[Java构造时成员初始化的陷阱](/blog/2013/03/08/java-constructor-trap/ 'Java构造时成员初始化的陷阱')
+
+### 子类与父类存在同名属性问题
+在上述代码中,子类与父类存在同名函数`name`,而且只有父类存在成员方法`getName`,那么如果在子类main方法中执行如下语句,结果是什么呢?
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
+System.out.println("new Clazzer() ---> c.getName()="+c.getName());
+{% endcodeblock %}
+得到的结果是:parent constructor clazz!     
+通过调试,我们可以看到在c = new Clazzer()对象中存在两个同名属性name,如下图:
+![c = new Clazzer()](/images/common/2013-03-23-classify/20130325224638.jpg "c = new Clazzer()")   
+通过代码我们可知,虽然实例化的是子类对象,但是调用方法时,取得的却是"父类"的属性。
+	当子类继承父类的成员变量或方法同名时：   
+	同名静态方法被隐藏，同名实例方法被覆盖；   
+	可见同名成员变量均被隐藏；   
+	同名不可见方法和成员变量不存在覆盖或隐藏问题，因为不可见。   
+__成员隐藏：当子类“覆盖”父类的（可见同名）成员变量时，父类方法使用的是父类的成员变量，子类方法使用的是子类的成员变量。__    
+根据__多态__特性,我们亦可验证如下代码:
+{% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
+	class Foo {
+		 public int a;
+		 public Foo() {
+			   a = 3;
+		 }
+		 public void addFive() {
+			   a += 5;
+		 }
+		 public int getA() {
+			   return this. a;
+		 }
+	}
+
+	public class Bar extends Foo{
+		 public int a;
+		 public Bar() {
+			   a = 20;
+		 }
+		 
+		 public void addFive() {
+			   a += 5;
+		 }
+		 
+		 public int getA() { return this. a;}
+
+		 /**
+		  * @param args
+		  */
+		 public static void main(String[] args) {
+			  Foo foo = new Bar();
+			  foo.addFive();
+			  
+			  Bar bar = new Bar();
+			  
+			  System. out.println( "Value: foo.a = " + foo.a );
+			  System. out.println( "Value: foo.getA() = " + foo.getA());
+			  
+			  System. out.println( "Value: bar.a = " + bar.a );
+			  System. out.println( "Value: bar.getA() = " + bar.getA());
+		 }
+	}
+{% endcodeblock %}
+	结果分别是:
+	Value: foo.a      = 3
+	Value: foo.getA() = 25
+	Value: bar.a      = 20
+	Value: bar.getA() = 20
+__运行时环境中，通过引用类型变量来访问所引用对象的方法和属性时，Java虚拟机采用以下绑定规则：__
+
++  实例方法与引用变量实际引用的对象的方法绑定（如果没有则通过继承特性取父类成员方法），属于动态绑定
++  静态方法与引用变量所声明的类型的方法绑定，属于静态绑定
++  成员变量（包括静态和实例变量）与引用变量所声明的类型的成员变量绑定，属于静态绑定
+
