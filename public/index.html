@@ -94,8 +94,37 @@
 
 
   <div class="entry-content"><blockquote><p>在JAVA开发过程中需要经常使用到TO，TO能方便的对对象成员变量的存取与持久化；但是业务流程开发过程中，我们通常使用Map来进行参数的获取和临时保存，所以在Map与TO之间进行自动转换是非常必要地。</p></blockquote>
+
+<ul>
+<li>使用Java反射机制来转换
+在Java运行时环境中，对于任意一个类，根据反射机制都能知道该类包含的属性和方法；对于该类的任意对象都能调用属于它的方法即<strong>能动态获取该类的信息及动态调用对象的方法</strong>。 <br/>
+Java反射机制主要提供以下功能：
+
+<pre><code>  在运行时判断任意一个对象所属的类
+  在运行时构造任意一个类的对象
+  在运行时判断任意一个类所具有的属性和方法
+  在运行时调用任意一个对象的方法
+</code></pre>
+
+在JDK中，主要由以下类来实现Java反射机制，这些类位于java.lang.reflect包中：
+
+<pre><code>  Class类      ：代表一个实体类
+  Field类      ：代表实体类的成员变量即类的属性
+  Method类    ：代表实体类的方法
+  Constructor类：代表实体类的构造方法
+  Array类      ：提供了动态创建数组，以及访问数组的元素的静态方法
+</code></pre>
+
+<p>通过Class类获取成员变量、成员方法、接口、超类和构造方法等</p></li>
+</ul>
+
+
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/26/beanutils/">Read on &rarr;</a>
+    </footer>
   
 
 
