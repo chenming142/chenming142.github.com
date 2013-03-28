@@ -91,6 +91,1323 @@
 
 
 <div class="entry-content"><blockquote><p>在JAVA开发过程中需要经常使用到TO，TO能方便的对对象成员变量的存取与持久化；但是业务流程开发过程中，我们通常使用Map来进行参数的获取和临时保存，所以在Map与TO之间进行自动转换是非常必要地。</p></blockquote>
+
+<ul>
+<li>使用Java反射机制来转换
+在Java运行时环境中，对于任意一个类，根据反射机制都能知道该类包含的属性和方法；对于该类的任意对象都能调用属于它的方法即<strong>能动态获取该类的信息及动态调用对象的方法</strong>。 <br/>
+Java反射机制主要提供以下功能：
+
+<pre><code>  在运行时判断任意一个对象所属的类
+  在运行时构造任意一个类的对象
+  在运行时判断任意一个类所具有的属性和方法
+  在运行时调用任意一个对象的方法
+</code></pre>
+
+在JDK中，主要由以下类来实现Java反射机制，这些类位于java.lang.reflect包中：
+
+<pre><code>  Class类      ：代表一个实体类
+  Field类      ：代表实体类的成员变量即类的属性
+  Method类    ：代表实体类的方法
+  Constructor类：代表实体类的构造方法
+  Array类      ：提供了动态创建数组，以及访问数组的元素的静态方法
+</code></pre>
+
+<p>通过Class类获取成员变量、成员方法、接口、超类和构造方法等</p></li>
+</ul>
+
+
+<!-- more -->
+
+
+<h4>类的类型</h4>
+
+<pre><code>    在java.lang.Object 类中定义了getClass()方法，因此对于任意一个Java对象，都可以通过此方法获得对象的类型。
+</code></pre>
+
+<p>如果没有对象实例的时候，也有两种办法获取类的类型：</p>
+
+<pre><code>    Class clazz = 类.class;
+    Class clazz = Class.forName('包名+类名');
+</code></pre>
+
+<h4>类的成员变量</h4>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="kd">public</span> <span class="n">Field</span> <span class="nf">getDeclaredField</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span>     <span class="c1">//获取任意指定名字的成员</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Field</span><span class="o">[]</span> <span class="nf">getDeclaredFields</span><span class="o">()</span>             <span class="c1">//获取所有的成员变量</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Field</span> <span class="nf">getField</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span>             <span class="c1">//获取任意public成员变量</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Field</span><span class="o">[]</span> <span class="nf">getFields</span><span class="o">()</span>                     <span class="c1">//获取所有的public成员变量</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>类的方法</h4>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="kd">public</span> <span class="n">Method</span><span class="o">[]</span> <span class="nf">getMethods</span><span class="o">()</span>   <span class="c1">// 获取所有的共有方法的集合</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Method</span> <span class="nf">getMethod</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span><span class="n">Class</span><span class="o">&lt;?&gt;...</span> <span class="n">parameterTypes</span><span class="o">)</span> <span class="c1">//获取指定公有方法 参数1：方法名 参数2：参数类型集合  </span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Method</span><span class="o">[]</span> <span class="nf">getDeclaredMethods</span><span class="o">()</span>  <span class="c1">//获取所有的方法</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Method</span> <span class="nf">getDeclaredMethod</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span><span class="n">Class</span><span class="o">&lt;?&gt;...</span> <span class="n">parameterTypes</span><span class="o">)</span> <span class="c1">//获取任意指定方法</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>类的构造器</h4>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="kd">public</span> <span class="n">Constructor</span><span class="o">&lt;?&gt;[]</span> <span class="n">getConstructors</span><span class="o">()</span>     <span class="c1">// 返回类中所有的public构造器集合，默认构造器的下标为0</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Constructor</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">getConstructor</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?&gt;...</span> <span class="n">parameterTypes</span><span class="o">)</span>  <span class="c1">// 返回指定public构造器，参数为构造器参数类型集合</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Constructor</span><span class="o">&lt;?&gt;[]</span> <span class="n">getDeclaredConstructors</span><span class="o">()</span> <span class="c1">// 返回类中所有的构造器，包括私有</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Constructor</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">getDeclaredConstructor</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?&gt;...</span> <span class="n">parameterTypes</span><span class="o">)</span> <span class="c1">//返回任意指定的构造器</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">.</span><span class="na">repos</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.Constructor</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.Field</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.Method</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.Type</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RefConstructor</span> <span class="o">{</span>
+</span><span class='line'>      
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="n">args</span><span class="o">[])</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">RefConstructor</span> <span class="n">ref</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RefConstructor</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">ref</span><span class="o">.</span><span class="na">getConstructor</span><span class="o">();</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">getConstructor</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">Class</span> <span class="n">c</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">c</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&quot;java.lang.Long&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">Class</span> <span class="n">cs</span><span class="o">[]</span> <span class="o">=</span> <span class="o">{</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">.</span><span class="na">class</span><span class="o">};</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;\n-------------------------------\n&quot;</span><span class="o">);</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Constructor</span> <span class="n">cst1</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getConstructor</span><span class="o">(</span><span class="n">cs</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;1、通过参数获取指定Class对象的构造方法：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cst1</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Constructor</span> <span class="n">cst2</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getDeclaredConstructor</span><span class="o">(</span><span class="n">cs</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;2、通过参数获取指定Class对象所表示的类或接口的构造方法：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cst2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Constructor</span> <span class="n">cst3</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getEnclosingConstructor</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;3、获取本地或匿名类Constructor 对象，它表示基础类的立即封闭构造方法。&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="k">if</span> <span class="o">(</span><span class="n">cst3</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cst3</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>          <span class="k">else</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-- 没有获取到任何构造方法！&quot;</span><span class="o">);</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Constructor</span><span class="o">[]</span> <span class="n">csts</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getConstructors</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;4、获取指定Class对象的所有构造方法：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">csts</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">csts</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;\n-------------------------------\n&quot;</span><span class="o">);</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Type</span> <span class="n">types1</span><span class="o">[]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getGenericInterfaces</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;1、返回直接实现的接口：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">types1</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">types1</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Type</span> <span class="n">type1</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getGenericSuperclass</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;2、返回直接超类：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">type1</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Class</span><span class="o">[]</span> <span class="n">cis</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getClasses</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;3、返回超类和所有实现的接口：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">cis</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cis</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Class</span> <span class="n">cs1</span><span class="o">[]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getInterfaces</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;4、实现的接口&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">cs1</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cs1</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;\n-------------------------------\n&quot;</span><span class="o">);</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Field</span> <span class="n">fs1</span><span class="o">[]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getFields</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;1、类或接口的所有可访问公共字段：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fs1</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">fs1</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Field</span> <span class="n">f1</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getField</span><span class="o">(</span><span class="s">&quot;MIN_VALUE&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;2、类或接口的指定已声明指定公共成员字段：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">f1</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Field</span> <span class="n">fs2</span><span class="o">[]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getDeclaredFields</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;3、类或接口所声明的所有字段：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fs2</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">fs2</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Field</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getDeclaredField</span><span class="o">(</span><span class="s">&quot;serialVersionUID&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;4、类或接口的指定已声明指定字段：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">f2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;\n-------------------------------\n&quot;</span><span class="o">);</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Method</span> <span class="n">m1</span><span class="o">[]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getMethods</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;1、返回类所有的公共成员方法：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m1</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">m1</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Method</span> <span class="n">m2</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="s">&quot;longValue&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]{});</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;2、返回指定公共成员方法：&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">m2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>运行时复制对象</h5>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">.</span><span class="na">repos</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.Field</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.Method</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">class</span> <span class="nc">Customer</span> <span class="o">{</span>
+</span><span class='line'>      <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="nf">Customer</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="nf">Customer</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Long</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setId</span><span class="o">(</span><span class="n">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getAge</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">age</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAge</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ReflectTester</span> <span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Object</span> <span class="nf">copy</span><span class="o">(</span><span class="n">Object</span> <span class="n">object</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>          <span class="c1">// 获得对象的类型</span>
+</span><span class='line'>          <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">classType</span> <span class="o">=</span> <span class="n">object</span><span class="o">.</span><span class="na">getClass</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Class:&quot;</span> <span class="o">+</span> <span class="n">classType</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="c1">// 通过默认构造方法创建一个新的对象</span>
+</span><span class='line'>          <span class="n">Object</span> <span class="n">objectCopy</span> <span class="o">=</span> <span class="n">classType</span><span class="o">.</span><span class="na">getConstructor</span><span class="o">(</span><span class="k">new</span> <span class="n">Class</span><span class="o">[]{}).</span><span class="na">newInstance</span><span class="o">(</span><span class="k">new</span> <span class="n">Object</span><span class="o">[]{});</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="c1">// 获得对象的所有属性</span>
+</span><span class='line'>          <span class="n">Field</span> <span class="n">fields</span><span class="o">[]</span> <span class="o">=</span> <span class="n">classType</span><span class="o">.</span><span class="na">getDeclaredFields</span><span class="o">();</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fields</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">Field</span> <span class="n">field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+</span><span class='line'>  
+</span><span class='line'>              <span class="n">String</span> <span class="n">fieldName</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+</span><span class='line'>              <span class="n">String</span> <span class="n">firstLetter</span> <span class="o">=</span> <span class="n">fieldName</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">).</span><span class="na">toUpperCase</span><span class="o">();</span>
+</span><span class='line'>              <span class="c1">// 获得和属性对应的getXXX()方法的名字</span>
+</span><span class='line'>              <span class="n">String</span> <span class="n">getMethodName</span> <span class="o">=</span> <span class="s">&quot;get&quot;</span> <span class="o">+</span> <span class="n">firstLetter</span> <span class="o">+</span> <span class="n">fieldName</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>              <span class="c1">// 获得和属性对应的setXXX()方法的名字</span>
+</span><span class='line'>              <span class="n">String</span> <span class="n">setMethodName</span> <span class="o">=</span> <span class="s">&quot;set&quot;</span> <span class="o">+</span> <span class="n">firstLetter</span> <span class="o">+</span> <span class="n">fieldName</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>  
+</span><span class='line'>              <span class="c1">// 获得和属性对应的getXXX()方法</span>
+</span><span class='line'>              <span class="n">Method</span> <span class="n">getMethod</span> <span class="o">=</span> <span class="n">classType</span><span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="n">getMethodName</span><span class="o">,</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]{});</span>
+</span><span class='line'>              <span class="c1">// 获得和属性对应的setXXX()方法</span>
+</span><span class='line'>              <span class="n">Method</span> <span class="n">setMethod</span> <span class="o">=</span> <span class="n">classType</span><span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="n">setMethodName</span><span class="o">,</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]{</span><span class="n">field</span><span class="o">.</span><span class="na">getType</span><span class="o">()});</span>
+</span><span class='line'>  
+</span><span class='line'>              <span class="c1">// 调用原对象的getXXX()方法</span>
+</span><span class='line'>              <span class="n">Object</span> <span class="n">value</span> <span class="o">=</span> <span class="n">getMethod</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">object</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{});</span>
+</span><span class='line'>              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">fieldName</span> <span class="o">+</span> <span class="s">&quot;:&quot;</span> <span class="o">+</span> <span class="n">value</span><span class="o">);</span>
+</span><span class='line'>              <span class="c1">// 调用拷贝对象的setXXX()方法</span>
+</span><span class='line'>              <span class="n">setMethod</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">objectCopy</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="n">value</span><span class="o">});</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">objectCopy</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">Customer</span> <span class="n">customer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Customer</span><span class="o">(</span><span class="s">&quot;Tom&quot;</span><span class="o">,</span> <span class="mi">21</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">customer</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="k">new</span> <span class="n">Long</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">Customer</span> <span class="n">customerCopy</span> <span class="o">=</span> <span class="o">(</span><span class="n">Customer</span><span class="o">)</span> <span class="k">new</span> <span class="n">ReflectTester</span><span class="o">().</span><span class="na">copy</span><span class="o">(</span><span class="n">customer</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Copy information:&quot;</span> <span class="o">+</span> <span class="n">customerCopy</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">customerCopy</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; &quot;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="n">customerCopy</span><span class="o">.</span><span class="na">getAge</span><span class="o">());</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>用反射机制调用对象的方法</h5>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">.</span><span class="na">repos</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.Method</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">InvokeTester</span> <span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kt">int</span> <span class="nf">add</span><span class="o">(</span><span class="kt">int</span> <span class="n">param1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">param2</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">param1</span> <span class="o">+</span> <span class="n">param2</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="nf">echo</span><span class="o">(</span><span class="n">String</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="s">&quot;echo: &quot;</span> <span class="o">+</span> <span class="n">msg</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">classType</span> <span class="o">=</span> <span class="n">InvokeTester</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">Object</span> <span class="n">invokeTester</span> <span class="o">=</span> <span class="n">classType</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="c1">//获取InvokeTester类的add()方法</span>
+</span><span class='line'>          <span class="n">Method</span> <span class="n">addMethod</span> <span class="o">=</span> <span class="n">classType</span><span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="s">&quot;add&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]{</span><span class="kt">int</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="kt">int</span><span class="o">.</span><span class="na">class</span><span class="o">});</span>
+</span><span class='line'>          <span class="c1">//调用invokeTester对象上的add()方法</span>
+</span><span class='line'>          <span class="n">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="n">addMethod</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">invokeTester</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="mi">100</span><span class="o">),</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="mi">200</span><span class="o">)});</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">((</span><span class="n">Integer</span><span class="o">)</span> <span class="n">result</span><span class="o">);</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="c1">//获取InvokeTester类的echo()方法</span>
+</span><span class='line'>          <span class="n">Method</span> <span class="n">echoMethod</span> <span class="o">=</span> <span class="n">classType</span><span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="s">&quot;echo&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]{</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">});</span>
+</span><span class='line'>          <span class="c1">//调用invokeTester对象的echo()方法</span>
+</span><span class='line'>          <span class="n">result</span> <span class="o">=</span> <span class="n">echoMethod</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">invokeTester</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]{</span><span class="s">&quot;Hello&quot;</span><span class="o">});</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">((</span><span class="n">String</span><span class="o">)</span> <span class="n">result</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>动态创建和访问数组</h5>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">.</span><span class="na">repos</span><span class="o">.</span><span class="na">ref</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.Array</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ArrayTester</span> <span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="n">args</span><span class="o">[])</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">classType</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&quot;java.lang.String&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="c1">// 创建一个长度为10的字符串数组</span>
+</span><span class='line'>          <span class="n">Object</span> <span class="n">array</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="na">newInstance</span><span class="o">(</span><span class="n">classType</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
+</span><span class='line'>          <span class="c1">// 把索引位置为5的元素设为&quot;hello&quot;</span>
+</span><span class='line'>          <span class="n">Array</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="s">&quot;hello&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="c1">// 获得索引位置为5的元素的值</span>
+</span><span class='line'>          <span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">Array</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>运行时变更field内容</h5>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">.</span><span class="na">repos</span><span class="o">.</span><span class="na">ref</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.Field</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RefFiled</span> <span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kt">double</span> <span class="n">x</span><span class="o">;</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">Double</span> <span class="n">y</span><span class="o">;</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="n">args</span><span class="o">[])</span> <span class="kd">throws</span> <span class="n">NoSuchFieldException</span><span class="o">,</span> <span class="n">IllegalAccessException</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">Class</span> <span class="n">c</span> <span class="o">=</span> <span class="n">RefFiled</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">Field</span> <span class="n">xf</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getField</span><span class="o">(</span><span class="s">&quot;x&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">Field</span> <span class="n">yf</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">getField</span><span class="o">(</span><span class="s">&quot;y&quot;</span><span class="o">);</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">RefFiled</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RefFiled</span><span class="o">();</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;变更前x=&quot;</span> <span class="o">+</span> <span class="n">xf</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">obj</span><span class="o">));</span>
+</span><span class='line'>          <span class="c1">//变更成员x值</span>
+</span><span class='line'>          <span class="n">xf</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">obj</span><span class="o">,</span> <span class="mf">1.1</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;变更后x=&quot;</span> <span class="o">+</span> <span class="n">xf</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">obj</span><span class="o">));</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;变更前y=&quot;</span> <span class="o">+</span> <span class="n">yf</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">obj</span><span class="o">));</span>
+</span><span class='line'>          <span class="c1">//变更成员y值</span>
+</span><span class='line'>          <span class="n">yf</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">obj</span><span class="o">,</span> <span class="mf">2.1</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;变更后y=&quot;</span> <span class="o">+</span> <span class="n">yf</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">obj</span><span class="o">));</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>JAVA反射机制Map与TO的转换</h4>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">test</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.lang.reflect.Field</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.lang.reflect.Method</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.text.SimpleDateFormat</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Locale</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * java bean 反射的方法</span>
+</span><span class='line'><span class="cm"> * @author Michael</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BeanRefUtil</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 取Bean的属性和值对应关系的MAP</span>
+</span><span class='line'><span class="cm">     * @param bean</span>
+</span><span class='line'><span class="cm">     * @return Map</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">getFieldValueMap</span><span class="o">(</span><span class="n">Object</span> <span class="n">bean</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">cls</span> <span class="o">=</span> <span class="n">bean</span><span class="o">.</span><span class="na">getClass</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">valueMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;();</span>
+</span><span class='line'>        <span class="c1">// 取出bean里的所有方法</span>
+</span><span class='line'>        <span class="n">Method</span><span class="o">[]</span> <span class="n">methods</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="na">getDeclaredMethods</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Field</span><span class="o">[]</span> <span class="n">fields</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="na">getDeclaredFields</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">Field</span> <span class="n">field</span> <span class="o">:</span> <span class="n">fields</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">String</span> <span class="n">fieldType</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="na">getType</span><span class="o">().</span><span class="na">getSimpleName</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">String</span> <span class="n">fieldGetName</span> <span class="o">=</span> <span class="n">parGetName</span><span class="o">(</span><span class="n">field</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span><span class='line'>                <span class="k">if</span> <span class="o">(!</span><span class="n">checkGetMet</span><span class="o">(</span><span class="n">methods</span><span class="o">,</span> <span class="n">fieldGetName</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="n">Method</span> <span class="n">fieldGetMet</span> <span class="o">=</span> <span class="n">cls</span>
+</span><span class='line'>                        <span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="n">fieldGetName</span><span class="o">,</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]</span> <span class="o">{});</span>
+</span><span class='line'>                <span class="n">Object</span> <span class="n">fieldVal</span> <span class="o">=</span> <span class="n">fieldGetMet</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">bean</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[]</span> <span class="o">{});</span>
+</span><span class='line'>                <span class="n">String</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                <span class="k">if</span> <span class="o">(</span><span class="s">&quot;Date&quot;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">fieldType</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="n">result</span> <span class="o">=</span> <span class="n">fmtDate</span><span class="o">((</span><span class="n">Date</span><span class="o">)</span> <span class="n">fieldVal</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">fieldVal</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">result</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">fieldVal</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="n">valueMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">field</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">result</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">valueMap</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * set属性的值到Bean</span>
+</span><span class='line'><span class="cm">     * @param bean</span>
+</span><span class='line'><span class="cm">     * @param valMap</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">setFieldValue</span><span class="o">(</span><span class="n">Object</span> <span class="n">bean</span><span class="o">,</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">valMap</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">cls</span> <span class="o">=</span> <span class="n">bean</span><span class="o">.</span><span class="na">getClass</span><span class="o">();</span>
+</span><span class='line'>        <span class="c1">// 取出bean里的所有方法</span>
+</span><span class='line'>        <span class="n">Method</span><span class="o">[]</span> <span class="n">methods</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="na">getDeclaredMethods</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Field</span><span class="o">[]</span> <span class="n">fields</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="na">getDeclaredFields</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">Field</span> <span class="n">field</span> <span class="o">:</span> <span class="n">fields</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">String</span> <span class="n">fieldSetName</span> <span class="o">=</span> <span class="n">parSetName</span><span class="o">(</span><span class="n">field</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span><span class='line'>                <span class="k">if</span> <span class="o">(!</span><span class="n">checkSetMet</span><span class="o">(</span><span class="n">methods</span><span class="o">,</span> <span class="n">fieldSetName</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="n">Method</span> <span class="n">fieldSetMet</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="n">fieldSetName</span><span class="o">,</span> <span class="n">field</span>
+</span><span class='line'>                        <span class="o">.</span><span class="na">getType</span><span class="o">());</span>
+</span><span class='line'>                <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">valMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">field</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span><span class='line'>                <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">value</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="s">&quot;&quot;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">value</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="n">String</span> <span class="n">fieldType</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="na">getType</span><span class="o">().</span><span class="na">getSimpleName</span><span class="o">();</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="o">(</span><span class="s">&quot;String&quot;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">fieldType</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">fieldSetMet</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">bean</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">&quot;Date&quot;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">fieldType</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">Date</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">parseDate</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">fieldSetMet</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">bean</span><span class="o">,</span> <span class="n">temp</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">&quot;Integer&quot;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">fieldType</span><span class="o">)</span>
+</span><span class='line'>                            <span class="o">||</span> <span class="s">&quot;int&quot;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">fieldType</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">Integer</span> <span class="n">intval</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">fieldSetMet</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">bean</span><span class="o">,</span> <span class="n">intval</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">&quot;Long&quot;</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">fieldType</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">Long</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">fieldSetMet</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">bean</span><span class="o">,</span> <span class="n">temp</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">&quot;Double&quot;</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">fieldType</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">Double</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">Double</span><span class="o">.</span><span class="na">parseDouble</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">fieldSetMet</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">bean</span><span class="o">,</span> <span class="n">temp</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">&quot;Boolean&quot;</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">fieldType</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">Boolean</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">parseBoolean</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span><span class='line'>                        <span class="n">fieldSetMet</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">bean</span><span class="o">,</span> <span class="n">temp</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;not supper type&quot;</span> <span class="o">+</span> <span class="n">fieldType</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 格式化string为Date</span>
+</span><span class='line'><span class="cm">     * @param datestr</span>
+</span><span class='line'><span class="cm">     * @return date</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Date</span> <span class="nf">parseDate</span><span class="o">(</span><span class="n">String</span> <span class="n">datestr</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">==</span> <span class="n">datestr</span> <span class="o">||</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">datestr</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">String</span> <span class="n">fmtstr</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">datestr</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="sc">&#39;:&#39;</span><span class="o">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">fmtstr</span> <span class="o">=</span> <span class="s">&quot;yyyy-MM-dd HH:mm:ss&quot;</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="n">fmtstr</span> <span class="o">=</span> <span class="s">&quot;yyyy-MM-dd&quot;</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="n">SimpleDateFormat</span> <span class="n">sdf</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleDateFormat</span><span class="o">(</span><span class="n">fmtstr</span><span class="o">,</span> <span class="n">Locale</span><span class="o">.</span><span class="na">UK</span><span class="o">);</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">sdf</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">datestr</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 日期转化为String</span>
+</span><span class='line'><span class="cm">     * @param date</span>
+</span><span class='line'><span class="cm">     * @return date string</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">fmtDate</span><span class="o">(</span><span class="n">Date</span> <span class="n">date</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">==</span> <span class="n">date</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">SimpleDateFormat</span> <span class="n">sdf</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleDateFormat</span><span class="o">(</span><span class="s">&quot;yyyy-MM-dd HH:mm:ss&quot;</span><span class="o">,</span>
+</span><span class='line'>                    <span class="n">Locale</span><span class="o">.</span><span class="na">US</span><span class="o">);</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">sdf</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">date</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 判断是否存在某属性的 set方法</span>
+</span><span class='line'><span class="cm">     * @param methods</span>
+</span><span class='line'><span class="cm">     * @param fieldSetMet</span>
+</span><span class='line'><span class="cm">     * @return boolean</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">checkSetMet</span><span class="o">(</span><span class="n">Method</span><span class="o">[]</span> <span class="n">methods</span><span class="o">,</span> <span class="n">String</span> <span class="n">fieldSetMet</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">Method</span> <span class="n">met</span> <span class="o">:</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">fieldSetMet</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">met</span><span class="o">.</span><span class="na">getName</span><span class="o">()))</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 判断是否存在某属性的 get方法</span>
+</span><span class='line'><span class="cm">     * @param methods</span>
+</span><span class='line'><span class="cm">     * @param fieldGetMet</span>
+</span><span class='line'><span class="cm">     * @return boolean</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">checkGetMet</span><span class="o">(</span><span class="n">Method</span><span class="o">[]</span> <span class="n">methods</span><span class="o">,</span> <span class="n">String</span> <span class="n">fieldGetMet</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">Method</span> <span class="n">met</span> <span class="o">:</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">fieldGetMet</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">met</span><span class="o">.</span><span class="na">getName</span><span class="o">()))</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 拼接某属性的 get方法</span>
+</span><span class='line'><span class="cm">     * @param fieldName</span>
+</span><span class='line'><span class="cm">     * @return String</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">parGetName</span><span class="o">(</span><span class="n">String</span> <span class="n">fieldName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">==</span> <span class="n">fieldName</span> <span class="o">||</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">fieldName</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;get&quot;</span> <span class="o">+</span> <span class="n">fieldName</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">).</span><span class="na">toUpperCase</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">+</span> <span class="n">fieldName</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 拼接在某属性的 set方法</span>
+</span><span class='line'><span class="cm">     * @param fieldName</span>
+</span><span class='line'><span class="cm">     * @return String</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">parSetName</span><span class="o">(</span><span class="n">String</span> <span class="n">fieldName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">==</span> <span class="n">fieldName</span> <span class="o">||</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">fieldName</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;set&quot;</span> <span class="o">+</span> <span class="n">fieldName</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">).</span><span class="na">toUpperCase</span><span class="o">()</span>
+</span><span class='line'>                <span class="o">+</span> <span class="n">fieldName</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>使用内省Introspector类|PropertyDescriptor类|BeanUtils工具包
+
+<h3>Introspector类</h3>
+
+<p>将JavaBean中的属性封装起来进行操作
+  在程序把一个类当做JavaBean来看，就是调用Introspector.getBeanInfo()方法，得到的BeanInfo对象封装了把这个类当做JavaBean看的结果信息，即属性的信息。需要导包java.beans.*
+  getPropertyDescriptors()，获得属性的描述，可以采用遍历BeanInfo的方法，来查找、设置类的属性</p></li>
+</ul>
+
+
+<h3>PropertyDescriptor类</h3>
+
+<p>表示JavaBean类通过存储器导出一个属性。主要方法：</p>
+
+<pre><code>getPropertyType()                 获得属性的Class对象。
+getReadMethod()                   获得用于读取属性值的方法；
+getWriteMethod()                  获得用于写入属性值的方法。
+hashCode()                        获取对象的哈希值。
+setReadMethod(Method readMethod)  设置用于读取属性值的方法；
+setWriteMethod(MethodwriteMethod) 设置用于写入属性值的方法；
+</code></pre>
+
+<p>附：导包java.bean.*;</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">.</span><span class="na">gzdec</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.beans.BeanInfo</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.beans.IntrospectionException</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.beans.Introspector</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.beans.PropertyDescriptor</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.Field</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.InvocationTargetException</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.lang.reflect.Method</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.sql.Blob</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.sql.Clob</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.text.ParseException</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">org.apache.commons.beanutils.ConvertUtils</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">BeanUtils</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="cm">/**</span>
+</span><span class='line'><span class="cm">      * 将一个 TO对象 转化为一个Map</span>
+</span><span class='line'><span class="cm">      * </span>
+</span><span class='line'><span class="cm">      * @param &lt;T&gt;</span>
+</span><span class='line'><span class="cm">      * @param TO</span>
+</span><span class='line'><span class="cm">      * @return</span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">setTo2Map</span><span class="o">(</span><span class="n">T</span> <span class="n">TO</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">toType</span> <span class="o">=</span> <span class="n">TO</span><span class="o">.</span><span class="na">getClass</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">returnMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+</span><span class='line'>          <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">BeanInfo</span> <span class="n">beanInfo</span> <span class="o">=</span> <span class="n">Introspector</span><span class="o">.</span><span class="na">getBeanInfo</span><span class="o">(</span><span class="n">toType</span><span class="o">);</span>
+</span><span class='line'>              <span class="n">PropertyDescriptor</span><span class="o">[]</span> <span class="n">propertyDescriptors</span> <span class="o">=</span> <span class="n">beanInfo</span><span class="o">.</span><span class="na">getPropertyDescriptors</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="k">for</span> <span class="o">(</span><span class="n">PropertyDescriptor</span> <span class="n">descriptor</span> <span class="o">:</span> <span class="n">propertyDescriptors</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                  <span class="n">String</span> <span class="n">propName</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+</span><span class='line'>                  <span class="k">if</span> <span class="o">(!</span><span class="n">propName</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;class&quot;</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                      <span class="n">Method</span> <span class="n">readMethod</span> <span class="o">=</span> <span class="n">descriptor</span><span class="o">.</span><span class="na">getReadMethod</span><span class="o">();</span>
+</span><span class='line'>                      <span class="n">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="n">readMethod</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">TO</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+</span><span class='line'>                      <span class="n">returnMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">propName</span><span class="o">,</span> <span class="n">result</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">?</span> <span class="n">result</span> <span class="o">:</span> <span class="s">&quot;&quot;</span><span class="o">);</span>
+</span><span class='line'>                  <span class="o">}</span>
+</span><span class='line'>              <span class="o">}</span>
+</span><span class='line'>          <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IllegalArgumentException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;不合法或不正确的参数&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>          <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IntrospectionException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;分析类属性失败&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>          <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IllegalAccessException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;实例化JavaBean失败&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>          <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InvocationTargetException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;调用目标失败&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">returnMap</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="cm">/**</span>
+</span><span class='line'><span class="cm">      * 将一个 Map对象 转换为对应的 TO</span>
+</span><span class='line'><span class="cm">      * </span>
+</span><span class='line'><span class="cm">      * @param &lt;T&gt;</span>
+</span><span class='line'><span class="cm">      * @param valueMap -</span>
+</span><span class='line'><span class="cm">      *            包含属性值的map</span>
+</span><span class='line'><span class="cm">      * @param clazz -</span>
+</span><span class='line'><span class="cm">      *            要转化的类型</span>
+</span><span class='line'><span class="cm">      * @return 转化出来的结果TO</span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span> <span class="n">setMap2To</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">paraMap</span><span class="o">,</span> <span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">clazz</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">T</span> <span class="n">TO</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>          <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">TO</span> <span class="o">=</span> <span class="n">clazz</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+</span><span class='line'>              <span class="n">String</span> <span class="n">propName</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>              <span class="n">Object</span> <span class="n">propValue</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>              <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">entity</span> <span class="o">:</span> <span class="n">paraMap</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>                  <span class="n">propName</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="na">getKey</span><span class="o">();</span>
+</span><span class='line'>                  <span class="n">propValue</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+</span><span class='line'>                  <span class="n">setProperties</span><span class="o">(</span><span class="n">TO</span><span class="o">,</span> <span class="n">propName</span><span class="o">,</span> <span class="n">propValue</span><span class="o">);</span>
+</span><span class='line'>              <span class="o">}</span>
+</span><span class='line'>          <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IllegalArgumentException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;不合法或不正确的参数&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>          <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IllegalAccessException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;实例化JavaBean失败&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>          <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">&quot;Map转换为Java Bean对象失败&quot;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">TO</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="cm">/**</span>
+</span><span class='line'><span class="cm">      * 根据 TO 和 属性名/值对,设置TO值</span>
+</span><span class='line'><span class="cm">      * </span>
+</span><span class='line'><span class="cm">      * @param &lt;T&gt;</span>
+</span><span class='line'><span class="cm">      * @param entity</span>
+</span><span class='line'><span class="cm">      * @param propName</span>
+</span><span class='line'><span class="cm">      * @param propValue</span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="n">setProperties</span><span class="o">(</span><span class="n">T</span> <span class="n">entity</span><span class="o">,</span> <span class="n">String</span> <span class="n">propName</span><span class="o">,</span><span class="n">Object</span> <span class="n">propValue</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IntrospectionException</span><span class="o">,</span>
+</span><span class='line'>              <span class="n">IllegalArgumentException</span><span class="o">,</span> <span class="n">IllegalAccessException</span><span class="o">,</span><span class="n">InvocationTargetException</span><span class="o">,</span> <span class="n">ParseException</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">BeanInfo</span> <span class="n">beanInfo</span> <span class="o">=</span> <span class="n">Introspector</span><span class="o">.</span><span class="na">getBeanInfo</span><span class="o">(</span><span class="n">entity</span><span class="o">.</span><span class="na">getClass</span><span class="o">());</span>
+</span><span class='line'>          <span class="n">PropertyDescriptor</span><span class="o">[]</span> <span class="n">propertyDescriptors</span> <span class="o">=</span> <span class="n">beanInfo</span><span class="o">.</span><span class="na">getPropertyDescriptors</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">Object</span><span class="o">[]</span> <span class="n">args</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">propertyDescriptors</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">PropertyDescriptor</span> <span class="n">propertyDescriptor</span> <span class="o">=</span> <span class="n">propertyDescriptors</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+</span><span class='line'>              <span class="n">String</span> <span class="n">properyName</span> <span class="o">=</span> <span class="n">propertyDescriptor</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+</span><span class='line'>              <span class="n">Class</span> <span class="n">propertyTypeClass</span> <span class="o">=</span> <span class="n">propertyDescriptor</span><span class="o">.</span><span class="na">getPropertyType</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="k">if</span> <span class="o">(</span><span class="n">propName</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">properyName</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                  <span class="c1">// TODO : 因为 java.sql.Date与java.sql.Timestamp 是 java.util.Date 的子类，所以先判断是否是这两种类型</span>
+</span><span class='line'>                  <span class="k">if</span> <span class="o">(!</span><span class="n">propValue</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">propertyTypeClass</span><span class="o">.</span><span class="na">getName</span><span class="o">()))</span> <span class="o">{</span>
+</span><span class='line'>                      <span class="k">if</span> <span class="o">(</span><span class="n">propValue</span> <span class="k">instanceof</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                          <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">SimpleDateConverter</span><span class="o">.</span><span class="na">convert2UtilDate</span><span class="o">(</span><span class="n">propValue</span><span class="o">);</span>
+</span><span class='line'>                      <span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">propValue</span> <span class="k">instanceof</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span><span class="o">){</span>
+</span><span class='line'>                          <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">SimpleDateConverter</span><span class="o">.</span><span class="na">convert2Timestamp</span><span class="o">(</span><span class="n">propValue</span><span class="o">);</span>
+</span><span class='line'>                      <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">propValue</span> <span class="k">instanceof</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                          <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">SimpleDateConverter</span><span class="o">.</span><span class="na">convert2SqlDate</span><span class="o">(</span><span class="n">propValue</span><span class="o">);</span>
+</span><span class='line'>                      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>                          <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">ConvertUtils</span><span class="o">.</span><span class="na">convert</span><span class="o">(</span><span class="n">propValue</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span><span class="n">propertyTypeClass</span><span class="o">);</span>
+</span><span class='line'>                      <span class="o">}</span>
+</span><span class='line'>                  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>                      <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">propValue</span><span class="o">;</span>
+</span><span class='line'>                  <span class="o">}</span>
+</span><span class='line'>                  <span class="n">propertyDescriptor</span><span class="o">.</span><span class="na">getWriteMethod</span><span class="o">().</span><span class="na">invoke</span><span class="o">(</span><span class="n">entity</span><span class="o">,</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+</span><span class='line'>                  <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>              <span class="o">}</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>最后的最后</h4>
+
+<p>最后的数据转换调用的是java.beanutil包的ConvertUtils类，能进行一些基本字段的转换；日期型转换可以说是该功能的难点，这个以后说。</p>
 </div>
 
 
