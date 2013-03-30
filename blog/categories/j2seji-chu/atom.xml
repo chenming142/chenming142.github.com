@@ -4,7 +4,7 @@
   <title><![CDATA[Category: J2SE基础 | chenming142's Blog for github]]></title>
   <link href="http://chenming142.github.com/blog/categories/j2seji-chu/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-31T03:18:00+08:00</updated>
+  <updated>2013-03-31T03:26:47+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -226,10 +226,18 @@ java.sql.Timestamp
 <span class='line-number'>107</span>
 <span class='line-number'>108</span>
 <span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
 </pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">.</span><span class="na">repos</span><span class="o">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">.</span><span class="na">gzdec</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
 </span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.sql.Timestamp</span><span class="o">;</span>
 </span><span class='line'><span class="kn">import</span> <span class="nn">java.text.ParseException</span><span class="o">;</span>
 </span><span class='line'><span class="kn">import</span> <span class="nn">java.text.SimpleDateFormat</span><span class="o">;</span>
 </span><span class='line'>
@@ -237,99 +245,105 @@ java.sql.Timestamp
 </span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.logging.Log</span><span class="o">;</span>
 </span><span class='line'><span class="kn">import</span> <span class="nn">org.apache.commons.logging.LogFactory</span><span class="o">;</span>
 </span><span class='line'>
-</span><span class='line'><span class="kn">import</span> <span class="nn">com.oo.gzdec.config.SimpleDateConverter</span><span class="o">;</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleDateConverter</span> <span class="o">{</span>
 </span><span class='line'>
-</span><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> * 类 Date 表示特定的瞬间，精确到毫秒。 java.util 类 Date</span>
-</span><span class='line'><span class="cm"> * </span>
-</span><span class='line'><span class="cm"> * java.lang.Object java.util.Date</span>
-</span><span class='line'><span class="cm"> * </span>
-</span><span class='line'><span class="cm"> * 所有已实现的接口： Serializable, Cloneable, Comparable&amp;lt;Date&amp;gt;</span>
-</span><span class='line'><span class="cm"> * </span>
-</span><span class='line'><span class="cm"> * 直接已知子类： java.sql.Date, java.sql.Time, java.sql.Timestamp</span>
-</span><span class='line'><span class="cm"> * </span>
-</span><span class='line'><span class="cm"> * @author Administrator</span>
-</span><span class='line'><span class="cm"> * </span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleUtilDate</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Log</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">LogFactory</span><span class="o">.</span><span class="na">getFactory</span><span class="o">().</span><span class="na">getInstance</span><span class="o">(</span>
-</span><span class='line'>            <span class="n">SimpleUtilDate</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Log</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">LogFactory</span><span class="o">.</span><span class="na">getLog</span><span class="o">(</span><span class="n">SimpleDateConverter</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kd">private</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="n">dt</span><span class="o">;</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 自定义日期格式数组</span>
+</span><span class='line'><span class="cm">     * @author Administrator</span>
+</span><span class='line'><span class="cm">     * @param</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span><span class="o">[]</span> <span class="n">CUSTOM_DATE_FORMATS</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]</span> <span class="o">{</span>
+</span><span class='line'>         <span class="s">&quot;yyyy-MM&quot;</span><span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyyMM&quot;</span><span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyy/MM&quot;</span><span class="o">,</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="nf">SimpleUtilDate</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">dt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>         <span class="s">&quot;yyyyMMdd&quot;</span><span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyy-MM-dd&quot;</span><span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyy/MM/dd&quot;</span><span class="o">,</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="nf">getDt</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">dt</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>         <span class="s">&quot;yyyyMMddHHmmss&quot;</span><span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyy-MM-dd HH:mm:ss&quot;</span><span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyy/MM/dd HH:mm:ss&quot;</span><span class="o">,</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setDt</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="n">dt</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>         <span class="s">&quot;yyyyMMdd HH&quot;</span><span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyy/MM/dd HH&quot;</span> <span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyy-MM-dd HH&quot;</span> <span class="o">,</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">convert2StrDate</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">SimpleDateConverter</span><span class="o">.</span><span class="na">STANDARD_TIME_FORMAT</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">dt</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>         <span class="s">&quot;yyyyMMdd HH:mm&quot;</span><span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyy/MM/dd HH:mm&quot;</span> <span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyy-MM-dd HH:mm&quot;</span><span class="o">,</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">convert</span><span class="o">(</span><span class="n">Object</span> <span class="n">date</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="kt">long</span> <span class="n">times</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-</span><span class='line'>        <span class="n">String</span> <span class="n">strdate</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
-</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">date</span> <span class="k">instanceof</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>            <span class="n">strdate</span> <span class="o">=</span> <span class="n">SimpleDateConverter</span><span class="o">.</span><span class="na">STANDARD_TIME_FORMAT</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">date</span><span class="o">);</span>
-</span><span class='line'>        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-</span><span class='line'>            <span class="n">strdate</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
-</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>         <span class="s">&quot;yyyyMMdd HH:mm:ss.SSS&quot;</span><span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyy/MM/dd HH:mm:ss.SSS&quot;</span><span class="o">,</span>
+</span><span class='line'>         <span class="s">&quot;yyyy-MM-dd HH:mm:ss.SSS&quot;</span><span class="o">,</span>
+</span><span class='line'>    <span class="o">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 自定义标准的日期格式</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">SimpleDateFormat</span> <span class="n">STANDARD_TIME_FORMAT</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleDateFormat</span><span class="o">(</span><span class="s">&quot;yyyy-MM-dd HH:mm:ss&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 将传入的日期型字符串或日期时间类型转换为时间毫秒数</span>
+</span><span class='line'><span class="cm">     * @param date</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">convert</span><span class="o">(</span><span class="n">Object</span> <span class="n">date</span><span class="o">){</span>
+</span><span class='line'>        <span class="kt">long</span> <span class="n">timeMillis</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">String</span> <span class="n">strdate</span> <span class="o">=</span> <span class="n">convert2String</span><span class="o">(</span><span class="n">date</span><span class="o">);</span>
 </span><span class='line'>        <span class="k">try</span> <span class="o">{</span>
-</span><span class='line'>            <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;转换后的日期型字符串strdate===&quot;</span> <span class="o">+</span> <span class="n">strdate</span><span class="o">);</span>
-</span><span class='line'>            <span class="n">times</span> <span class="o">=</span> <span class="n">DateUtils</span><span class="o">.</span><span class="na">parseDate</span><span class="o">(</span><span class="n">strdate</span><span class="o">,</span>
-</span><span class='line'>                    <span class="n">SimpleDateConverter</span><span class="o">.</span><span class="na">CUSTOM_DATE_FORMATS</span><span class="o">).</span><span class="na">getTime</span><span class="o">();</span>
+</span><span class='line'>            <span class="n">timeMillis</span> <span class="o">=</span> <span class="n">DateUtils</span><span class="o">.</span><span class="na">parseDate</span><span class="o">(</span><span class="n">strdate</span><span class="o">,</span> <span class="n">SimpleDateConverter</span><span class="o">.</span><span class="na">CUSTOM_DATE_FORMATS</span><span class="o">).</span><span class="na">getTime</span><span class="o">();</span>
 </span><span class='line'>        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>            <span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&quot;convert方法出错，arguments==&quot;</span> <span class="o">+</span> <span class="n">date</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&quot;日期时间转换失败，日期型字符串为：&quot;</span><span class="o">+</span><span class="n">strdate</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
 </span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">times</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span> <span class="nf">convert2SqlDate</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span> <span class="n">jsd</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>        <span class="n">jsd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span><span class="o">(</span><span class="n">convert</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">dt</span><span class="o">));</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">jsd</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span> <span class="nf">convert2Timestamp</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span> <span class="n">jst</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>        <span class="n">jst</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span><span class="o">(</span><span class="n">convert</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">dt</span><span class="o">));</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">jst</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">timeMillis</span><span class="o">;</span>
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="cm">/**</span>
-</span><span class='line'><span class="cm">     * 从 JDK 1.1 开始，应该使用 Calendar 类实现日期和时间字段之间转换，使用 DateFormat 类来格式化和解析日期字符串。</span>
-</span><span class='line'><span class="cm">     * </span>
-</span><span class='line'><span class="cm">     * @param args</span>
+</span><span class='line'><span class="cm">     * 将传入的日期型字符串或日期时间类型转换为日期型字符串</span>
+</span><span class='line'><span class="cm">     * @param date</span>
+</span><span class='line'><span class="cm">     * @return</span>
 </span><span class='line'><span class="cm">     */</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">SimpleUtilDate</span> <span class="n">simpleUtilDate</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleUtilDate</span><span class="o">();</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---java.util.Date开始转换--------------------------------------------------------&quot;</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">String</span> <span class="n">strdate</span> <span class="o">=</span> <span class="n">simpleUtilDate</span><span class="o">.</span><span class="na">convert2StrDate</span><span class="o">();</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2StrDate转换后的结果=&quot;</span> <span class="o">+</span> <span class="n">strdate</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2StrDate转换的类型是否正确：&quot;</span>
-</span><span class='line'>                <span class="o">+</span> <span class="o">(</span><span class="n">strdate</span> <span class="k">instanceof</span> <span class="n">String</span><span class="o">));</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">convert2String</span><span class="o">(</span><span class="n">Object</span> <span class="n">date</span><span class="o">){</span>
+</span><span class='line'>        <span class="k">if</span><span class="o">(</span> <span class="n">date</span> <span class="k">instanceof</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">){</span>
+</span><span class='line'>            <span class="k">return</span>  <span class="n">STANDARD_TIME_FORMAT</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">date</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">date</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>        <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">simpleUtilDate</span><span class="o">.</span><span class="na">convert2SqlDate</span><span class="o">();</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2SqlDate转换后的结果=&quot;</span> <span class="o">+</span> <span class="n">dt</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2SqlDate转换后的类型是否正确：&quot;</span>
-</span><span class='line'>                <span class="o">+</span> <span class="o">(</span><span class="n">dt</span> <span class="k">instanceof</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span><span class="o">));</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 将传入的日期型字符串或日期时间类型转换为 java.sql.Date 类型变量</span>
+</span><span class='line'><span class="cm">     * @param date</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span> <span class="nf">convert2SqlDate</span><span class="o">(</span><span class="n">Object</span> <span class="n">date</span><span class="o">){</span>
+</span><span class='line'>        <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span> <span class="n">dt</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">dt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span><span class="o">(</span><span class="n">convert</span><span class="o">(</span><span class="n">date</span><span class="o">));</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">dt</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>        <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">simpleUtilDate</span><span class="o">.</span><span class="na">convert2Timestamp</span><span class="o">();</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2Timestamp转换后的结果=&quot;</span> <span class="o">+</span> <span class="n">ts</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2Timestamp转换后的类型是否正确=&quot;</span>
-</span><span class='line'>                <span class="o">+</span> <span class="o">(</span><span class="n">ts</span> <span class="k">instanceof</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span><span class="o">));</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span>
-</span><span class='line'>                <span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---end--------------------------------------------------------&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 将传入的日期型字符串或日期时间类型转换为 java.util.Date 类型变量</span>
+</span><span class='line'><span class="cm">     * @param date</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="nf">convert2UtilDate</span><span class="o">(</span><span class="n">Object</span> <span class="n">date</span><span class="o">){</span>
+</span><span class='line'>        <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="n">dt</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">dt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">(</span><span class="n">convert</span><span class="o">(</span><span class="n">date</span><span class="o">));</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">dt</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 将传入的日期型字符串或日期时间类型转换为 java.sql.Timestamp 类型变量</span>
+</span><span class='line'><span class="cm">     * @param date</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span> <span class="nf">convert2Timestamp</span><span class="o">(</span><span class="n">Object</span> <span class="n">date</span><span class="o">){</span>
+</span><span class='line'>        <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span> <span class="n">tts</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">tts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span><span class="o">(</span><span class="n">convert</span><span class="o">(</span><span class="n">date</span><span class="o">));</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">tts</span><span class="o">;</span>
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
 </span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
