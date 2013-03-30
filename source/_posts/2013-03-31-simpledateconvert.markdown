@@ -74,8 +74,9 @@ ConvertUtil工具类职责是在字符串和指定类型的实例之间进行转
 
 #### 类SimpleDateConvert
 {% codeblock Java Syntax lang:java http://j.mp/pPUUmW MDN Documentation %}
-	package com.oo.repos;
+	package com.oo.gzdec.config;
 
+	import java.sql.Timestamp;
 	import java.text.ParseException;
 	import java.text.SimpleDateFormat;
 
@@ -83,99 +84,105 @@ ConvertUtil工具类职责是在字符串和指定类型的实例之间进行转
 	import org.apache.commons.logging.Log;
 	import org.apache.commons.logging.LogFactory;
 
-	import com.oo.gzdec.config.SimpleDateConverter;
-
-	/**
-	 * 类 Date 表示特定的瞬间，精确到毫秒。 java.util 类 Date
-	 * 
-	 * java.lang.Object java.util.Date
-	 * 
-	 * 所有已实现的接口： Serializable, Cloneable, Comparable<Date>
-	 * 
-	 * 直接已知子类： java.sql.Date, java.sql.Time, java.sql.Timestamp
-	 * 
-	 * @author Administrator
-	 * 
-	 */
-	public class SimpleUtilDate {
-		public static Log logger = LogFactory.getFactory().getInstance(
-				SimpleUtilDate.class);
-
-		private java.util.Date dt;
-
-		public SimpleUtilDate() {
-			this.dt = new java.util.Date();
+	public class SimpleDateConverter {
+		
+		public static Log logger = LogFactory.getLog(SimpleDateConverter.class);
+		
+		/**
+		 * 自定义日期格式数组
+		 * @author Administrator
+		 * @param
+		 */
+		public static final String[] CUSTOM_DATE_FORMATS = new String[] {
+			 "yyyy-MM",
+			 "yyyyMM",
+			 "yyyy/MM",
+			
+			 "yyyyMMdd",
+			 "yyyy-MM-dd",
+			 "yyyy/MM/dd",
+			
+			 "yyyyMMddHHmmss",
+			 "yyyy-MM-dd HH:mm:ss",
+			 "yyyy/MM/dd HH:mm:ss",
+			
+			 "yyyyMMdd HH",
+			 "yyyy/MM/dd HH" ,
+			 "yyyy-MM-dd HH" ,
+			
+			 "yyyyMMdd HH:mm",
+			 "yyyy/MM/dd HH:mm" ,
+			 "yyyy-MM-dd HH:mm",
+			
+			 "yyyyMMdd HH:mm:ss.SSS",
+			 "yyyy/MM/dd HH:mm:ss.SSS",
+			 "yyyy-MM-dd HH:mm:ss.SSS",
+		};
+		
+		/**
+		 * 自定义标准的日期格式
+		 */
+		public static SimpleDateFormat STANDARD_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		/**
+		 * 将传入的日期型字符串或日期时间类型转换为时间毫秒数
+		 * @param date
+		 * @return
+		 */
+		public static long convert(Object date){
+			long timeMillis = 0;
+			String strdate = convert2String(date);
+			try {
+				timeMillis = DateUtils.parseDate(strdate, SimpleDateConverter.CUSTOM_DATE_FORMATS).getTime();
+			} catch (ParseException e) {
+				logger.error("日期时间转换失败，日期型字符串为："+strdate, e);
+			}
+			return timeMillis;
 		}
-
-		public java.util.Date getDt() {
+		
+		/**
+		 * 将传入的日期型字符串或日期时间类型转换为日期型字符串
+		 * @param date
+		 * @return
+		 */
+		public static String convert2String(Object date){
+			if( date instanceof java.util.Date){
+				return  STANDARD_TIME_FORMAT.format(date);
+			}
+			return date.toString();
+		}
+		
+		/**
+		 * 将传入的日期型字符串或日期时间类型转换为 java.sql.Date 类型变量
+		 * @param date
+		 * @return
+		 */
+		public static java.sql.Date convert2SqlDate(Object date){
+			java.sql.Date dt = null;
+			dt = new java.sql.Date(convert(date));
 			return dt;
 		}
-
-		public void setDt(java.util.Date dt) {
-			this.dt = dt;
-		}
-
-		public String convert2StrDate() {
-			return SimpleDateConverter.STANDARD_TIME_FORMAT.format(this.dt);
-		}
-
-		public static long convert(Object date) {
-			long times = 0;
-			String strdate = "";
-			if (date instanceof java.util.Date) {
-				strdate = SimpleDateConverter.STANDARD_TIME_FORMAT.format(date);
-			} else {
-				strdate = date.toString();
-			}
-			try {
-				logger.debug("转换后的日期型字符串strdate===" + strdate);
-				times = DateUtils.parseDate(strdate,
-						SimpleDateConverter.CUSTOM_DATE_FORMATS).getTime();
-			} catch (ParseException e) {
-				logger.error("convert方法出错，arguments==" + date, e);
-			}
-			return times;
-		}
-
-		public java.sql.Date convert2SqlDate() {
-			java.sql.Date jsd = null;
-			jsd = new java.sql.Date(convert(this.dt));
-			return jsd;
-		}
-
-		public java.sql.Timestamp convert2Timestamp() {
-			java.sql.Timestamp jst = null;
-			jst = new java.sql.Timestamp(convert(this.dt));
-			return jst;
-		}
-
+		
 		/**
-		 * 从 JDK 1.1 开始，应该使用 Calendar 类实现日期和时间字段之间转换，使用 DateFormat 类来格式化和解析日期字符串。
-		 * 
-		 * @param args
+		 * 将传入的日期型字符串或日期时间类型转换为 java.util.Date 类型变量
+		 * @param date
+		 * @return
 		 */
-		public static void main(String[] args) {
-			SimpleUtilDate simpleUtilDate = new SimpleUtilDate();
-			System.out
-					.println("---java.util.Date开始转换--------------------------------------------------------");
-			String strdate = simpleUtilDate.convert2StrDate();
-			System.out.println("convert2StrDate转换后的结果=" + strdate);
-			System.out.println("convert2StrDate转换的类型是否正确："
-					+ (strdate instanceof String));
-			System.out.println("");
-
-			java.sql.Date dt = simpleUtilDate.convert2SqlDate();
-			System.out.println("convert2SqlDate转换后的结果=" + dt);
-			System.out.println("convert2SqlDate转换后的类型是否正确："
-					+ (dt instanceof java.sql.Date));
-			System.out.println("");
-
-			java.sql.Timestamp ts = simpleUtilDate.convert2Timestamp();
-			System.out.println("convert2Timestamp转换后的结果=" + ts);
-			System.out.println("convert2Timestamp转换后的类型是否正确="
-					+ (ts instanceof java.sql.Timestamp));
-			System.out
-					.println("---end--------------------------------------------------------");
+		public static java.util.Date convert2UtilDate(Object date){
+			java.util.Date dt = null;
+			dt = new java.util.Date(convert(date));
+			return dt;
+		}
+		
+		/**
+		 * 将传入的日期型字符串或日期时间类型转换为 java.sql.Timestamp 类型变量
+		 * @param date
+		 * @return
+		 */
+		public static java.sql.Timestamp convert2Timestamp(Object date){
+			java.sql.Timestamp tts = null;
+			tts = new java.sql.Timestamp(convert(date));
+			return tts;
 		}
 	}
 {% endcodeblock %}
