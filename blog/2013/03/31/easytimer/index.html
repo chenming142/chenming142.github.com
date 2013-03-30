@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>chenming142's Blog for github</title>
+  <title>通用定时器|倒计时 - chenming142's Blog for github</title>
   <meta name="author" content="Kevin Chen">
 
   
   <meta name="description" content="Tips, tricks, and hacks on Ruby on Rails development.">
-  <meta name="keywords" content="ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping">
+  <meta name="keywords" content="与JavaScript相关easytimer">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://chenming142.github.com/">
+  <link rel="canonical" href="http://chenming142.github.com/blog/2013/03/31/easytimer/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="chenming142's Blog for github" type="application/atom+xml">
@@ -62,15 +62,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/03/31/easytimer/">通用定时器|倒计时</a></h1>
+      <h1 class="entry-title">通用定时器|倒计时</h1>
     
     
       <p class="meta">
@@ -93,7 +90,7 @@
   </header>
 
 
-  <div class="entry-content"><blockquote><p>在一年之前我同事尚谦写了一个倒计时，那个倒计时其实功能上已经很完善了，而且在项目中实际应用效果也不错；今天拿出来整理一下，只为再练练手而已。</p></blockquote>
+<div class="entry-content"><blockquote><p>在一年之前我同事尚谦写了一个倒计时，那个倒计时其实功能上已经很完善了，而且在项目中实际应用效果也不错；今天拿出来整理一下，只为再练练手而已。</p></blockquote>
 
 <h4>调用API</h4>
 
@@ -695,839 +692,67 @@ isdebug       ：针对当前定时器与倒计时打印调试信息
 
 
 </div>
+
+
+  <footer>
+    <p class="meta">
   
+
+<span class="byline author vcard">Posted by <span class="fn">Kevin Chen</span></span>
+
+
+
+
+
+
+
+
+
   
 
 
-    </article>
-  
-  
-    <article>
+<time datetime="2013-03-31T01:14:00+08:00" pubdate data-updated="true">Mar 31<span>st</span>, 2013</time>
       
-  <header>
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/yu-javascriptxiang-guan/'>与JavaScript相关</a>
+  
+</span>
+
+</p>
     
-      <h1 class="entry-title"><a href="/blog/2013/03/28/js-classify/">JavaScript之OOP实现</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-28T23:16:00+08:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/03/26/beanutils/">Java中Map与TO自动转换</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-26T11:05:00+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>在JAVA开发过程中需要经常使用到TO，TO能方便的对对象成员变量的存取与持久化；但是业务流程开发过程中，我们通常使用Map来进行参数的获取和临时保存，所以在Map与TO之间进行自动转换是非常必要地。</p></blockquote>
-
-<ul>
-<li>使用Java反射机制来转换
-在Java运行时环境中，对于任意一个类，根据反射机制都能知道该类包含的属性和方法；对于该类的任意对象都能调用属于它的方法即<strong>能动态获取该类的信息及动态调用对象的方法</strong>。 <br/>
-Java反射机制主要提供以下功能：
-
-<pre><code>  在运行时判断任意一个对象所属的类
-  在运行时构造任意一个类的对象
-  在运行时判断任意一个类所具有的属性和方法
-  在运行时调用任意一个对象的方法
-</code></pre>
-
-在JDK中，主要由以下类来实现Java反射机制，这些类位于java.lang.reflect包中：
-
-<pre><code>  Class类      ：代表一个实体类
-  Field类      ：代表实体类的成员变量即类的属性
-  Method类    ：代表实体类的方法
-  Constructor类：代表实体类的构造方法
-  Array类      ：提供了动态创建数组，以及访问数组的元素的静态方法
-</code></pre>
-
-<p>通过Class类获取成员变量、成员方法、接口、超类和构造方法等</p></li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/26/beanutils/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/23/classify/">Java的类与面向对象特性</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-23T11:51:00+08:00" pubdate data-updated="true">Mar 23<span>rd</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>在面向对象的编程语言中,类是编程的核心;对于类,我们可以理解它是定义了一个新的数据类型;一旦定义后,就可以使用这个新类型创建该类型的对象.</p>
-
-<blockquote><p>类是对象的模板,而对象就是类的实例.</p></blockquote></blockquote>
-
-<h3>什么是类?</h3>
-
-<p>类是描述对象的&#8221;基本原型&#8221;,它定义一种对象所能拥有的数据和能完成的操作,在面向对象的程序设计中,类是程序的基本单元,它是由一组结构化的数据和在其上的一组操作构成.</p>
-
-<p>在Java中,存在类的概念,定义类时使用class关键字即可.</p>
-
-<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kd">class</span> <span class="nc">Clazz</span> <span class="o">{</span>
-</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazz</span><span class="o">(){</span>
-</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[1]</span>
-</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="s">&quot;parent constructor clazz!&quot;</span><span class="o">;</span>
-</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&gt; 父类构造器代码块被执行 &lt;---&quot;</span><span class="o">);</span>
-</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[2]</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazz</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span>
-</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(){</span>
-</span><span class='line'>          <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>                                                              <span class="c1">//[3]</span>
-</span><span class='line'>      <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;parent initialize clazz!&quot;</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Clazzer</span> <span class="kd">extends</span> <span class="n">Clazz</span><span class="o">{</span>
-</span><span class='line'>      <span class="cm">/**</span>
-</span><span class='line'><span class="cm">      * 静态代码块 - 类变量(静态变量)可以向前引用(即：先引用,再定义)</span>
-</span><span class='line'><span class="cm">      */</span>
-</span><span class='line'>      <span class="kd">static</span> <span class="o">{</span>
-</span><span class='line'>          <span class="n">info</span> <span class="o">=</span> <span class="s">&quot;fancydeepin&quot;</span><span class="o">;</span>
-</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&gt; 子类静态代码块被执行   &lt;---&quot;</span><span class="o">);</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>      <span class="cm">/**</span>
-</span><span class='line'><span class="cm">      * 类变量(静态变量)在类的初始化之前初始化,无论类的实例将被创建多少个</span>
-</span><span class='line'><span class="cm">      *  -都将只在初始化时候在栈内存上分配一次空间</span>
-</span><span class='line'><span class="cm">      *  -凡 static 修饰的,都将按位置被顺序执行,name 的值最终输出 fancy 而不是上面的 fancydeepin</span>
-</span><span class='line'><span class="cm">      */</span>
-</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">info</span> <span class="o">=</span> <span class="s">&quot;fancy&quot;</span><span class="o">;</span>
-</span><span class='line'>      <span class="c1">//                                                         //[1]</span>
-</span><span class='line'>      <span class="cm">/**</span>
-</span><span class='line'><span class="cm">      * 实例变量(非静态变量)，定义时指定初始值，会比在构造器赋予值更早执行</span>
-</span><span class='line'><span class="cm">      */</span>
-</span><span class='line'>      <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;subclass initialize Clazzer&quot;</span><span class="o">;</span>
-</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazzer</span><span class="o">(){</span>
-</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[2]</span>
-</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="s">&quot;subclass constructor Clazzer&quot;</span><span class="o">;</span>
-</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&gt; 子类构造器代码块被执行 &lt;---&quot;</span><span class="o">);</span>
-</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[3]</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazzer</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span><span class="kd">super</span><span class="o">(</span><span class="n">name</span><span class="o">);}</span>
-</span><span class='line'>      
-</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-</span><span class='line'>          <span class="n">Clazzer</span> <span class="n">c</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Clazzer</span><span class="o">();</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/23/classify/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+        <a class="basic-alignment left" href="/blog/2013/03/28/js-classify/" title="Previous Post: JavaScript之OOP实现">&laquo; JavaScript之OOP实现</a>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/17/jquery-type/">jQuery 数据类型详解</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-17T15:31:00+08:00" pubdate data-updated="true">Mar 17<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>ECMAScript中有5种基本数据类型:Undefined,Null,Boolean,Number和String.还有一种复杂数据类型——Object,Object本质上是由一组无序的名值对组成的.</p></blockquote>
-
-<h3>typeof 操作符</h3>
-
-<p>对一个值使用typeof操作符可能返回下列某个字符串:<br/>
-&#8220;undefined&#8221; —— 如果这个值未定义<br/>
-&#8220;boolean&#8221; —— 如果这个值是布尔值<br/>
-&#8220;string&#8221; —— 如果这个值是字符串<br/>
-&#8220;number&#8221; —— 如果这个值是数值<br/>
-&#8220;object&#8221; —— 如果这个值是对象或null<br/>
-&#8220;function&#8221; —— 如果这个值是函数</p>
-
-<pre><code>注:typeof 操作符的操作数可以是变量,也可以是数值字面量.typeof是操作符而非函数.
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/17/jquery-type/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/15/jquery-unique/">Jquery Unique 详解</a></h1>
-    
-    
-      <p class="meta">
-        
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-15T21:22:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>最近在工作中使用到了jquery.unique函数,用的过程中出现了很多偏差,所以就查看了jquery源码现在总结一下.</p></blockquote>
-
-<p>先看看jQuery.unique(array)api是:</p>
-
-<pre><code>删除数组中重复元素.只处理删除DOM元素数组,而不能处理字符串或者数字数组.
-</code></pre>
-
-<p>再来看看jquery.unique的测试结果:<br/>
-<img src="/images/common/2013-03-15-jquery-unique/20130315214713.jpg" title="jquery-1.4.unique" alt="jquery-1.4" />
-[<strong>jquey-1.4</strong>] <br/>
-<img src="/images/common/2013-03-15-jquery-unique/20130315214630.jpg" title="jquery-1.7.2.unique" alt="jquery-1.7" />
-[<strong>jquey-1.7.2</strong>]</p>
-
-<p>从测试结果看,1.4版本虽未能够完美实现去除重复元素,但是某些情况(即数组是有序的)下也是能处理数值和字符型数值数组的;而1.7.2版已能完美支持了.</p>
-
-<h3>去除重复元素的实现方法</h3>
-
-<figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'>   <span class="nx">$</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="p">{</span>
-</span><span class='line'>          <span class="nx">unique1</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elems</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>              <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">elems</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>         <span class="c1">// 外层++i</span>
-</span><span class='line'>                  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">elems</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">j</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 内层j = i +1</span>
-</span><span class='line'>                      <span class="k">if</span> <span class="p">(</span><span class="nx">elems</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">elems</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span> <span class="p">{</span>             <span class="c1">// 判断是否重复的</span>
-</span><span class='line'>                          <span class="nx">elems</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="o">--</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>                 <span class="c1">// 如果重复,就去掉</span>
-</span><span class='line'>                          <span class="k">break</span><span class="p">;</span>                               <span class="c1">// i-- 与break,保证外层始终从0开始</span>
-</span><span class='line'>                      <span class="p">}</span>
-</span><span class='line'>                  <span class="p">}</span>
-</span><span class='line'>              <span class="p">}</span>
-</span><span class='line'>              <span class="k">return</span> <span class="nx">elems</span><span class="p">;</span>
-</span><span class='line'>          <span class="p">},</span>
-</span><span class='line'>          <span class="nx">unique2</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elemsWithId</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>              <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
-</span><span class='line'>              <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>                  <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nx">elemsWithId</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-</span><span class='line'>                  <span class="nx">obj</span><span class="p">[</span><span class="nx">elem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">elem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)]</span> <span class="o">||</span> <span class="nx">elem</span><span class="p">;</span>
-</span><span class='line'>              <span class="p">}</span>
-</span><span class='line'>              <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>              <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">id</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>                  <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="nx">id</span><span class="p">])</span>
-</span><span class='line'>              <span class="p">}</span>
-</span><span class='line'>              <span class="k">return</span> <span class="nx">elemsWithId</span><span class="p">;</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>  <span class="p">}();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>方法一使用了两重循环,算法复杂度为<code>O(n^2)</code>.实现思路比较直观,即遍历数组,看每个元素是否与后面的元素重复,有重复则移除;但是DOM Element数量较多时性能较差,而jQuery中对大量元素进行去除重复的操作很普遍. <br/>
-方法二将Objct当做HashMap/HashSet来使用,算法复杂度为<code>O(n)</code>;遗憾的是JavaScript中无法直接用DOM Element作为Object的key,因此只能将id作为key,然而并非所有的 DOM Element 都是有id 的，所以这种方法并不通用。</p>
+<section id="comment">
+	<h1>发表评论</h1>
+	<!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chenming142"};
+(function() {
+	var ds = document.createElement('script');
+	ds.type = 'text/javascript';ds.async = true;
+	ds.src = 'http://static.duoshuo.com/embed.js';
+	ds.charset = 'UTF-8';
+	(document.getElementsByTagName('head')[0] 
+	|| document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<!-- Duoshuo Comment END -->
+</section>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/15/jquery-unique/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/13/spring-test/">Spring Test整合JUnit 4</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-13T23:03:00+08:00" pubdate data-updated="true">Mar 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>JUnit 框架原本就能用来进行单元测试,但是在使用了Spring之后测试就变得复杂了,但是幸运的是Spring提供了<a href="http://chenming142.github.com" title="spring-test.jar">Spring-test</a>,可以用来整合JUnit,使测试变得简单.</p></blockquote>
-
-<h3>加入依赖包</h3>
-
-<p>使用Spring整合JUnit来测试需要加入以下依赖包:<br/>
-1. <a href="http://www.junit.org/" title="JUnit 4 必不可少">JUnit 4</a><br/>
-2. Spring Test(Spring 框架中的test包)<br/>
-3. Spring 相关的其他依赖包及其配置</p>
-
-<h3>创建测试源目录和包结构</h3>
-
-<p>推荐创建一个和src平级的源test目录,因为src中的内都是以后需要打包的应用类,而test中的类仅仅只用来测试.test目录下的包名称和结构也建议与src中的保持一致,这样既不会产生冲突也容易识别,方便检索. <br/>
-<img src="/images/common/2013-03-13-spring-test/20130314000238.jpg" title="目录及包结构" alt="目录及包结构" /></p>
-
-<h3>创建测试框架抽象类</h3>
-
-<p>Spring的测试机制是基于JUnit的扩展,在org.springframework.test包下,可以看到6个从 TestCase基础上扩展出来的抽象类,分别是:<br/>
-1. <strong>ConditionalTestCase</strong> - 可以有选择地关闭掉一些测试方法,不让它们在测试用例中执行,而无需将这些方法注释掉<br/>
-2. <strong>AbstractSpringContextTests</strong> - 运行多个测试用例和测试方法时,Spirng上下文只需创建一次<br/>
-3. <strong>AbstractSingleSpringContextTests</strong> - 方便手工执行Spring配置文件,手工设定Spring容器是否需要重新加载<br/>
-4. <strong>AbstractDependencyInjectSpringContextTests</strong> - 自动装配\依赖检查\自动注入<br/>
-5. <strong>AbstractTransactionalSpringContextTests</strong> - 自动恢复数据库现场即自动回滚<br/>
-6. <strong>AbstractTransactionalDataSourceSpringContextTests</strong> - 通过JDBC访问数据库,检查数据库操作正确性</p>
-
-<p>上述抽象类按照先后顺序逐步加强了每个抽象类的功能，并且按照逐步继承的关系，使得子抽象类具有父抽象类的所有特性，因此最终的AbstractTransactionalDataSourceSpringContextTests抽象类具有其所有祖先抽象类的特性以及其自身的特性，实际应用中可以根据需要选择需要使用的抽象基类进行扩展.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/13/spring-test/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/11/vim-strategy/">简明 Vim 练级攻略</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-11T12:52:00+08:00" pubdate data-updated="true">Mar 11<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>原文地址:<a href="http://coolshell.cn/articles/5426.html" title="酷壳-简明 Vim 练级攻略">http://coolshell.cn/articles/5426.html</a></p></blockquote>
-
-<p>你想以最快的速度学习人类史上最好的文本编辑器VIM吗？你先得懂得如何在VIM幸存下来，然后一点一点地学习各种戏法。<br/>
-Vim the Six Billion Dollar editor</p>
-
-<blockquote><blockquote><p>Better, Stronger, Faster.</p></blockquote></blockquote>
-
-<p>学习 <strong>vim</strong> 并且其会成为你最后一个使用的文本编辑器。没有比这个更好的文本编辑器了，非常地难学，但是却不可思议地好用。我建议下面这四个步骤:</p>
-
-<pre><code>1. 存活   
-2. 感觉良好  
-3. 觉得更好,更强,更快  
-4. 使用 VIM 的超能力  
-</code></pre>
-
-<p>当你走完这篇文章，你会成为一个vim的 superstar。</p>
-
-<p>在开始学习以前，我需要给你一些警告：</p>
-
-<pre><code>1. 学习vim在开始时是痛苦的。  
-2. 需要时间  
-3. 需要不断地练习，就像你学习一个乐器一样。  
-4. 不要期望你能在3天内把vim练得比别的编辑器更有效率。   
-5. 事实上，你需要2周时间的苦练，而不是3天。  
-</code></pre>
-
-<h3>第一级 - 存活</h3>
-
-<ol>
-<li>安装 VIM</li>
-<li>启动 VIM</li>
-<li>什么也别干!请先阅读
-当你安装好一个编辑器后，你一定会想在其中输入点什么东西，然后看看这个编辑器是什么样子。但vim不是这样的，请按照下面的命令操作：</li>
-<li>启 动Vim后，vim在 <strong>Normal</strong> 模式下。</li>
-<li>让我们进入 <strong>Insert</strong> 模式，请按下键 <code>i</code> 。(陈皓注：你会看到vim左下角有一个–insert–字样，表示，你可以以插入的方式输入了）</li>
-<li>此时，你可以输入文本了，就像你用“记事本”一样。</li>
-<li>如果你想返回 <strong>Normal</strong> 模式，请按 <code>ESC</code> 键。</li>
-</ol>
-
-
-<p>现在，你知道如何在 <strong>Insert</strong> 和 <strong>Normal</strong> 模式下切换了。<br/>
-下面是一些命令，可以让你在 Normal 模式下幸存下来：
-<code>i → Insert 模式，按 ESC 回到 Normal 模式.</code> <br/>
-<code>x → 删当前光标所在的一个字符。</code><br/>
-<code>:wq → 存盘 + 退出 (:w 存盘, :q 退出)   （陈皓注：:w 后可以跟文件名）</code><br/>
-<code>dd → 删除当前行，并把删除的行存到剪贴板里</code><br/>
-<code>p → 粘贴剪贴板</code> <br/>
-<code>推荐:</code><br/>
-<code>hjkl (强例推荐使用其移动光标，但不必需) →你也可以使用光标键 (←↓↑→). 注: j 就像下箭头。</code>
-<code>:help &lt;command&gt; → 显示相关命令的帮助。你也可以就输入 :help 而不跟命令。（陈皓注：退出帮助需要输入:q）</code></p>
-
-<p>你能在vim幸存下来只需要上述的那5个命令，你就可以编辑文本了，你一定要把这些命令练成一种下意识的状态。于是你就可以开始进阶到第二级了。</p>
-
-<p>但是，在你进入第二级时，需要再说一下 Normal 模式。在一般的编辑器下，当你需要copy一段文字的时候，你需要使用 Ctrl 键，比如：Ctrl-C。也就是说，Ctrl键就好像功能键一样，当你按下了功能键Ctrl后，C就不在是C了，而且就是一个命令或是一个快键键了，<strong>在VIM的Normal模式下，所有的键就是功能键了</strong>。这个你需要知道。</p>
-
-<p>标记:
-下面的文字中，如果是 <code>Ctrl-λ</code>我会写成 <code>&lt;C-λ&gt;</code>.
-<em>以 <code>:</code> 开始的命令你需要输入 <enter>回车</em>，例如:如果我写成 :q 也就是说你要输入 :q&lt;enter>.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/11/vim-strategy/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-10T15:52:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>原文:<a href="http://www.cnblogs.com/ywqu" title="灵动生活">http://www.cnblogs.com/ywqu</a></p></blockquote>
-
-<p><strong>一、时序图简介（Brief introduction）</strong><br/>
-<strong>二、时序图元素（Sequence Diagram Elements）</strong></p>
-
-<blockquote><ul>
-<li>角色（Actor）</li>
-<li>对象（Object）</li>
-<li>生命线(Lifeline)</li>
-<li>控制焦点（Focus of Control）</li>
-<li>消息（Message）</li>
-<li>自关联消息（Self-Message）</li>
-<li>Combined Fragments</li>
-</ul>
-</blockquote>
-
-<p><strong>三、时序图实例分析（Sequece Diagram Example Analysis）</strong></p>
-
-<blockquote><ul>
-<li>时序图场景</li>
-<li>时序图实例</li>
-<li>时序图实例分析</li>
-</ul>
-</blockquote>
-
-<p><strong>四、总结（Summay）</strong></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/10/sequence-diagram/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/10/20-useful-snippets-of-java-program/">20个非常有用的java程序片段</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-10T10:18:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>原文地址是:<a href="http://coolshell.cn/articles/889.html" title="酷壳-CoolShell.cn">http://coolshell.cn/articles/889.html</a></p></blockquote>
-
-<p>下面是20个非常有用的Java程序片段，希望能对你有用。</p>
-
-<p>1.字符串有整型的相互转换</p>
-
-<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">string</span> <span class="n">a</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>             <span class="c1">// integer to numeric string</span>
-</span><span class='line'>      <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>              <span class="c1">// numeric string to an int</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2.向文件末尾添加内容</p>
-
-<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">BufferWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span><span class='line'>      <span class="k">try</span><span class="o">{</span>
-</span><span class='line'>          <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="s">&quot;filename&quot;</span><span class="o">,</span> <span class="kc">true</span><span class="o">));</span>
-</span><span class='line'>          <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">&quot;aString&quot;</span><span class="o">);</span>
-</span><span class='line'>      <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">){</span>
-</span><span class='line'>          <span class="c1">// error processing code</span>
-</span><span class='line'>      <span class="o">}</span><span class="k">finally</span><span class="o">{</span>
-</span><span class='line'>          <span class="k">if</span><span class="o">(</span><span class="n">out</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
-</span><span class='line'>              <span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-</span><span class='line'>          <span class="o">}</span>
-</span><span class='line'>      <span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>3.得到当前方法的名称</p>
-
-<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">string</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getStackTrace</span><span class="o">()[</span><span class="mi">1</span><span class="o">].</span><span class="na">getMethodName</span><span class="o">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>4.转字符串到日期格式</p>
-
-<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="o">=</span> <span class="n">java</span><span class="o">.</span><span class="na">text</span><span class="o">.</span><span class="na">DateFormat</span><span class="o">.</span><span class="na">getDateInstance</span><span class="o">().</span><span class="na">parse</span><span class="o">(</span><span class="n">date</span><span class="o">,</span> <span class="n">String</span><span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或者是:</p>
-
-<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">SimpleDateFormat</span> <span class="n">sdf</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleDateFormat</span><span class="o">(</span><span class="s">&quot;dd.MM.yyyy&quot;</span><span class="o">);</span>
-</span><span class='line'>      <span class="n">Date</span> <span class="n">d</span> <span class="o">=</span> <span class="n">sdf</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span> <span class="n">myString</span> <span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>5.使用JDBC连接Oracle</p>
-
-<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'>       <span class="kr">public</span> <span class="kr">class</span> <span class="nx">OracleJDBCTest</span><span class="p">{</span>
-</span><span class='line'>        <span class="nb">String</span> <span class="nx">driverClass</span> <span class="o">=</span> <span class="s2">&quot;oracle.jdbc.driver.OracleDriver&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="nx">Connection</span> <span class="nx">con</span><span class="p">;</span>
-</span><span class='line'>        <span class="kr">public</span> <span class="k">void</span> <span class="nx">init</span><span class="p">(</span><span class="nx">FileInputStream</span> <span class="nx">fs</span><span class="p">)</span> <span class="kr">throws</span> <span class="nx">ClassNotFoundException</span><span class="p">,</span> <span class="nx">SQLException</span><span class="p">,</span>
-</span><span class='line'>           <span class="nx">FileNotFoundException</span><span class="p">,</span> <span class="nx">IOException</span><span class="p">{</span>
-</span><span class='line'>              <span class="nx">Properties</span> <span class="nx">props</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Properties</span><span class="p">();</span>
-</span><span class='line'>              <span class="nx">props</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">fs</span><span class="p">);</span>
-</span><span class='line'>              <span class="nb">String</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;db.url&quot;</span><span class="p">);</span>
-</span><span class='line'>              <span class="nb">String</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;db.username&quot;</span><span class="p">);</span>
-</span><span class='line'>              <span class="nb">String</span> <span class="nx">password</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;db.password&quot;</span><span class="p">);</span>
-</span><span class='line'>              <span class="nx">Class</span><span class="p">.</span><span class="nx">forName</span><span class="p">(</span><span class="nx">driverClass</span><span class="p">);</span>
-</span><span class='line'>              <span class="nx">con</span> <span class="o">=</span> <span class="nx">DriverManager</span><span class="p">.</span><span class="nx">getConnection</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">username</span><span class="p">,</span> <span class="nx">password</span><span class="p">);</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>          <span class="kr">public</span> <span class="k">void</span> <span class="nx">fetch</span><span class="p">()</span> <span class="kr">throws</span> <span class="nx">SQLException</span><span class="p">,</span> <span class="nx">IOException</span><span class="p">{</span>
-</span><span class='line'>              <span class="nx">PreparedStatement</span> <span class="nx">ps</span> <span class="o">=</span> <span class="nx">con</span><span class="p">.</span><span class="nx">prePareStatement</span><span class="p">(</span><span class="s2">&quot;select SYSDATE from dual&quot;</span><span class="p">);</span>
-</span><span class='line'>              <span class="nx">ResultSet</span> <span class="nx">rs</span> <span class="o">=</span> <span class="nx">ps</span><span class="p">.</span><span class="nx">executeQuery</span><span class="p">();</span>
-</span><span class='line'>              <span class="k">while</span><span class="p">(</span><span class="nx">rs</span><span class="p">.</span><span class="nx">next</span><span class="p">()){</span>
-</span><span class='line'>                  <span class="c1">// do the things you do</span>
-</span><span class='line'>              <span class="p">}</span>
-</span><span class='line'>              <span class="nx">rs</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
-</span><span class='line'>              <span class="nx">ps</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>          <span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">main</span><span class="p">(</span><span class="nb">String</span><span class="p">[]</span> <span class="nx">args</span><span class="p">){</span>
-</span><span class='line'>              <span class="nx">OracleJDBCTest</span> <span class="nx">test</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OracleJDBCTest</span><span class="p">();</span>
-</span><span class='line'>              <span class="nx">test</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
-</span><span class='line'>              <span class="nx">test</span><span class="p">.</span><span class="nx">fetch</span><span class="p">();</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>      <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/10/20-useful-snippets-of-java-program/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -1630,6 +855,7 @@ var duoshuoQuery = {short_name:"chenming142"};
 
   
 </aside>
+
 
     </div>
   </div>
