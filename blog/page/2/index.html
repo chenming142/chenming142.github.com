@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: UML设计 - chenming142's Blog for github</title>
+  <title>chenming142's Blog for github</title>
   <meta name="author" content="Kevin Chen">
 
   
-  <meta name="description" content="Category: UML设计">
+  <meta name="description" content="Tips, tricks, and hacks on Ruby on Rails development.">
   <meta name="keywords" content="ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping">
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://chenming142.github.com/blog/categories/umlshe-ji/">
+  <link rel="canonical" href="http://chenming142.github.com/blog/page/2/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="chenming142's Blog for github" type="application/atom+xml">
@@ -62,40 +62,104 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
-    <h1 class="entry-title">Category: UML设计</h1>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-07T11:08:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+  <div class="entry-content"><blockquote><p><code>github</code>本身不仅作为代码共享仓库，并且支持<code>github-pages</code>功能，而<code>octopress</code>就是在这样的环境下诞生的博客系统.</p></blockquote>
 
-  
-  <h2>2013</h2>
+<h4>需要安装的软件</h4>
 
-<article>
-  
-<h1><a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a></h1>
-<time datetime="2013-03-10T15:52:00+08:00" pubdate><span class='month'>Mar</span> <span class='day'>10</span> <span class='year'>2013</span></time>
+<pre><code>1. git
+2. ruby(或者说rubyinstaller, 版本号须 &gt;= 1.9.2)
+3. DevKit(windows平台下编译和使用本地C/C++扩展包的工具,即用来模拟Linux平台下的make,gcc,sh命令来进行编译)
+4. python(支持代码高亮) 
+</code></pre>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/umlshe-ji/'>UML设计</a></span>
-</footer>
+<h6>关于 github 值得说说的事情</h6>
+
+<ol>
+<li>先注册一个github账号和创建一个repos<br/>
+ 创建一个新的Repository.这里必须重视,若想是博客首页是http://yourname.github.com,则Repositoty的project name就必须是<strong>yourname.github.com</strong>.</li>
+<li>设置SH Keys
+ 履行<code>ssh-keygen -t rsa -C “your_email＠youremail.com”</code>，回车;然后输入两遍暗码.
+ 到c:\Users\用户名.ssh\目次找到id_rsa.pub，并用文本软件打开复制全部(目录是隐藏的)</li>
+<li>将SSH Key添加到GitHub
+ 到github网站选择“Account Settings”>>“SSH Public Keys”>>“Add another public key”，将刚才复制的内容粘贴到key文本框内</li>
+<li>测试<br/>
+ 为确保设置成功，现在可以测试设置成果啦。记住，”<strong>git@github.com</strong>”是默认的，无需修改</li>
+</ol>
 
 
-</article>
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>     <span class="err">$</span> <span class="n">ssh</span> <span class="o">-</span><span class="n">T</span> <span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span>  <span class="err">（也可以用</span> <span class="no">SSH</span> <span class="o">-</span><span class="n">v</span> <span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span> <span class="err">）</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>设置个人信息 <br/>
+ 你已经成功安装Git，并设置好SSH Keys，现在设置个人信息： <br/>
+ 设置用户名和电子邮件</li>
+</ol>
+
+
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>     <span class="err">$</span> <span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="s2">&quot;Firstname Lastname&quot;</span>
+</span><span class='line'>      <span class="err">$</span> <span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="s2">&quot;youremail@youremail.com&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你的~/目录下生成了 .gitconfig文件,即说明配置成功!你可以打开看看,是否是你配置的信息.OK,就说这么多了.</p>
 
 </div>
-
   
-</article>
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/07/hello-octopress/">Read on &rarr;</a>
+    </footer>
+  
 
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
 </div>
-
 <aside class="sidebar">
   
     <section>
@@ -194,7 +258,6 @@ var duoshuoQuery = {short_name:"chenming142"};
 
   
 </aside>
-
 
     </div>
   </div>
