@@ -70,6 +70,171 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/03/10/20-useful-snippets-of-java-program/">20个非常有用的java程序片段</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T10:18:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>原文地址是:<a href="http://coolshell.cn/articles/889.html" title="酷壳-CoolShell.cn">http://coolshell.cn/articles/889.html</a></p></blockquote>
+
+<p>下面是20个非常有用的Java程序片段，希望能对你有用。</p>
+
+<p>1.字符串有整型的相互转换</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">string</span> <span class="n">a</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>             <span class="c1">// integer to numeric string</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>              <span class="c1">// numeric string to an int</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.向文件末尾添加内容</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">BufferWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>      <span class="k">try</span><span class="o">{</span>
+</span><span class='line'>          <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="s">&quot;filename&quot;</span><span class="o">,</span> <span class="kc">true</span><span class="o">));</span>
+</span><span class='line'>          <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">&quot;aString&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">){</span>
+</span><span class='line'>          <span class="c1">// error processing code</span>
+</span><span class='line'>      <span class="o">}</span><span class="k">finally</span><span class="o">{</span>
+</span><span class='line'>          <span class="k">if</span><span class="o">(</span><span class="n">out</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+</span><span class='line'>              <span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>      <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.得到当前方法的名称</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">string</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getStackTrace</span><span class="o">()[</span><span class="mi">1</span><span class="o">].</span><span class="na">getMethodName</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4.转字符串到日期格式</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="o">=</span> <span class="n">java</span><span class="o">.</span><span class="na">text</span><span class="o">.</span><span class="na">DateFormat</span><span class="o">.</span><span class="na">getDateInstance</span><span class="o">().</span><span class="na">parse</span><span class="o">(</span><span class="n">date</span><span class="o">,</span> <span class="n">String</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者是:</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">SimpleDateFormat</span> <span class="n">sdf</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleDateFormat</span><span class="o">(</span><span class="s">&quot;dd.MM.yyyy&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">Date</span> <span class="n">d</span> <span class="o">=</span> <span class="n">sdf</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span> <span class="n">myString</span> <span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>5.使用JDBC连接Oracle</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>       <span class="kr">public</span> <span class="kr">class</span> <span class="nx">OracleJDBCTest</span><span class="p">{</span>
+</span><span class='line'>        <span class="nb">String</span> <span class="nx">driverClass</span> <span class="o">=</span> <span class="s2">&quot;oracle.jdbc.driver.OracleDriver&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="nx">Connection</span> <span class="nx">con</span><span class="p">;</span>
+</span><span class='line'>        <span class="kr">public</span> <span class="k">void</span> <span class="nx">init</span><span class="p">(</span><span class="nx">FileInputStream</span> <span class="nx">fs</span><span class="p">)</span> <span class="kr">throws</span> <span class="nx">ClassNotFoundException</span><span class="p">,</span> <span class="nx">SQLException</span><span class="p">,</span>
+</span><span class='line'>           <span class="nx">FileNotFoundException</span><span class="p">,</span> <span class="nx">IOException</span><span class="p">{</span>
+</span><span class='line'>              <span class="nx">Properties</span> <span class="nx">props</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Properties</span><span class="p">();</span>
+</span><span class='line'>              <span class="nx">props</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">fs</span><span class="p">);</span>
+</span><span class='line'>              <span class="nb">String</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;db.url&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="nb">String</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;db.username&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="nb">String</span> <span class="nx">password</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;db.password&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="nx">Class</span><span class="p">.</span><span class="nx">forName</span><span class="p">(</span><span class="nx">driverClass</span><span class="p">);</span>
+</span><span class='line'>              <span class="nx">con</span> <span class="o">=</span> <span class="nx">DriverManager</span><span class="p">.</span><span class="nx">getConnection</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">username</span><span class="p">,</span> <span class="nx">password</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="kr">public</span> <span class="k">void</span> <span class="nx">fetch</span><span class="p">()</span> <span class="kr">throws</span> <span class="nx">SQLException</span><span class="p">,</span> <span class="nx">IOException</span><span class="p">{</span>
+</span><span class='line'>              <span class="nx">PreparedStatement</span> <span class="nx">ps</span> <span class="o">=</span> <span class="nx">con</span><span class="p">.</span><span class="nx">prePareStatement</span><span class="p">(</span><span class="s2">&quot;select SYSDATE from dual&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="nx">ResultSet</span> <span class="nx">rs</span> <span class="o">=</span> <span class="nx">ps</span><span class="p">.</span><span class="nx">executeQuery</span><span class="p">();</span>
+</span><span class='line'>              <span class="k">while</span><span class="p">(</span><span class="nx">rs</span><span class="p">.</span><span class="nx">next</span><span class="p">()){</span>
+</span><span class='line'>                  <span class="c1">// do the things you do</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="nx">rs</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+</span><span class='line'>              <span class="nx">ps</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">main</span><span class="p">(</span><span class="nb">String</span><span class="p">[]</span> <span class="nx">args</span><span class="p">){</span>
+</span><span class='line'>              <span class="nx">OracleJDBCTest</span> <span class="nx">test</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OracleJDBCTest</span><span class="p">();</span>
+</span><span class='line'>              <span class="nx">test</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+</span><span class='line'>              <span class="nx">test</span><span class="p">.</span><span class="nx">fetch</span><span class="p">();</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/10/20-useful-snippets-of-java-program/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a></h1>
     
     
@@ -260,6 +425,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/31/simpledateconvert/">在Java中日期时间类型的相互转换</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/03/31/easytimer/">通用定时器|倒计时</a>
       </li>
     
@@ -303,10 +472,6 @@
         <a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a>
-      </li>
-    
   </ul>
 </section>
 <section id="comment_sidebar">
@@ -327,7 +492,7 @@ var duoshuoQuery = {short_name:"chenming142"};
   <h1>Categories</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/j2eeying-yong/'>J2EE应用 (1)</a></li>
-<li class='category'><a href='/blog/categories/j2seji-chu/'>J2SE基础 (4)</a></li>
+<li class='category'><a href='/blog/categories/j2seji-chu/'>J2SE基础 (5)</a></li>
 <li class='category'><a href='/blog/categories/umlshe-ji/'>UML设计 (1)</a></li>
 <li class='category'><a href='/blog/categories/yu-javascriptxiang-guan/'>与JavaScript相关 (4)</a></li>
 <li class='category'><a href='/blog/categories/kai-fa-gong-ju-ku/'>开发工具库 (2)</a></li>
@@ -337,18 +502,18 @@ var duoshuoQuery = {short_name:"chenming142"};
 <section>
   <h1>Tags</h1>
   <ul class="tag-cloud">
-    <a style="font-size: 145%" href="/tags/class/"> Class </a>
+    <a style="font-size: 140%" href="/tags/class/"> Class </a>
 <a style="font-size: 110%" href="/tags/github/"> Github </a>
 <a style="font-size: 110%" href="/tags/j2ee/"> J2EE </a>
 <a style="font-size: 180%" href="/tags/j2se/"> J2SE </a>
 <a style="font-size: 110%" href="/tags/junit/"> JUnit </a>
-<a style="font-size: 145%" href="/tags/oo/"> OO </a>
+<a style="font-size: 140%" href="/tags/oo/"> OO </a>
 <a style="font-size: 110%" href="/tags/octopress/"> Octopress </a>
 <a style="font-size: 110%" href="/tags/spring/"> Spring </a>
 <a style="font-size: 110%" href="/tags/uml/"> UML </a>
 <a style="font-size: 110%" href="/tags/vim/"> VIM </a>
-<a style="font-size: 180%" href="/tags/javascript/"> javascript </a>
-<a style="font-size: 145%" href="/tags/jquery/"> jquery </a>
+<a style="font-size: 170%" href="/tags/javascript/"> javascript </a>
+<a style="font-size: 140%" href="/tags/jquery/"> jquery </a>
 
   </ul>
 </section>
