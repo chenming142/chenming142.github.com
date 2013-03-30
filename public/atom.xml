@@ -4,7 +4,7 @@
   <title><![CDATA[chenming142's Blog for github]]></title>
   <link href="http://chenming142.github.com/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-30T20:48:01+08:00</updated>
+  <updated>2013-03-31T03:18:00+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -12,6 +12,945 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在Java中日期时间类型的相互转换]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/31/simpledateconvert/"/>
+    <updated>2013-03-31T02:17:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/31/simpledateconvert</id>
+    <content type="html"><![CDATA[<blockquote><p>在上篇<a href="http://chenming142.github.com/blog/2013/03/26/beanutils/" title="Java中Map与TO自动转换">《Java中Map与TO自动转换》</a>中的存在一个难点，就是如何把Map（一般是String类型，但不一定保证都是）中的数据，转换为To带类型的属性，接下来我们将解决这个问题。</p></blockquote>
+
+<h4>使用java.beanutil包中ConvertUtil类，进行基本类型的转换</h4>
+
+<p>ConvertUtil工具类职责是在字符串和指定类型的实例之间进行转换。目前支持的类型有：</p>
+
+<pre><code>java.lang.BigDecimal；java.lang.BigInteger   
+java.lang.Class
+
+byte；java.lang.Byte
+char；java.lang.Character
+short；java.lang.Short
+int；java.lang.Integer
+long；java.lang.Long
+boolean；java.lang.Boolean
+float；java.lang.Float
+double；java.lang.Double
+
+java.lang.String
+java.io.File
+java.net.URL
+
+java.sql.Time
+java.sql.Timestamp
+</code></pre>
+
+<p>总体提供两大类功能：   <br/>
+1. 将字符串转换为指定类型   <br/>
+2. 注册、注销和查询类型转换器</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="n">convert</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">Object</span> <span class="n">value</span><span class="o">)</span> <span class="c1">//将任意的实例转变为String</span>
+</span><span class='line'>  <span class="n">convert</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="n">value</span><span class="o">,</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">Class</span> <span class="n">clazz</span><span class="o">)</span> <span class="c1">//将字符串value转换为clazz的一个实例；如果失败的话，就以String的形式返回value</span>
+</span><span class='line'>  <span class="n">convert</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">[]</span> <span class="n">values</span><span class="o">,</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">Class</span> <span class="n">clazz</span><span class="o">)</span><span class="c1">//将数组中的每个value都进行转换，最后以Object返回</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>日期时间类型的相互转换</h4>
+
+<ol>
+<li>类java.util.Date
+该类是java.sql.Date与java.sql.Timestamp的直接父类。该类表示特定的瞬间，精确到毫秒。</li>
+</ol>
+
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="c1">//分配java.util.Date 对象并初始化此对象，以表示分配它的时间（精确到毫秒）</span>
+</span><span class='line'>  <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="n">dt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">();</span>
+</span><span class='line'>  <span class="c1">//转换为：周 月 日 hh:mm:ss 时区 年份</span>
+</span><span class='line'>  <span class="c1">//        Wed Mar 27 21:01:44 CST 2013</span>
+</span><span class='line'>  <span class="n">String</span> <span class="n">strdate</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>附：从 JDK 1.1 开始，应该使用 Calendar 类实现日期和时间字段之间转换，使用 DateFormat 类来格式化和解析日期字符串。</p>
+
+<ol>
+<li>类java.sql.Date
+该类是类java.util.Date的直接子类。一个包装了毫秒值的瘦包装器 (thin wrapper)，它允许 JDBC 将毫秒值标识为 SQL DATE 值。毫秒值表示自 1970 年 1 月 1 日 00:00:00 GMT 以来经过的毫秒数。</li>
+</ol>
+
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="c1">//使用给定毫秒时间值构造一个java.sql.Date 对象</span>
+</span><span class='line'>  <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span> <span class="n">dt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span><span class="o">(</span><span class="kt">long</span> <span class="n">ms</span><span class="o">)</span>
+</span><span class='line'>  <span class="c1">//转换为：yyyy-MM-dd</span>
+</span><span class='line'>  <span class="c1">//       2013-03-27</span>
+</span><span class='line'>  <span class="n">dt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span><span class="o">(</span><span class="mi">1364389304272</span><span class="n">l</span><span class="o">);</span><span class="c1">//注：最后一个是小写字符L</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>类java.sql.Timestamp
+该类是类java.util.Date的直接子类。一个与 java.util.Date 类有关的瘦包装器 (thin wrapper)，它允许 JDBC API 将该类标识为 SQL TIMESTAMP 值。它通过允许小数秒到纳秒级精度的规范来添加保存 SQL TIMESTAMP 小数秒值的能力。</li>
+</ol>
+
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="c1">//使用毫秒时间值构造Timestamp 对象</span>
+</span><span class='line'>  <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span> <span class="n">tts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span><span class="o">(</span><span class="kt">long</span> <span class="n">ms</span><span class="o">)</span>
+</span><span class='line'>  <span class="c1">//转换为：yyyy-MM-dd hh:mm:ss.SSS</span>
+</span><span class='line'>  <span class="c1">//       2013-03-27 21:01:44.0</span>
+</span><span class='line'>  <span class="n">dt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span><span class="o">(</span><span class="mi">1364389304272</span><span class="n">l</span><span class="o">);</span><span class="c1">//注：最后一个是小写字符L</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>类SimpleDateConvert</h4>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">.</span><span class="na">repos</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.text.ParseException</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">java.text.SimpleDateFormat</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">org.apache.commons.lang.time.DateUtils</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">org.apache.commons.logging.Log</span><span class="o">;</span>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">org.apache.commons.logging.LogFactory</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kn">import</span> <span class="nn">com.oo.gzdec.config.SimpleDateConverter</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">  * 类 Date 表示特定的瞬间，精确到毫秒。 java.util 类 Date</span>
+</span><span class='line'><span class="cm">  * </span>
+</span><span class='line'><span class="cm">  * java.lang.Object java.util.Date</span>
+</span><span class='line'><span class="cm">  * </span>
+</span><span class='line'><span class="cm">  * 所有已实现的接口： Serializable, Cloneable, Comparable&lt;Date&gt;</span>
+</span><span class='line'><span class="cm">  * </span>
+</span><span class='line'><span class="cm">  * 直接已知子类： java.sql.Date, java.sql.Time, java.sql.Timestamp</span>
+</span><span class='line'><span class="cm">  * </span>
+</span><span class='line'><span class="cm">  * @author Administrator</span>
+</span><span class='line'><span class="cm">  * </span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleUtilDate</span> <span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="n">Log</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">LogFactory</span><span class="o">.</span><span class="na">getFactory</span><span class="o">().</span><span class="na">getInstance</span><span class="o">(</span>
+</span><span class='line'>              <span class="n">SimpleUtilDate</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">private</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="n">dt</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">public</span> <span class="nf">SimpleUtilDate</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">dt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">();</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="nf">getDt</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">dt</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setDt</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="n">dt</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="nf">convert2StrDate</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">SimpleDateConverter</span><span class="o">.</span><span class="na">STANDARD_TIME_FORMAT</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">dt</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">convert</span><span class="o">(</span><span class="n">Object</span> <span class="n">date</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="kt">long</span> <span class="n">times</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">String</span> <span class="n">strdate</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
+</span><span class='line'>          <span class="k">if</span> <span class="o">(</span><span class="n">date</span> <span class="k">instanceof</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">strdate</span> <span class="o">=</span> <span class="n">SimpleDateConverter</span><span class="o">.</span><span class="na">STANDARD_TIME_FORMAT</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">date</span><span class="o">);</span>
+</span><span class='line'>          <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">strdate</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;转换后的日期型字符串strdate===&quot;</span> <span class="o">+</span> <span class="n">strdate</span><span class="o">);</span>
+</span><span class='line'>              <span class="n">times</span> <span class="o">=</span> <span class="n">DateUtils</span><span class="o">.</span><span class="na">parseDate</span><span class="o">(</span><span class="n">strdate</span><span class="o">,</span>
+</span><span class='line'>                      <span class="n">SimpleDateConverter</span><span class="o">.</span><span class="na">CUSTOM_DATE_FORMATS</span><span class="o">).</span><span class="na">getTime</span><span class="o">();</span>
+</span><span class='line'>          <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&quot;convert方法出错，arguments==&quot;</span> <span class="o">+</span> <span class="n">date</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">times</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span> <span class="nf">convert2SqlDate</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span> <span class="n">jsd</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">jsd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span><span class="o">(</span><span class="n">convert</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">dt</span><span class="o">));</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">jsd</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span> <span class="nf">convert2Timestamp</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span> <span class="n">jst</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">jst</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span><span class="o">(</span><span class="n">convert</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">dt</span><span class="o">));</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">jst</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="cm">/**</span>
+</span><span class='line'><span class="cm">      * 从 JDK 1.1 开始，应该使用 Calendar 类实现日期和时间字段之间转换，使用 DateFormat 类来格式化和解析日期字符串。</span>
+</span><span class='line'><span class="cm">      * </span>
+</span><span class='line'><span class="cm">      * @param args</span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">SimpleUtilDate</span> <span class="n">simpleUtilDate</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleUtilDate</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span>
+</span><span class='line'>                  <span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---java.util.Date开始转换--------------------------------------------------------&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">String</span> <span class="n">strdate</span> <span class="o">=</span> <span class="n">simpleUtilDate</span><span class="o">.</span><span class="na">convert2StrDate</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2StrDate转换后的结果=&quot;</span> <span class="o">+</span> <span class="n">strdate</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2StrDate转换的类型是否正确：&quot;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="o">(</span><span class="n">strdate</span> <span class="k">instanceof</span> <span class="n">String</span><span class="o">));</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">simpleUtilDate</span><span class="o">.</span><span class="na">convert2SqlDate</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2SqlDate转换后的结果=&quot;</span> <span class="o">+</span> <span class="n">dt</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2SqlDate转换后的类型是否正确：&quot;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="o">(</span><span class="n">dt</span> <span class="k">instanceof</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Date</span><span class="o">));</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">simpleUtilDate</span><span class="o">.</span><span class="na">convert2Timestamp</span><span class="o">();</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2Timestamp转换后的结果=&quot;</span> <span class="o">+</span> <span class="n">ts</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;convert2Timestamp转换后的类型是否正确=&quot;</span>
+</span><span class='line'>                  <span class="o">+</span> <span class="o">(</span><span class="n">ts</span> <span class="k">instanceof</span> <span class="n">java</span><span class="o">.</span><span class="na">sql</span><span class="o">.</span><span class="na">Timestamp</span><span class="o">));</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span>
+</span><span class='line'>                  <span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---end--------------------------------------------------------&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[通用定时器|倒计时]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/31/easytimer/"/>
+    <updated>2013-03-31T01:14:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/31/easytimer</id>
+    <content type="html"><![CDATA[<blockquote><p>在一年之前我同事尚谦写了一个倒计时，那个倒计时其实功能上已经很完善了，而且在项目中实际应用效果也不错；今天拿出来整理一下，只为再练练手而已。</p></blockquote>
+
+<h4>调用API</h4>
+
+<figure class='code'><figcaption><span>JavaScript Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>   <span class="kd">var</span> <span class="nx">_cfg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;allTimes&#39;</span> <span class="o">:</span> <span class="mi">120</span><span class="p">,</span> <span class="nx">renderTo</span> <span class="o">:</span> <span class="s1">&#39;timer&#39;</span><span class="p">};</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EasyTimer</span><span class="p">(</span><span class="nx">_cfg</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">timer</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">_cfg</span> <span class="o">=</span><span class="p">{</span><span class="s1">&#39;allTimes&#39;</span> <span class="o">:</span> <span class="mi">40</span><span class="p">,</span> <span class="nx">renderTo</span> <span class="o">:</span> <span class="s1">&#39;timer1&#39;</span><span class="p">,</span> <span class="nx">format</span> <span class="o">:</span> <span class="s1">&#39;剩余{s}秒&#39;</span><span class="p">};</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nx">EasyTimer</span><span class="p">(</span><span class="nx">_cfg</span><span class="p">).</span><span class="nx">start</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">_cfg</span> <span class="o">=</span><span class="p">{</span><span class="s1">&#39;allTimes&#39;</span> <span class="o">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">renderTo</span> <span class="o">:</span> <span class="s1">&#39;timer2&#39;</span><span class="p">,</span> <span class="nx">format</span> <span class="o">:</span> <span class="s1">&#39;剩余{s}秒&#39;</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;我是timer2,我执行完毕了！&#39;</span><span class="p">);}};</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nx">EasyTimer</span><span class="p">(</span><span class="nx">_cfg</span><span class="p">).</span><span class="nx">start</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">_cfg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;allTimes&#39;</span> <span class="o">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nx">renderTo</span> <span class="o">:</span> <span class="s1">&#39;timer3&#39;</span><span class="p">,</span> <span class="nx">immediate</span><span class="o">:</span> <span class="kc">true</span><span class="p">};</span>
+</span><span class='line'>  <span class="k">new</span> <span class="nx">EasyTimer</span><span class="p">(</span><span class="nx">_cfg</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">_cfg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;allTimes&#39;</span> <span class="o">:</span> <span class="mi">125</span><span class="p">,</span> <span class="nx">renderTo</span> <span class="o">:</span> <span class="s1">&#39;timer4&#39;</span><span class="p">,</span> <span class="nx">direction</span> <span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">immediate</span><span class="o">:</span> <span class="kc">true</span><span class="p">};</span>
+</span><span class='line'>  <span class="k">new</span> <span class="nx">EasyTimer</span><span class="p">(</span><span class="nx">_cfg</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>构造函数及参数说明</h4>
+
+<pre><code>EasyTimer(_cfg) : 构造一个倒计时|定时器
+_cfg = {
+    allTimes : 0,  
+    defaultFormat :  '{d}天{h}时{m}分{s}秒',
+    renderTo : '',
+    direction : ''
+    immediate : false,
+    ok : fn,
+    callback : fn
+} 
+allTimes      ：定时器|倒计时的时间总秒数，默认为0
+defaultFormat ：时间显示的格式，不传即显示上述默认格式
+renderTo      ：时间显示的位置元素，必传参数
+direction     ：定时器与倒计时类型区分{0 : 倒计时,1 : 定时器}
+immediate     ：定时器与倒计时初始化后，是否自动执行
+ok            ：定时器与倒计时完成后，调用函数
+callback      ：定时器与倒计时间隔调用函数
+isdebug       ：针对当前定时器与倒计时打印调试信息
+</code></pre>
+
+<!-- more -->
+
+
+<h4>全部源码</h4>
+
+<figure class='code'><figcaption><span>JavaScript Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
+<span class='line-number'>231</span>
+<span class='line-number'>232</span>
+<span class='line-number'>233</span>
+<span class='line-number'>234</span>
+<span class='line-number'>235</span>
+<span class='line-number'>236</span>
+<span class='line-number'>237</span>
+<span class='line-number'>238</span>
+<span class='line-number'>239</span>
+<span class='line-number'>240</span>
+<span class='line-number'>241</span>
+<span class='line-number'>242</span>
+<span class='line-number'>243</span>
+<span class='line-number'>244</span>
+<span class='line-number'>245</span>
+<span class='line-number'>246</span>
+<span class='line-number'>247</span>
+<span class='line-number'>248</span>
+<span class='line-number'>249</span>
+<span class='line-number'>250</span>
+<span class='line-number'>251</span>
+<span class='line-number'>252</span>
+<span class='line-number'>253</span>
+<span class='line-number'>254</span>
+<span class='line-number'>255</span>
+<span class='line-number'>256</span>
+<span class='line-number'>257</span>
+<span class='line-number'>258</span>
+<span class='line-number'>259</span>
+<span class='line-number'>260</span>
+<span class='line-number'>261</span>
+<span class='line-number'>262</span>
+<span class='line-number'>263</span>
+<span class='line-number'>264</span>
+<span class='line-number'>265</span>
+<span class='line-number'>266</span>
+<span class='line-number'>267</span>
+<span class='line-number'>268</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>   <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">global</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">function</span> <span class="nx">EasyTimer</span><span class="p">(</span><span class="nx">_cfg</span><span class="p">){</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">defaultConfig</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>              <span class="nx">allTimes</span> <span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="nx">day</span>  <span class="o">:</span> <span class="s1">&#39;timer_day&#39;</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">hour</span> <span class="o">:</span> <span class="s1">&#39;timer_hour&#39;</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">minu</span> <span class="o">:</span> <span class="s1">&#39;timer_minu&#39;</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">sec</span>  <span class="o">:</span> <span class="s1">&#39;timer_sec&#39;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="nx">interval</span> <span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">defaultFormat</span> <span class="o">:</span>  <span class="s1">&#39;{d}天{h}时{m}分{s}秒&#39;</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">set</span> <span class="o">:</span> <span class="p">{</span><span class="s1">&#39;s&#39;</span> <span class="o">:</span> <span class="mi">59</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span> <span class="o">:</span> <span class="mi">59</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span> <span class="o">:</span> <span class="mi">23</span><span class="p">},</span>
+</span><span class='line'>              <span class="nx">direction</span> <span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">immediate</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">ok</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">callback</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span>
+</span><span class='line'>          <span class="p">};</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span>       <span class="o">=</span> <span class="nx">mix</span><span class="p">(</span><span class="nx">defaultConfig</span><span class="p">,</span> <span class="nx">_cfg</span><span class="p">);</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">allTimes</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">allTimes</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">defaultFormat</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">format</span> <span class="p">){</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">format</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">defaultFormat</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">defaultFormat</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">format</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">format</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">renderTo</span> <span class="p">){</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">renderTo</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">renderTo</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>              <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;参数中，缺少定时器|倒计时的render元素&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="k">return</span> <span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">day</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">hour</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">minu</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">sec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">interval</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">interval</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">over</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">direction</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">direction</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">ok</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">ok</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">callback</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">callback</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">invoke</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){};</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">EasyTimer</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">init</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">allTimes</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">allTimes</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">allTimes</span> <span class="o">&amp;&amp;</span> <span class="nb">parseInt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">allTimes</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">immediate</span> <span class="p">)</span><span class="k">this</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">initTimer</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">direction</span> <span class="p">);</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">showTime</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">initTimer</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">direction</span> <span class="p">){</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">allTimes</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">allTimes</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">direction</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">if</span><span class="p">(</span> <span class="nx">allTimes</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">allTimes</span> <span class="o">&lt;</span> <span class="mi">60</span> <span class="p">){</span>
+</span><span class='line'>                      <span class="k">this</span><span class="p">.</span><span class="nx">sec</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">allTimes</span><span class="p">;</span>
+</span><span class='line'>                  <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                      <span class="k">this</span><span class="p">.</span><span class="nx">day</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">allTimes</span> <span class="o">/</span> <span class="mi">86400</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>                      <span class="nx">allTimes</span> <span class="o">%=</span> <span class="mi">86400</span><span class="p">;</span>
+</span><span class='line'>                      <span class="k">this</span><span class="p">.</span><span class="nx">hour</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">allTimes</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>                      <span class="nx">allTimes</span> <span class="o">%=</span> <span class="mi">3600</span><span class="p">;</span>
+</span><span class='line'>                      <span class="k">this</span><span class="p">.</span><span class="nx">minu</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">allTimes</span> <span class="o">/</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>                      <span class="nx">allTimes</span> <span class="o">%=</span> <span class="mi">60</span>
+</span><span class='line'>                      <span class="k">this</span><span class="p">.</span><span class="nx">sec</span> <span class="o">=</span> <span class="nx">allTimes</span><span class="p">;</span>
+</span><span class='line'>                  <span class="p">}</span>
+</span><span class='line'>              <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">maxDay</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">allTimes</span> <span class="o">/</span> <span class="mi">86400</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">invoke</span> <span class="o">=</span> <span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">direction</span> <span class="p">)</span> <span class="o">?</span>
+</span><span class='line'>                  <span class="kd">function</span> <span class="p">(){</span>
+</span><span class='line'>                      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>                      <span class="k">return</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nx">el</span><span class="p">.</span><span class="nx">interval</span><span class="p">;</span>
+</span><span class='line'>                  <span class="p">}</span> <span class="o">:</span>
+</span><span class='line'>                  <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>                      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>                      <span class="k">return</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nx">el</span><span class="p">.</span><span class="nx">interval</span><span class="p">;</span>
+</span><span class='line'>              <span class="p">};</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">start</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">allTimes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">startTimeCount</span><span class="p">();</span>
+</span><span class='line'>              <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">over</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">startTimeCount</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>              <span class="nb">window</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>                  <span class="nx">el</span><span class="p">.</span><span class="nx">timeCount</span><span class="p">();</span>
+</span><span class='line'>              <span class="p">},</span> <span class="k">this</span><span class="p">.</span><span class="nx">interval</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">timeCount</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">updateSec</span><span class="p">();</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">over</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">startTimeCount</span><span class="p">();</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">reset</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">direction</span><span class="p">,</span> <span class="nx">e</span><span class="p">){</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">set</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">;</span>
+</span><span class='line'>              <span class="k">return</span> <span class="p">(</span> <span class="o">!</span><span class="nx">direction</span> <span class="p">)</span> <span class="o">?</span> <span class="nx">set</span><span class="p">[</span><span class="nx">e</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">checkNext</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">direction</span> <span class="p">,</span> <span class="nx">val</span><span class="p">,</span> <span class="nx">e</span> <span class="p">){</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">set</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">;</span>
+</span><span class='line'>              <span class="k">return</span> <span class="p">(</span> <span class="o">!</span><span class="nx">direction</span> <span class="p">)</span> <span class="o">?</span> <span class="nx">val</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">:</span> <span class="nx">val</span> <span class="o">&lt;</span> <span class="nx">set</span><span class="p">[</span><span class="nx">e</span><span class="p">];</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">updateSec</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">next</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">checkNext</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">direction</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">sec</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">);</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="nx">next</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">sec</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">sec</span><span class="p">)</span> <span class="p">;</span>
+</span><span class='line'>              <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">over</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">sec</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">reset</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">direction</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">);</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">updateMinu</span><span class="p">();</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">checkOver</span><span class="p">();</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">showTime</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">updateMinu</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">next</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">checkNext</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">direction</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">minu</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">);</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="nx">next</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">minu</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">minu</span><span class="p">);</span>
+</span><span class='line'>              <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">over</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">minu</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">reset</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">direction</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">);</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">updateHour</span><span class="p">();</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">showTime</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">updateHour</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">next</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">checkNext</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">direction</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">hour</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">);;</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="nx">next</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">hour</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">hour</span><span class="p">);</span>
+</span><span class='line'>              <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">over</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">hour</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">reset</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">direction</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">);</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">updateDay</span><span class="p">();</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">showTime</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">updateDay</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">day</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">day</span><span class="p">,</span>
+</span><span class='line'>                  <span class="nx">next</span> <span class="o">=</span> <span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">direction</span> <span class="p">)</span> <span class="o">?</span> <span class="nx">day</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">maxDay</span> <span class="o">:</span> <span class="nx">day</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="nx">next</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">day</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">day</span><span class="p">);</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">showTime</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">);</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">ctinue</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">over</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">startTimeCount</span><span class="p">();</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">stop</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">clear</span><span class="p">){</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="nx">clear</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">day</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">hour</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">minu</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">sec</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">showTime</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">pause</span><span class="p">();</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">pause</span> <span class="o">:</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">over</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">checkOver</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">allTimes</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">allTimes</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">interval</span><span class="p">;</span>
+</span><span class='line'>              <span class="k">this</span><span class="p">.</span><span class="nx">over</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">allTimes</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>              <span class="c1">// TODO : 定时器完成方法调用</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">over</span> <span class="o">&amp;&amp;</span> <span class="nx">isFunction</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">ok</span><span class="p">)){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">ok</span><span class="p">();</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="c1">// TODO : 定时器间隔方法调用</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">callback</span> <span class="o">&amp;&amp;</span> <span class="nx">isFunction</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">callback</span><span class="p">)</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">showTime</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">type</span> <span class="p">){</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span> <span class="nx">split</span> <span class="o">=</span>  <span class="p">(</span> <span class="nx">el</span><span class="p">.</span><span class="nx">format</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/\{\w\}/g</span><span class="p">).</span><span class="nx">length</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">defaultFormat</span> <span class="o">||</span> <span class="nx">split</span><span class="p">){</span>
+</span><span class='line'>                  <span class="k">try</span><span class="p">{</span>
+</span><span class='line'>                      <span class="nx">getElement</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">renderTo</span><span class="p">).</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">format</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">format</span><span class="p">,</span> <span class="p">{</span><span class="nx">d</span> <span class="o">:</span> <span class="nx">el</span><span class="p">.</span><span class="nx">day</span><span class="p">,</span> <span class="nx">h</span> <span class="o">:</span> <span class="nx">el</span><span class="p">.</span><span class="nx">hour</span><span class="p">,</span> <span class="nx">m</span> <span class="o">:</span> <span class="nx">el</span><span class="p">.</span><span class="nx">minu</span><span class="p">,</span> <span class="nx">s</span> <span class="o">:</span> <span class="nx">el</span><span class="p">.</span><span class="nx">sec</span><span class="p">});</span>
+</span><span class='line'>                      <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">debug</span><span class="p">){</span>
+</span><span class='line'>                          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;格式化结果是:&#39;</span>
+</span><span class='line'>                              <span class="o">+</span><span class="nx">format</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">format</span><span class="p">,</span> <span class="p">{</span><span class="nx">d</span> <span class="o">:</span> <span class="nx">el</span><span class="p">.</span><span class="nx">day</span><span class="p">,</span> <span class="nx">h</span> <span class="o">:</span> <span class="nx">el</span><span class="p">.</span><span class="nx">hour</span><span class="p">,</span> <span class="nx">m</span> <span class="o">:</span> <span class="nx">el</span><span class="p">.</span><span class="nx">minu</span><span class="p">,</span> <span class="nx">s</span> <span class="o">:</span> <span class="nx">el</span><span class="p">.</span><span class="nx">sec</span><span class="p">})</span>
+</span><span class='line'>                              <span class="o">+</span><span class="s2">&quot;---传入的参数是{ d:&quot;</span><span class="o">+</span><span class="nx">el</span><span class="p">.</span><span class="nx">day</span> <span class="o">+</span><span class="s1">&#39;, h:&#39;</span><span class="o">+</span> <span class="nx">el</span><span class="p">.</span><span class="nx">hour</span> <span class="o">+</span><span class="s1">&#39;, m:&#39;</span> <span class="o">+</span> <span class="nx">el</span><span class="p">.</span><span class="nx">minu</span> <span class="o">+</span><span class="s1">&#39;, s:&#39;</span><span class="o">+</span> <span class="nx">el</span><span class="p">.</span><span class="nx">sec</span> <span class="o">+</span><span class="s1">&#39;}&#39;</span><span class="p">);</span>
+</span><span class='line'>                      <span class="p">}</span>
+</span><span class='line'>                  <span class="p">}</span><span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">){</span>
+</span><span class='line'>                      <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;更新时间出错，异常类型是&#39;</span><span class="o">+</span> <span class="nx">err</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span><span class="s1">&#39;错误信息是：&#39;</span><span class="o">+</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+</span><span class='line'>                  <span class="p">}</span>
+</span><span class='line'>              <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                  <span class="kd">var</span> <span class="nx">origin</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>                      <span class="nx">d</span> <span class="o">:</span> <span class="p">[</span><span class="nx">el</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">day</span><span class="p">,</span> <span class="nx">el</span><span class="p">.</span><span class="nx">day</span><span class="p">],</span>
+</span><span class='line'>                      <span class="nx">h</span> <span class="o">:</span> <span class="p">[</span><span class="nx">el</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">hour</span><span class="p">,</span> <span class="nx">el</span><span class="p">.</span><span class="nx">hour</span><span class="p">],</span>
+</span><span class='line'>                      <span class="nx">m</span> <span class="o">:</span> <span class="p">[</span><span class="nx">el</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">minu</span><span class="p">,</span> <span class="nx">el</span><span class="p">.</span><span class="nx">minu</span><span class="p">],</span>
+</span><span class='line'>                      <span class="nx">s</span> <span class="o">:</span> <span class="p">[</span><span class="nx">el</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">sec</span><span class="p">,</span> <span class="nx">el</span><span class="p">.</span><span class="nx">sec</span><span class="p">]</span>
+</span><span class='line'>                  <span class="p">};</span>
+</span><span class='line'>                  <span class="k">if</span><span class="p">(</span><span class="nx">origin</span><span class="p">[</span><span class="nx">type</span><span class="p">]){</span>
+</span><span class='line'>                      <span class="nx">getElement</span><span class="p">(</span><span class="nx">origin</span><span class="p">[</span><span class="nx">type</span><span class="p">][</span><span class="mi">0</span><span class="p">]).</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">padZero</span><span class="p">(</span><span class="nx">origin</span><span class="p">[</span><span class="nx">type</span><span class="p">][</span><span class="mi">1</span><span class="p">]);</span>
+</span><span class='line'>                  <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>                      <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">p</span> <span class="k">in</span> <span class="nx">origin</span><span class="p">){</span>
+</span><span class='line'>                          <span class="k">if</span><span class="p">(</span> <span class="nx">origin</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">p</span><span class="p">)){</span>
+</span><span class='line'>                              <span class="nx">getElement</span><span class="p">(</span><span class="nx">origin</span><span class="p">[</span><span class="nx">p</span><span class="p">][</span><span class="mi">0</span><span class="p">]).</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">padZero</span><span class="p">(</span><span class="nx">origin</span><span class="p">[</span><span class="nx">p</span><span class="p">][</span><span class="mi">1</span><span class="p">]);</span>
+</span><span class='line'>                          <span class="p">}</span>
+</span><span class='line'>                      <span class="p">}</span>
+</span><span class='line'>                  <span class="p">}</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">};</span>
+</span><span class='line'>      <span class="c1">// Helpers</span>
+</span><span class='line'>      <span class="c1">// --------------------------------------------------------------------------</span>
+</span><span class='line'>      <span class="kd">function</span> <span class="nx">mix</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">wl</span><span class="p">){</span>
+</span><span class='line'>          <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">p</span> <span class="k">in</span> <span class="nx">s</span><span class="p">){</span>
+</span><span class='line'>              <span class="k">if</span><span class="p">(</span> <span class="nx">s</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">if</span><span class="p">(</span> <span class="nx">wl</span> <span class="o">&amp;&amp;</span> <span class="nx">indexOf</span><span class="p">(</span><span class="nx">wl</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="k">continue</span><span class="p">;</span>
+</span><span class='line'>                  <span class="k">if</span><span class="p">(</span> <span class="nx">p</span> <span class="o">!==</span> <span class="s1">&#39;prototype&#39;</span> <span class="p">){</span>
+</span><span class='line'>                      <span class="nx">r</span><span class="p">[</span><span class="nx">p</span><span class="p">]</span> <span class="o">=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">p</span><span class="p">];</span>
+</span><span class='line'>                  <span class="p">}</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="k">return</span> <span class="nx">r</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">toString</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toString</span><span class="p">;</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">isFunction</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">val</span> <span class="p">){</span>
+</span><span class='line'>          <span class="c1">//console.log(&#39;val===&#39;+ val.toSource() +&#39;,是否是函数：&#39;+(toString.call( val ) === &#39;[object Function]&#39;));</span>
+</span><span class='line'>          <span class="k">return</span> <span class="nx">toString</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span> <span class="nx">val</span> <span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;[object Function]&#39;</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">};</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">arrProto</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">indexOf</span> <span class="o">=</span> <span class="nx">arrProto</span><span class="p">.</span><span class="nx">indexOf</span> <span class="o">?</span>
+</span><span class='line'>              <span class="kd">function</span><span class="p">(</span> <span class="nx">arr</span><span class="p">,</span> <span class="nx">item</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">return</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">item</span><span class="p">);</span>
+</span><span class='line'>              <span class="p">}</span> <span class="o">:</span>
+</span><span class='line'>              <span class="kd">function</span><span class="p">(</span> <span class="nx">arr</span><span class="p">,</span> <span class="nx">item</span> <span class="p">){</span>
+</span><span class='line'>                  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>                      <span class="k">if</span><span class="p">(</span> <span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">item</span> <span class="p">){</span>
+</span><span class='line'>                          <span class="k">return</span> <span class="nx">i</span><span class="p">;</span>
+</span><span class='line'>                      <span class="p">}</span>
+</span><span class='line'>                  <span class="p">}</span>
+</span><span class='line'>                  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>              <span class="p">};</span>
+</span><span class='line'>      <span class="kd">function</span> <span class="nx">format</span><span class="p">(</span> <span class="nx">origin</span> <span class="p">){</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">args</span> <span class="o">=</span> <span class="nx">arrProto</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arguments</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">REG_FORMAT_TOKEN</span> <span class="o">=</span> <span class="sr">/\{(\w)\}/g</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">return</span> <span class="nx">origin</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">REG_FORMAT_TOKEN</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">m</span><span class="p">,</span> <span class="nx">i</span> <span class="p">){</span>
+</span><span class='line'>              <span class="k">return</span> <span class="nx">args</span><span class="p">[</span> <span class="mi">0</span> <span class="p">][</span> <span class="nx">i</span> <span class="p">]</span> <span class="o">?</span> <span class="nx">padZero</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span> <span class="mi">0</span> <span class="p">][</span> <span class="nx">i</span> <span class="p">])</span> <span class="o">:</span> <span class="s1">&#39;00&#39;</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">});</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="kd">function</span> <span class="nx">padZero</span><span class="p">(</span><span class="nx">num</span><span class="p">,</span> <span class="nx">len</span><span class="p">,</span> <span class="nx">pos</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">len</span> <span class="o">=</span> <span class="nx">len</span> <span class="o">||</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="nx">num</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="nx">len</span><span class="p">){</span><span class="k">return</span> <span class="nx">num</span><span class="p">;}</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span> <span class="nx">pos</span> <span class="p">){</span>
+</span><span class='line'>             <span class="k">return</span>  <span class="nx">padZero</span><span class="p">(</span> <span class="nx">num</span> <span class="o">+</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="nx">len</span><span class="p">,</span> <span class="nx">pos</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="k">return</span> <span class="nx">padZero</span><span class="p">(</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="nx">num</span> <span class="p">,</span> <span class="nx">len</span><span class="p">,</span> <span class="nx">pos</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="kd">function</span> <span class="nx">getElement</span><span class="p">(</span> <span class="nx">elemStr</span> <span class="p">){</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">elem</span> <span class="o">=</span> <span class="nx">elemStr</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;#&#39;</span>
+</span><span class='line'>              <span class="o">?</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">elemStr</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">:</span> <span class="nx">elemStr</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;.&#39;</span> <span class="o">?</span>
+</span><span class='line'>                  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="nx">elemStr</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">:</span>
+</span><span class='line'>              <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">elemStr</span><span class="p">);</span>
+</span><span class='line'>          <span class="k">return</span> <span class="nx">elem</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">global</span><span class="p">.</span><span class="nx">EasyTimer</span> <span class="o">=</span> <span class="nx">EasyTimer</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">})(</span><span class="k">this</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JavaScript之OOP实现]]></title>
