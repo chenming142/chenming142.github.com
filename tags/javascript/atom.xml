@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: javascript | chenming142's Blog for github]]></title>
   <link href="http://chenming142.github.com/tags/javascript/atom.xml" rel="self"/>
   <link href="http://chenming142.github.com/"/>
-  <updated>2013-03-31T02:09:21+08:00</updated>
+  <updated>2013-03-31T02:14:06+08:00</updated>
   <id>http://chenming142.github.com/</id>
   <author>
     <name><![CDATA[Kevin Chen]]></name>
@@ -85,6 +85,9 @@ ok            ：定时器与倒计时完成后，调用函数
 callback      ：定时器与倒计时间隔调用函数
 isdebug       ：针对当前定时器与倒计时打印调试信息
 </code></pre>
+
+<!-- more -->
+
 
 <h4>全部源码</h4>
 
