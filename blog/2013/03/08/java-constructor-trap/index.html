@@ -9,8 +9,8 @@
   <meta name="author" content="Kevin Chen">
 
   
-  <meta name="description" content="原文:http://blog.csdn.net/haoel/article/details/4319793 让我们先来看两个类: Base 和 Derived 类.注意其中的 whenAmISet 的成员变量,和方法 preProcess(). public class Base{ Base &hellip;">
-  
+  <meta name="description" content="Tips, tricks, and hacks on Ruby on Rails development.">
+  <meta name="keywords" content="ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -94,35 +94,58 @@
 
 <p>让我们先来看两个类: <strong>Base</strong> 和 <strong>Derived</strong> 类.注意其中的 <em>whenAmISet</em> 的成员变量,和方法 <em>preProcess()</em>.</p>
 
-<pre><code>public class Base{
-    Base(){
-        preProcess();
-    }
-    void preProcess();
-}
-public class Derived extends Base{
-    public String whenAmISet = "set when declared";
-    @Override void preProcess(){
-        whenAmISet = "set in preProcess()";
-    }
-}
-</code></pre>
+<figure class='code'><figcaption><span>Java Syntax Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Base</span><span class="o">{</span>
+</span><span class='line'>      <span class="n">Base</span><span class="o">(){</span>
+</span><span class='line'>          <span class="n">preProcess</span><span class="o">();</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="nf">preProcess</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Derived</span> <span class="kd">extends</span> <span class="n">Base</span><span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="n">whenAmISet</span> <span class="o">=</span> <span class="s">&quot;set when declared&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="nd">@Override</span> <span class="kt">void</span> <span class="n">preProcess</span><span class="o">(){</span>
+</span><span class='line'>          <span class="n">whenAmISet</span> <span class="o">=</span> <span class="s">&quot;set in preProcess()&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>如果我们构造一个子类实例,那么 <strong>whenAmISet</strong> 的值会是什么呢?</p>
 
-<pre><code>public class Main{
-    public static void main(String[] args){
-        Derived d = new Derived();
-        System.out.println( d.whenAmISet );
-    }
-}
-</code></pre>
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>   <span class="kr">public</span> <span class="kr">class</span> <span class="nx">Main</span><span class="p">{</span>
+</span><span class='line'>      <span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">main</span><span class="p">(</span><span class="nb">String</span><span class="p">[]</span> <span class="nx">args</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">Derived</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Derived</span><span class="p">();</span>
+</span><span class='line'>          <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span> <span class="nx">d</span><span class="p">.</span><span class="nx">whenAmISet</span> <span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>再续继往下阅读之前，请先给自己一些时间想一下上面的这段程序的输出是什么？是的，这看起来的确相当简单，甚至不需要编译和运行上面的代码，我们也应该知道其答案，那么，你觉得你知道答案吗？你确定你的答案正确吗？</p>
 
 <p>很多人都会觉得那段程序的输出应该是<code>set in preProcess()</code>，这是因为当子类Derived 的构造函数被调用时，其会隐晦地调用其基类Base的构造函数（通过super()函数），于是基类Base的构造函数会调用preProcess() 函数，因为这个类的实例是Derived的，而且在子类Derived中对这个函数使用了override关键字，所以，实际上调用到的是：<code>Derived.preProcess()</code>，而这个方法设置了whenAmISet 成员变量的值为：<code>set in preProcess()</code>。</p>
 
 <p>当然，上面的结论是错误的。如果你编译并运行这个程序，你会发现，程序实际输出的是<code>set when declared</code>。怎么为这样呢？难道是基类Base 的preProcess() 方法被调用啦？也不是！你可以在基类的preProcess中输出点什么看看，你会发现程序运行时，<strong>Base.preProcess()</strong> 并没有被调用到（不然这对于Java所有的应用程序将会是一个极具灾难性的Bug）</p>
+
+<!-- more -->
+
 
 <p>虽然上面的结论是错误的，但推导过程是合理的，只是不完整，下面是整个运行的流程：</p>
 
@@ -175,12 +198,10 @@ C++的程序员应该都知道，在C++的世界中在<code>构造函数中调�
 
   <footer>
     <p class="meta">
-      
   
 
 <span class="byline author vcard">Posted by <span class="fn">Kevin Chen</span></span>
 
-      
 
 
 
@@ -197,12 +218,11 @@ C++的程序员应该都知道，在C++的世界中在<code>构造函数中调�
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/java/'>java</a>
+    <a class='category' href='/blog/categories/j2seji-chu/'>J2SE基础</a>
   
 </span>
 
-
-    </p>
+</p>
     
       
     
@@ -244,6 +264,42 @@ var duoshuoQuery = {short_name:"chenming142"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/31/simpledateconvert/">在Java中日期时间类型的相互转换</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/31/easytimer/">通用定时器|倒计时</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/28/js-classify/">JavaScript之OOP实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/26/beanutils/">Java中Map与TO自动转换</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/23/classify/">Java的类与面向对象特性</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/17/jquery-type/">jQuery 数据类型详解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/15/jquery-unique/">jquery unique 详解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/13/spring-test/">Spring Test整合JUnit 4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/11/vim-strategy/">简明 Vim 练级攻略</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a>
       </li>
     
@@ -255,17 +311,51 @@ var duoshuoQuery = {short_name:"chenming142"};
         <a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a>
-      </li>
-    
   </ul>
 </section>
+<section id="comment_sidebar">
+<h1>近期评论</h1>
+<ul class="ds-recent-comments" data-num-items="10"></ul>
 
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chenming142"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+</section><section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/j2eeying-yong/'>J2EE应用 (1)</a></li>
+<li class='category'><a href='/blog/categories/j2seji-chu/'>J2SE基础 (5)</a></li>
+<li class='category'><a href='/blog/categories/umlshe-ji/'>UML设计 (1)</a></li>
+<li class='category'><a href='/blog/categories/yu-javascriptxiang-guan/'>与JavaScript相关 (4)</a></li>
+<li class='category'><a href='/blog/categories/kai-fa-gong-ju-ku/'>开发工具库 (2)</a></li>
 
+  </ul>
+</section>
+<section>
+  <h1>Tags</h1>
+  <ul class="tag-cloud">
+    <a style="font-size: 140%" href="/tags/class/"> Class </a>
+<a style="font-size: 110%" href="/tags/github/"> Github </a>
+<a style="font-size: 110%" href="/tags/j2ee/"> J2EE </a>
+<a style="font-size: 180%" href="/tags/j2se/"> J2SE </a>
+<a style="font-size: 110%" href="/tags/junit/"> JUnit </a>
+<a style="font-size: 140%" href="/tags/oo/"> OO </a>
+<a style="font-size: 110%" href="/tags/octopress/"> Octopress </a>
+<a style="font-size: 110%" href="/tags/spring/"> Spring </a>
+<a style="font-size: 110%" href="/tags/uml/"> UML </a>
+<a style="font-size: 110%" href="/tags/vim/"> VIM </a>
+<a style="font-size: 170%" href="/tags/javascript/"> javascript </a>
+<a style="font-size: 140%" href="/tags/jquery/"> jquery </a>
 
-
-
+  </ul>
+</section>
 
   
 </aside>

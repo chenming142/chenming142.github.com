@@ -1,0 +1,555 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>chenming142's Blog for github</title>
+  <meta name="author" content="Kevin Chen">
+
+  
+  <meta name="description" content="Tips, tricks, and hacks on Ruby on Rails development.">
+  <meta name="keywords" content="ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://chenming142.github.com/blog/page/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="chenming142's Blog for github" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">chenming142's Blog for github</a></h1>
+  
+    <h2>实践|思考|总结|分享</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:chenming142.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/10/20-useful-snippets-of-java-program/">20个非常有用的java程序片段</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T10:18:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>原文地址是:<a href="http://coolshell.cn/articles/889.html" title="酷壳-CoolShell.cn">http://coolshell.cn/articles/889.html</a></p></blockquote>
+
+<p>下面是20个非常有用的Java程序片段，希望能对你有用。</p>
+
+<p>1.字符串有整型的相互转换</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">string</span> <span class="n">a</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>             <span class="c1">// integer to numeric string</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>              <span class="c1">// numeric string to an int</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.向文件末尾添加内容</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">BufferWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>      <span class="k">try</span><span class="o">{</span>
+</span><span class='line'>          <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="s">&quot;filename&quot;</span><span class="o">,</span> <span class="kc">true</span><span class="o">));</span>
+</span><span class='line'>          <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">&quot;aString&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">){</span>
+</span><span class='line'>          <span class="c1">// error processing code</span>
+</span><span class='line'>      <span class="o">}</span><span class="k">finally</span><span class="o">{</span>
+</span><span class='line'>          <span class="k">if</span><span class="o">(</span><span class="n">out</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+</span><span class='line'>              <span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>      <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.得到当前方法的名称</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">string</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getStackTrace</span><span class="o">()[</span><span class="mi">1</span><span class="o">].</span><span class="na">getMethodName</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4.转字符串到日期格式</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span> <span class="o">=</span> <span class="n">java</span><span class="o">.</span><span class="na">text</span><span class="o">.</span><span class="na">DateFormat</span><span class="o">.</span><span class="na">getDateInstance</span><span class="o">().</span><span class="na">parse</span><span class="o">(</span><span class="n">date</span><span class="o">,</span> <span class="n">String</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者是:</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>     <span class="n">SimpleDateFormat</span> <span class="n">sdf</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleDateFormat</span><span class="o">(</span><span class="s">&quot;dd.MM.yyyy&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">Date</span> <span class="n">d</span> <span class="o">=</span> <span class="n">sdf</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span> <span class="n">myString</span> <span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>5.使用JDBC连接Oracle</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>       <span class="kr">public</span> <span class="kr">class</span> <span class="nx">OracleJDBCTest</span><span class="p">{</span>
+</span><span class='line'>        <span class="nb">String</span> <span class="nx">driverClass</span> <span class="o">=</span> <span class="s2">&quot;oracle.jdbc.driver.OracleDriver&quot;</span><span class="p">;</span>
+</span><span class='line'>        <span class="nx">Connection</span> <span class="nx">con</span><span class="p">;</span>
+</span><span class='line'>        <span class="kr">public</span> <span class="k">void</span> <span class="nx">init</span><span class="p">(</span><span class="nx">FileInputStream</span> <span class="nx">fs</span><span class="p">)</span> <span class="kr">throws</span> <span class="nx">ClassNotFoundException</span><span class="p">,</span> <span class="nx">SQLException</span><span class="p">,</span>
+</span><span class='line'>           <span class="nx">FileNotFoundException</span><span class="p">,</span> <span class="nx">IOException</span><span class="p">{</span>
+</span><span class='line'>              <span class="nx">Properties</span> <span class="nx">props</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Properties</span><span class="p">();</span>
+</span><span class='line'>              <span class="nx">props</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">fs</span><span class="p">);</span>
+</span><span class='line'>              <span class="nb">String</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;db.url&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="nb">String</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;db.username&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="nb">String</span> <span class="nx">password</span> <span class="o">=</span> <span class="nx">props</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;db.password&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="nx">Class</span><span class="p">.</span><span class="nx">forName</span><span class="p">(</span><span class="nx">driverClass</span><span class="p">);</span>
+</span><span class='line'>              <span class="nx">con</span> <span class="o">=</span> <span class="nx">DriverManager</span><span class="p">.</span><span class="nx">getConnection</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">username</span><span class="p">,</span> <span class="nx">password</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="kr">public</span> <span class="k">void</span> <span class="nx">fetch</span><span class="p">()</span> <span class="kr">throws</span> <span class="nx">SQLException</span><span class="p">,</span> <span class="nx">IOException</span><span class="p">{</span>
+</span><span class='line'>              <span class="nx">PreparedStatement</span> <span class="nx">ps</span> <span class="o">=</span> <span class="nx">con</span><span class="p">.</span><span class="nx">prePareStatement</span><span class="p">(</span><span class="s2">&quot;select SYSDATE from dual&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="nx">ResultSet</span> <span class="nx">rs</span> <span class="o">=</span> <span class="nx">ps</span><span class="p">.</span><span class="nx">executeQuery</span><span class="p">();</span>
+</span><span class='line'>              <span class="k">while</span><span class="p">(</span><span class="nx">rs</span><span class="p">.</span><span class="nx">next</span><span class="p">()){</span>
+</span><span class='line'>                  <span class="c1">// do the things you do</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="nx">rs</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+</span><span class='line'>              <span class="nx">ps</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">main</span><span class="p">(</span><span class="nb">String</span><span class="p">[]</span> <span class="nx">args</span><span class="p">){</span>
+</span><span class='line'>              <span class="nx">OracleJDBCTest</span> <span class="nx">test</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OracleJDBCTest</span><span class="p">();</span>
+</span><span class='line'>              <span class="nx">test</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+</span><span class='line'>              <span class="nx">test</span><span class="p">.</span><span class="nx">fetch</span><span class="p">();</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/10/20-useful-snippets-of-java-program/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-08T22:21:00+08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>原文:<a href="http://blog.csdn.net/haoel/article/details/4319793" title="陈皓专栏">http://blog.csdn.net/haoel/article/details/4319793</a></p></blockquote>
+
+<p>让我们先来看两个类: <strong>Base</strong> 和 <strong>Derived</strong> 类.注意其中的 <em>whenAmISet</em> 的成员变量,和方法 <em>preProcess()</em>.</p>
+
+<figure class='code'><figcaption><span>Java Syntax Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Base</span><span class="o">{</span>
+</span><span class='line'>      <span class="n">Base</span><span class="o">(){</span>
+</span><span class='line'>          <span class="n">preProcess</span><span class="o">();</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="nf">preProcess</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Derived</span> <span class="kd">extends</span> <span class="n">Base</span><span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="n">whenAmISet</span> <span class="o">=</span> <span class="s">&quot;set when declared&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="nd">@Override</span> <span class="kt">void</span> <span class="n">preProcess</span><span class="o">(){</span>
+</span><span class='line'>          <span class="n">whenAmISet</span> <span class="o">=</span> <span class="s">&quot;set in preProcess()&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果我们构造一个子类实例,那么 <strong>whenAmISet</strong> 的值会是什么呢?</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>   <span class="kr">public</span> <span class="kr">class</span> <span class="nx">Main</span><span class="p">{</span>
+</span><span class='line'>      <span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">main</span><span class="p">(</span><span class="nb">String</span><span class="p">[]</span> <span class="nx">args</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">Derived</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Derived</span><span class="p">();</span>
+</span><span class='line'>          <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span> <span class="nx">d</span><span class="p">.</span><span class="nx">whenAmISet</span> <span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再续继往下阅读之前，请先给自己一些时间想一下上面的这段程序的输出是什么？是的，这看起来的确相当简单，甚至不需要编译和运行上面的代码，我们也应该知道其答案，那么，你觉得你知道答案吗？你确定你的答案正确吗？</p>
+
+<p>很多人都会觉得那段程序的输出应该是<code>set in preProcess()</code>，这是因为当子类Derived 的构造函数被调用时，其会隐晦地调用其基类Base的构造函数（通过super()函数），于是基类Base的构造函数会调用preProcess() 函数，因为这个类的实例是Derived的，而且在子类Derived中对这个函数使用了override关键字，所以，实际上调用到的是：<code>Derived.preProcess()</code>，而这个方法设置了whenAmISet 成员变量的值为：<code>set in preProcess()</code>。</p>
+
+<p>当然，上面的结论是错误的。如果你编译并运行这个程序，你会发现，程序实际输出的是<code>set when declared</code>。怎么为这样呢？难道是基类Base 的preProcess() 方法被调用啦？也不是！你可以在基类的preProcess中输出点什么看看，你会发现程序运行时，<strong>Base.preProcess()</strong> 并没有被调用到（不然这对于Java所有的应用程序将会是一个极具灾难性的Bug）</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/08/java-constructor-trap/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-07T11:08:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p><code>github</code>本身不仅作为代码共享仓库，并且支持<code>github-pages</code>功能，而<code>octopress</code>就是在这样的环境下诞生的博客系统.</p></blockquote>
+
+<h4>需要安装的软件</h4>
+
+<pre><code>1. git
+2. ruby(或者说rubyinstaller, 版本号须 &gt;= 1.9.2)
+3. DevKit(windows平台下编译和使用本地C/C++扩展包的工具,即用来模拟Linux平台下的make,gcc,sh命令来进行编译)
+4. python(支持代码高亮) 
+</code></pre>
+
+<h6>关于 github 值得说说的事情</h6>
+
+<ol>
+<li>先注册一个github账号和创建一个repos<br/>
+ 创建一个新的Repository.这里必须重视,若想是博客首页是http://yourname.github.com,则Repositoty的project name就必须是<strong>yourname.github.com</strong>.</li>
+<li>设置SH Keys
+ 履行<code>ssh-keygen -t rsa -C “your_email＠youremail.com”</code>，回车;然后输入两遍暗码.
+ 到c:\Users\用户名.ssh\目次找到id_rsa.pub，并用文本软件打开复制全部(目录是隐藏的)</li>
+<li>将SSH Key添加到GitHub
+ 到github网站选择“Account Settings”>>“SSH Public Keys”>>“Add another public key”，将刚才复制的内容粘贴到key文本框内</li>
+<li>测试<br/>
+ 为确保设置成功，现在可以测试设置成果啦。记住，”<strong>git@github.com</strong>”是默认的，无需修改</li>
+</ol>
+
+
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>     <span class="err">$</span> <span class="n">ssh</span> <span class="o">-</span><span class="n">T</span> <span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span>  <span class="err">（也可以用</span> <span class="no">SSH</span> <span class="o">-</span><span class="n">v</span> <span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span> <span class="err">）</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>设置个人信息 <br/>
+ 你已经成功安装Git，并设置好SSH Keys，现在设置个人信息： <br/>
+ 设置用户名和电子邮件</li>
+</ol>
+
+
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>     <span class="err">$</span> <span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="s2">&quot;Firstname Lastname&quot;</span>
+</span><span class='line'>      <span class="err">$</span> <span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="s2">&quot;youremail@youremail.com&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你的~/目录下生成了 .gitconfig文件,即说明配置成功!你可以打开看看,是否是你配置的信息.OK,就说这么多了.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/07/hello-octopress/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/03/31/simpledateconvert/">在Java中日期时间类型的相互转换</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/31/easytimer/">通用定时器|倒计时</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/28/js-classify/">JavaScript之OOP实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/26/beanutils/">Java中Map与TO自动转换</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/23/classify/">Java的类与面向对象特性</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/17/jquery-type/">jQuery 数据类型详解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/15/jquery-unique/">jquery unique 详解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/13/spring-test/">Spring Test整合JUnit 4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/11/vim-strategy/">简明 Vim 练级攻略</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/10/20-useful-snippets-of-java-program/">20个非常有用的java程序片段</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a>
+      </li>
+    
+  </ul>
+</section>
+<section id="comment_sidebar">
+<h1>近期评论</h1>
+<ul class="ds-recent-comments" data-num-items="10"></ul>
+
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chenming142"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+</section><section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/j2eeying-yong/'>J2EE应用 (1)</a></li>
+<li class='category'><a href='/blog/categories/j2seji-chu/'>J2SE基础 (5)</a></li>
+<li class='category'><a href='/blog/categories/umlshe-ji/'>UML设计 (1)</a></li>
+<li class='category'><a href='/blog/categories/yu-javascriptxiang-guan/'>与JavaScript相关 (4)</a></li>
+<li class='category'><a href='/blog/categories/kai-fa-gong-ju-ku/'>开发工具库 (2)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Tags</h1>
+  <ul class="tag-cloud">
+    <a style="font-size: 140%" href="/tags/class/"> Class </a>
+<a style="font-size: 110%" href="/tags/github/"> Github </a>
+<a style="font-size: 110%" href="/tags/j2ee/"> J2EE </a>
+<a style="font-size: 180%" href="/tags/j2se/"> J2SE </a>
+<a style="font-size: 110%" href="/tags/junit/"> JUnit </a>
+<a style="font-size: 140%" href="/tags/oo/"> OO </a>
+<a style="font-size: 110%" href="/tags/octopress/"> Octopress </a>
+<a style="font-size: 110%" href="/tags/spring/"> Spring </a>
+<a style="font-size: 110%" href="/tags/uml/"> UML </a>
+<a style="font-size: 110%" href="/tags/vim/"> VIM </a>
+<a style="font-size: 170%" href="/tags/javascript/"> javascript </a>
+<a style="font-size: 140%" href="/tags/jquery/"> jquery </a>
+
+  </ul>
+</section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Kevin Chen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

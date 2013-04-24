@@ -9,10 +9,8 @@
   <meta name="author" content="Kevin Chen">
 
   
-  <meta name="description" content="github本身不仅作为代码共享仓库，并且支持github-pages功能，而octopress就是在这样的环境下诞生的博客系统. 需要安装的软件 1. git
-2. ruby(或者说rubyinstaller, 版本号须 &gt;= 1.9.2)
-3. DevKit( &hellip;">
-  
+  <meta name="description" content="Tips, tricks, and hacks on Ruby on Rails development.">
+  <meta name="keywords" content="ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -112,35 +110,59 @@
 <li>将SSH Key添加到GitHub
  到github网站选择“Account Settings”>>“SSH Public Keys”>>“Add another public key”，将刚才复制的内容粘贴到key文本框内</li>
 <li>测试<br/>
- 为确保设置成功，现在可以测试设置成果啦。记住，”<strong>git@github.com</strong>”是默认的，无需修改
+ 为确保设置成功，现在可以测试设置成果啦。记住，”<strong>git@github.com</strong>”是默认的，无需修改</li>
+</ol>
 
-<pre><code> $ ssh -T git@github.com  （也可以用 SSH -v git@github.com ）
-</code></pre></li>
+
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>     <span class="err">$</span> <span class="n">ssh</span> <span class="o">-</span><span class="n">T</span> <span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span>  <span class="err">（也可以用</span> <span class="no">SSH</span> <span class="o">-</span><span class="n">v</span> <span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span> <span class="err">）</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
 <li>设置个人信息 <br/>
  你已经成功安装Git，并设置好SSH Keys，现在设置个人信息： <br/>
- 设置用户名和电子邮件
-
-<pre><code> $ git config --global user.name "Firstname Lastname"
- $ git config --global user.email "youremail@youremail.com"
-</code></pre>
-
-<p>如果你的~/目录下生成了 .gitconfig文件,即说明配置成功!你可以打开看看,是否是你配置的信息.OK,就说这么多了.</p></li>
+ 设置用户名和电子邮件</li>
 </ol>
+
+
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>     <span class="err">$</span> <span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="s2">&quot;Firstname Lastname&quot;</span>
+</span><span class='line'>      <span class="err">$</span> <span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="s2">&quot;youremail@youremail.com&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你的~/目录下生成了 .gitconfig文件,即说明配置成功!你可以打开看看,是否是你配置的信息.OK,就说这么多了.</p>
+
+<!-- more -->
 
 
 <h4>搭建ruby环境和配置工具</h4>
 
 <p>依次安装<code>git</code>,<code>rubyinstaller</code>和<code>python</code>,建议最好安装在C盘(系统盘)下,并把相应路径加入系统环境变量中,以避免不必要的错误。之后进入cmd窗口或git窗口来安装DevKit,解压DevKit,比如C:/DevKit,然后执行如下命令:</p>
 
-<pre><code>c:                          #进入c盘
-cd c:/DevKit  
-ruby -v                     #此命令为了验证 ruby 是否正确安装              
-ruby dk.rb init             #执行该命令时,可能出现编码错误!    
-                            #可能是你在系统环境变量中提前设置了LANG=zh_CN.UTF-8和LC_ALL=zh_CN.UTF-8   
-                            #此时应该先删除这两个环境变量,再执行该命令        
-                            #此处的编码问题还可以使用 chcp 命令查询`活动代码页`序号,936 : 简体中文 
-ruby dk.rb install
-</code></pre>
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="ss">c</span><span class="p">:</span>                          <span class="c1">#进入c盘</span>
+</span><span class='line'>  <span class="n">cd</span> <span class="ss">c</span><span class="p">:</span><span class="sr">/DevKit  </span>
+</span><span class='line'><span class="sr">    ruby -v                     #此命令为了验证 ruby 是否正确安装              </span>
+</span><span class='line'><span class="sr"> ruby dk.rb init             #执行该命令时,可能出现编码错误!    </span>
+</span><span class='line'><span class="sr">                             #可能是你在系统环境变量中提前设置了LANG=zh_CN.UTF-8和LC_ALL=zh_CN.UTF-8   </span>
+</span><span class='line'><span class="sr">                                #此时应该先删除这两个环境变量,再执行该命令        </span>
+</span><span class='line'><span class="sr">                                #此处的编码问题还可以使用 chcp 命令查询`活动代码页`序号,936 : 简体中文 </span>
+</span><span class='line'><span class="sr"> ruby dk.rb install</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>至此你都未出现任何错误的话,搭建成功!  <br/>
 安装成功后,你可以想测试一下,那么可以使用如下命令:</p>
@@ -154,25 +176,39 @@ ruby dk.rb install
 
 <p>Otcopress采用<code>UTF-8无BOM</code>编码格式,故使用其他格式可能产生不可预计的错误.配置本地window的编码格式:</p>
 
-<pre><code>set LANG   = zh_CN.UTF-8
-set LC_ALL = zh_CN.UTF-8
-</code></pre>
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">set</span> <span class="no">LANG</span>   <span class="o">=</span> <span class="n">zh_CN</span><span class="o">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span>
+</span><span class='line'>  <span class="n">set</span> <span class="no">LC_ALL</span> <span class="o">=</span> <span class="n">zh_CN</span><span class="o">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h4>下载并配置Octopress</h4>
 
 <p>假设Octopress安装在<code>~/repos</code>下,在git或cmd下执行命令:</p>
 
-<pre><code>cd repos                                                    #~表示git主目录,不存在repos则 mkdir
-git clone git://github.com/imathis/octopress.git octopress  #octopress表示clone后所在的本地目录   
-                                                            #没有即使用原项目名即 octopress
-</code></pre>
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">cd</span> <span class="n">repos</span>                                                    <span class="c1">#~表示git主目录,不存在repos则 mkdir</span>
+</span><span class='line'>  <span class="n">git</span> <span class="nb">clone</span> <span class="ss">git</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">imathis</span><span class="o">/</span><span class="n">octopress</span><span class="o">.</span><span class="n">git</span> <span class="n">octopress</span>  <span class="c1">#octopress表示clone后所在的本地目录   </span>
+</span><span class='line'>                                                              <span class="c1">#没有即使用原项目名即 octopress</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>然后更新 Octopress的gem更新源:进入<code>~/repos/octopress</code>目录,用文本编辑器(如EditPlus)打开文件<code>Gemfile</code>,将里面<code>source "http://rubygems.org"</code>改为<code>source "http://ruby.taobao.org/"</code>.最后安装Octopress的依赖项,在git或cmd窗口输入命令:</p>
 
-<pre><code>cd octopress                     #进入 octopress 目录
-gem install bundler              #安装 bundler
-bundle install                   #然后安装一些依赖的工具
-</code></pre>
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">cd</span> <span class="n">octopress</span>                     <span class="c1">#进入 octopress 目录</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="n">install</span> <span class="n">bundler</span>              <span class="c1">#安装 bundler</span>
+</span><span class='line'>  <span class="n">bundle</span> <span class="n">install</span>                   <span class="c1">#然后安装一些依赖的工具</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>如果安装一切没有,那么恭喜你,你已经完成了整个环境的搭建,接下来的真正的主角登场了.不过人生总有那么几件不如意的事,那么可能出现那些错误呢?我们来分析一下:</p>
 
@@ -190,17 +226,25 @@ bundle install                   #然后安装一些依赖的工具
 
 <p>进入git bash后,进入到Octopress所在目录,输入命令:</p>
 
-<pre><code>rake setup_github_pages
-</code></pre>
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">rake</span> <span class="n">setup_github_pages</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>按照提示输入刚才新建的Repos地址,类似:git@github.com:用户名/用户名.github.com</p>
 
 <h4>Octopress设置</h4>
 
-<pre><code>rake install           #安装octopress默认主题
-rake generate          #产生静态网页
-rake preview           #本地预览网站效果,在浏览器输入地址http://127.0.0.1:4000
-</code></pre>
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">rake</span> <span class="n">install</span>           <span class="c1">#安装octopress默认主题</span>
+</span><span class='line'>  <span class="n">rake</span> <span class="n">generate</span>          <span class="c1">#产生静态网页</span>
+</span><span class='line'>  <span class="n">rake</span> <span class="n">preview</span>           <span class="c1">#本地预览网站效果,在浏览器输入地址http://127.0.0.1:4000</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>人生不如意十有八九,以上三个命令看似简单,但有可能会成为拦路虎,而成为我们成功的绊脚石,让我们看看又会出现什么?</p>
 
@@ -220,9 +264,13 @@ rake preview           #本地预览网站效果,在浏览器输入地址http://
 
 <p>以发表 Hello World的文章为例:</p>
 
-<pre><code>rake new_post["Hello World"]   #将在 octopress主目录/source/_posts/目录下生成    
-                                '年-月-日-hello-world.markdown'格式的文件   
-</code></pre>
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s2">&quot;Hello World&quot;</span><span class="o">]</span>   <span class="c1">#将在 octopress主目录/source/_posts/目录下生成    </span>
+</span><span class='line'>                                  <span class="s1">&#39;年-月-日-hello-world.markdown&#39;</span><span class="err">格式的文件</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>.markdown文件可以用编辑软件打开,添加文章内容,具体用法参考<a href="http://wowubuntu.com/markdown/" title="markdown用法(中文版)">markdown用法(中文版)</a>和<a href="http://octopress.org/" title="octopress">octopress</a></p>
 
@@ -235,20 +283,33 @@ rake preview           #本地预览网站效果,在浏览器输入地址http://
 
 <h4>更新并发布</h4>
 
-<pre><code>rake gen_deploy         #等同于 rake generate 和 rake deploy两个命令  
-                        #此处有个坑爹的BUG,rake deploy时   
-                          rake aborted!   
-                          No such file or directory -public/_posts/...
-                        #解决方法:在public目录下创建_posts目录然后执行rake deploy
-</code></pre>
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">rake</span> <span class="n">gen_deploy</span>         <span class="c1">#等同于 rake generate 和 rake deploy两个命令  </span>
+</span><span class='line'>                          <span class="c1">#此处有个坑爹的BUG,rake deploy时   </span>
+</span><span class='line'>                            <span class="n">rake</span> <span class="n">aborted!</span>
+</span><span class='line'>                            <span class="no">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span> <span class="o">-</span><span class="kp">public</span><span class="o">/</span><span class="n">_posts</span><span class="o">/.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>                          <span class="c1">#解决方法:在public目录下创建_posts目录然后执行rake deploy</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h4>备份</h4>
 
-<pre><code>git add *
-git commit -a -m "your comment message"     #提交信息不能为空
-git push origin source                      #把资源备份保存到 source 分支下[这里有个非常好的好处!]
-git checkout master                         #切换回 master 分支
-</code></pre>
+<figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">git</span> <span class="n">add</span> <span class="o">*</span>
+</span><span class='line'>  <span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;your comment message&quot;</span>     <span class="c1">#提交信息不能为空</span>
+</span><span class='line'>  <span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>                      <span class="c1">#把资源备份保存到 source 分支下[这里有个非常好的好处!]</span>
+</span><span class='line'>  <span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>                         <span class="c1">#切换回 master 分支</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>关于此备份,为什么需要备份? <br/>
 博客文章部署到远程master分支下,然后将本地的所有源文件都git push 到source分支下,这样的话你可以在不同的地方都可以写blog.<br/>
@@ -258,12 +319,10 @@ git checkout master                         #切换回 master 分支
 
   <footer>
     <p class="meta">
-      
   
 
 <span class="byline author vcard">Posted by <span class="fn">Kevin Chen</span></span>
 
-      
 
 
 
@@ -280,11 +339,15 @@ git checkout master                         #切换回 master 分支
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/github-octopress/'>github,Octopress</a>
+    <a class='category' href='/blog/categories/kai-fa-gong-ju-ku/'>开发工具库</a>
   
 </span>
 
+<<<<<<< HEAD
     </p>
+=======
+</p>
+>>>>>>> 58753a5734fa0616b4a03073ff2a78cdf4faa432
     
       
     
@@ -323,6 +386,42 @@ var duoshuoQuery = {short_name:"chenming142"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/31/simpledateconvert/">在Java中日期时间类型的相互转换</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/31/easytimer/">通用定时器|倒计时</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/28/js-classify/">JavaScript之OOP实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/26/beanutils/">Java中Map与TO自动转换</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/23/classify/">Java的类与面向对象特性</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/17/jquery-type/">jQuery 数据类型详解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/15/jquery-unique/">jquery unique 详解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/13/spring-test/">Spring Test整合JUnit 4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/11/vim-strategy/">简明 Vim 练级攻略</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a>
       </li>
     
@@ -334,17 +433,51 @@ var duoshuoQuery = {short_name:"chenming142"};
         <a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a>
-      </li>
-    
   </ul>
 </section>
+<section id="comment_sidebar">
+<h1>近期评论</h1>
+<ul class="ds-recent-comments" data-num-items="10"></ul>
 
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chenming142"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+</section><section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/j2eeying-yong/'>J2EE应用 (1)</a></li>
+<li class='category'><a href='/blog/categories/j2seji-chu/'>J2SE基础 (5)</a></li>
+<li class='category'><a href='/blog/categories/umlshe-ji/'>UML设计 (1)</a></li>
+<li class='category'><a href='/blog/categories/yu-javascriptxiang-guan/'>与JavaScript相关 (4)</a></li>
+<li class='category'><a href='/blog/categories/kai-fa-gong-ju-ku/'>开发工具库 (2)</a></li>
 
+  </ul>
+</section>
+<section>
+  <h1>Tags</h1>
+  <ul class="tag-cloud">
+    <a style="font-size: 140%" href="/tags/class/"> Class </a>
+<a style="font-size: 110%" href="/tags/github/"> Github </a>
+<a style="font-size: 110%" href="/tags/j2ee/"> J2EE </a>
+<a style="font-size: 180%" href="/tags/j2se/"> J2SE </a>
+<a style="font-size: 110%" href="/tags/junit/"> JUnit </a>
+<a style="font-size: 140%" href="/tags/oo/"> OO </a>
+<a style="font-size: 110%" href="/tags/octopress/"> Octopress </a>
+<a style="font-size: 110%" href="/tags/spring/"> Spring </a>
+<a style="font-size: 110%" href="/tags/uml/"> UML </a>
+<a style="font-size: 110%" href="/tags/vim/"> VIM </a>
+<a style="font-size: 170%" href="/tags/javascript/"> javascript </a>
+<a style="font-size: 140%" href="/tags/jquery/"> jquery </a>
 
-
-
+  </ul>
+</section>
 
   
 </aside>

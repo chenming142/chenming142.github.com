@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 开发工具库 | chenming142's Blog for github]]></title>
+  <link href="http://chenming142.github.com/blog/categories/kai-fa-gong-ju-ku/atom.xml" rel="self"/>
+  <link href="http://chenming142.github.com/"/>
+  <updated>2013-03-31T03:26:47+08:00</updated>
+  <id>http://chenming142.github.com/</id>
+  <author>
+    <name><![CDATA[Kevin Chen]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[简明 Vim 练级攻略]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/11/vim-strategy/"/>
+    <updated>2013-03-11T12:52:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/11/vim-strategy</id>
+    <content type="html"><![CDATA[<blockquote><p>原文地址:<a href="http://coolshell.cn/articles/5426.html" title="酷壳-简明 Vim 练级攻略">http://coolshell.cn/articles/5426.html</a></p></blockquote>
+
+<p>你想以最快的速度学习人类史上最好的文本编辑器VIM吗？你先得懂得如何在VIM幸存下来，然后一点一点地学习各种戏法。<br/>
+Vim the Six Billion Dollar editor</p>
+
+<blockquote><blockquote><p>Better, Stronger, Faster.</p></blockquote></blockquote>
+
+<p>学习 <strong>vim</strong> 并且其会成为你最后一个使用的文本编辑器。没有比这个更好的文本编辑器了，非常地难学，但是却不可思议地好用。我建议下面这四个步骤:</p>
+
+<pre><code>1. 存活   
+2. 感觉良好  
+3. 觉得更好,更强,更快  
+4. 使用 VIM 的超能力  
+</code></pre>
+
+<p>当你走完这篇文章，你会成为一个vim的 superstar。</p>
+
+<p>在开始学习以前，我需要给你一些警告：</p>
+
+<pre><code>1. 学习vim在开始时是痛苦的。  
+2. 需要时间  
+3. 需要不断地练习，就像你学习一个乐器一样。  
+4. 不要期望你能在3天内把vim练得比别的编辑器更有效率。   
+5. 事实上，你需要2周时间的苦练，而不是3天。  
+</code></pre>
+
+<h3>第一级 - 存活</h3>
+
+<ol>
+<li>安装 VIM</li>
+<li>启动 VIM</li>
+<li>什么也别干!请先阅读
+当你安装好一个编辑器后，你一定会想在其中输入点什么东西，然后看看这个编辑器是什么样子。但vim不是这样的，请按照下面的命令操作：</li>
+<li>启 动Vim后，vim在 <strong>Normal</strong> 模式下。</li>
+<li>让我们进入 <strong>Insert</strong> 模式，请按下键 <code>i</code> 。(陈皓注：你会看到vim左下角有一个–insert–字样，表示，你可以以插入的方式输入了）</li>
+<li>此时，你可以输入文本了，就像你用“记事本”一样。</li>
+<li>如果你想返回 <strong>Normal</strong> 模式，请按 <code>ESC</code> 键。</li>
+</ol>
+
+
+<p>现在，你知道如何在 <strong>Insert</strong> 和 <strong>Normal</strong> 模式下切换了。<br/>
+下面是一些命令，可以让你在 Normal 模式下幸存下来：
+<code>i → Insert 模式，按 ESC 回到 Normal 模式.</code> <br/>
+<code>x → 删当前光标所在的一个字符。</code><br/>
+<code>:wq → 存盘 + 退出 (:w 存盘, :q 退出)   （陈皓注：:w 后可以跟文件名）</code><br/>
+<code>dd → 删除当前行，并把删除的行存到剪贴板里</code><br/>
+<code>p → 粘贴剪贴板</code> <br/>
+<code>推荐:</code><br/>
+<code>hjkl (强例推荐使用其移动光标，但不必需) →你也可以使用光标键 (←↓↑→). 注: j 就像下箭头。</code>
+<code>:help &lt;command&gt; → 显示相关命令的帮助。你也可以就输入 :help 而不跟命令。（陈皓注：退出帮助需要输入:q）</code></p>
+
+<p>你能在vim幸存下来只需要上述的那5个命令，你就可以编辑文本了，你一定要把这些命令练成一种下意识的状态。于是你就可以开始进阶到第二级了。</p>
+
+<p>但是，在你进入第二级时，需要再说一下 Normal 模式。在一般的编辑器下，当你需要copy一段文字的时候，你需要使用 Ctrl 键，比如：Ctrl-C。也就是说，Ctrl键就好像功能键一样，当你按下了功能键Ctrl后，C就不在是C了，而且就是一个命令或是一个快键键了，<strong>在VIM的Normal模式下，所有的键就是功能键了</strong>。这个你需要知道。</p>
+
+<p>标记:
+下面的文字中，如果是 <code>Ctrl-λ</code>我会写成 <code>&lt;C-λ&gt;</code>.
+<em>以 <code>:</code> 开始的命令你需要输入 <enter>回车</em>，例如:如果我写成 :q 也就是说你要输入 :q&lt;enter>.</p>
+
+<!-- more -->
+
+
+<h3>第二级 – 感觉良好</h3>
+
+<p>上面的那些命令只能让你存活下来，现在是时候学习一些更多的命令了，下面是我的建议：（陈皓注：所有的命令都需要在Normal模式下使用，如果你不知道现在在什么样的模式，你就狂按几次ESC键）</p>
+
+<ol>
+<li><p>各种插入模式<br/>
+<code>a → 在光标后插入</code> <br/>
+<code>o → 在当前行后插入一个新行</code><br/>
+<code>O → 在当前行前插入一个新行(大写)</code><br/>
+<code>cw → 替换从光标所在位置后到一个单词结尾的字符</code></p></li>
+<li><p>简单的移动光标  <br/>
+<code>0 → 数字零，到行头</code> <br/>
+<code>^ → 到本行第一个不是blank字符的位置（所谓blank字符就是空格，tab，换行，回车等）</code> <br/>
+<code>$ → 到本行行尾</code> <br/>
+<code>g_ → 到本行最后一个不是blank字符的位置。</code> <br/>
+<code>/pattern → 搜索 pattern 的字符串（陈皓注：如果搜索出多个匹配，可按n键到下一个）</code></p></li>
+<li><p>拷贝/粘贴 （陈皓注：p/P都可以，p是表示在当前位置之后，P表示在当前位置之前） <br/>
+ <code>P → 粘贴</code> <br/>
+ <code>yy → 拷贝当前行当行于 ddP</code></p></li>
+<li><p>Undo/Redo <br/>
+<code>u → undo</code> <br/>
+<code>&lt;C-r&gt; → redo</code></p></li>
+<li><p>打开/保存/退出/改变文件(Buffer) <br/>
+<code>:e &lt;path/to/file&gt; → 打开一个文件</code> <br/>
+<code>:w → 存盘</code> <br/>
+<code>:saveas &lt;path/to/file&gt; → 另存为 &lt;path/to/file&gt;</code>  <br/>
+<code>:x， ZZ 或 :wq → 保存并退出 (:x 表示仅在需要时保存，ZZ不需要输入冒号并回车)</code> <br/>
+<code>:q! → 退出不保存 :qa! 强行退出所有的正在编辑的文件，就算别的文件有更改。</code> <br/>
+<code>:bn 和 :bp → 你可以同时打开很多文件，使用这两个命令来切换下一个或上一个文件。（陈皓注：我喜欢使用:n到下一个文件）</code></p></li>
+</ol>
+
+
+<p>花点时间熟悉一下上面的命令，一旦你掌握他们了，你就几乎可以干其它编辑器都能干的事了。但是到现在为止，你还是觉得使用vim还是有点笨拙，不过没关系，你可以进阶到第三级了。</p>
+
+<h3>第三级 – 更好，更强，更快</h3>
+
+<p>先恭喜你！你干的很不错。我们可以开始一些更为有趣的事了。在第三级，我们只谈那些和vi可以兼容的命令。</p>
+
+<p><strong>更好</strong><br/>
+下面，让我们看一下vim是怎么重复自己的：<br/>
+<code>. → (小数点) 可以重复上一次的命令</code><br/>
+<code>N&lt;command&gt; → 重复某个命令N次</code></p>
+
+<p>下面是一个示例，找开一个文件你可以试试下面的命令：<br/>
+<code>2dd → 删除2行</code><br/>
+<code>3p → 粘贴文本3次</code><br/>
+<code>100idesu [ESC] → 会写下 “desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu “</code><br/>
+<code>. → 重复上一个命令—— 100 “desu “.</code><br/>
+<code>3. → 重复 3 次 “desu” (注意：不是 300，你看，VIM多聪明啊).</code></p>
+
+<p><strong>更强</strong><br/>
+你要让你的光标移动更有效率，你一定要了解下面的这些命令，千万别跳过。<br/>
+<code>NG → 到第 N 行 （陈皓注：注意命令中的G是大写的，另我一般使用 : N 到第N行，如 :137 到第137行）</code><br/>
+<code>gg → 到第一行。（陈皓注：相当于1G，或 :1）</code> <br/>
+<code>G → 到最后一行。</code><br/>
+<code>按单词移动： w → 到下一个单词的开头。 e → 到下一个单词的结尾。</code></p>
+
+<pre><code>如果你认为单词是由默认方式，那么就用小写的e和w。   
+默认上来说，一个单词由字母，数字和下划线组成（陈皓注：程序变量）  
+如果你认为单词是由blank字符分隔符，那么你需要使用大写的E和W。（陈皓注：程序语句）
+</code></pre>
+
+<p>下面，让我来说说最强的光标移动：<br/>
+<code>% : 匹配括号移动，包括 (, {, [. （陈皓注：你需要把光标先移到括号上）</code>
+<code>* 和 #:  匹配光标当前所在的单词，移动光标到下一个（或上一个）匹配单词（*是下一个，#是上一个）</code>
+相信我，上面这三个命令对程序员来说是相当强大的。</p>
+
+<p><strong>更快</strong><br/>
+你一定要记住光标的移动，因为很多命令都可以和这些移动光标的命令连动。很多命令都可以如下来干：
+例如 <code>0y$</code> 命令意味着：<br/>
+<code>0 → 先到行头, y → 从这里开始拷贝, $ → 拷贝到本行最后一个字符</code><br/>
+你可可以输入 <code>ye，从当前位置拷贝到本单词的最后一个字符。</code><br/>
+你也可以输入 <code>y2/foo 来拷贝2个 “foo” 之间的字符串。</code><br/>
+还有很多时间并不一定你就一定要按y才会拷贝，下面的命令也会被拷贝：<br/>
+<code>d (删除 )  v (可视化的选择)  gU (变大写)  gu (变小写) </code></p>
+
+<pre><code>（陈皓注：可视化选择是一个很有意思的命令，   
+     你可以先按v，然后移动光标，你就会看到文本被选择，然后，你可能d，也可y，也可以变大写等）  
+</code></pre>
+
+<h3>第四级 – Vim 超能力</h3>
+
+<p>你只需要掌握前面的命令，你就可以很舒服的使用VIM了。但是，现在，我们向你介绍的是VIM杀手级的功能。<br/>
+下面这些功能是我只用vim的原因。
+在当前行上移动光标: <strong>0 ^ $ f F t T </strong>; <br/>
+<code>0 → 到行头</code><br/>
+<code>^ → 到本行的第一个非blank字符</code><br/>
+<code>$ → 到行尾</code><br/>
+<code>g_ → 到本行最后一个不是blank字符的位置。</code>
+<code>fa → 到下一个为a的字符处，你也可以fs到下一个为s的字符。</code><br/>
+<code>t, → 到逗号前的第一个字符。逗号可以变成其它字符。</code><br/>
+<code>3fa → 在当前行查找第三个出现的a。</code><br/>
+<code>F 和 T → 和 f 和 t 一样，只不过是相反方向。</code></p>
+
+<pre><code>还有一个很有用的命令是 dt" → 删除所有的内容，直到遇到双引号—— "。
+</code></pre>
+
+<p><strong>区域选择 : &lt;action>a&lt;object></strong> 或 <strong>&lt;action>i&lt;object></strong><br/>
+在 <strong>visual</strong> 模式下，这些命令很强大，其命令格式为 &lt;action>a&lt;object> 和 &lt;action>i&lt;object></p>
+
+<pre><code>action可以是任何的命令，如 d (删除), y (拷贝), v (可以视模式选择)。
+object 可能是： w 一个单词， W 一个以空格为分隔的单词， s 一个句字， p 一个段落。  
+也可以是一个特别的字符："、 '、 )、 }、 ]。  
+</code></pre>
+
+<p>假设你有一个字符串 (map (+) ("foo")), 而光标键在第一个 o 的位置。 <br/>
+<code>vi" → 会选择 foo.</code>  <br/>
+<code>va" → 会选择 "foo".</code> <br/>
+<code>vi) → 会选择 "foo".</code> <br/>
+<code>va) → 会选择("foo").</code> <br/>
+<code>v2i) → 会选择 map (+) ("foo")</code>  <br/>
+<code>v2a) → 会选择 (map (+) ("foo"))</code></p>
+
+<p><strong>块操作 : &lt;C-v></strong> <br/>
+块操作，典型的操作： 0 &lt;C-v> &lt;C-d> I-- [ESC]</p>
+
+<pre><code>^ → 到行头   
+&lt;C-v&gt; → 开始块操作 
+&lt;C-d&gt; → 向下移动 (你也可以使用hjkl来移动光标，或是使用%，或是别的)   
+I-- [ESC] → I是插入，插入“--”，按ESC键来为每一行生效。
+在Windows下的vim，你需要使用 &lt;C-q&gt; 而不是 &lt;C-v&gt; ，&lt;C-v&gt; 是拷贝剪贴板。
+</code></pre>
+
+<p><strong>自动提示： &lt;C-n> 和 &lt;C-p></strong> <br/>
+在 <strong>Insert</strong> 模式下，你可以输入一个词的开头，然后按 &lt;C-p>或是&lt;C-n>，自动补齐功能就出现了……</p>
+
+<p><strong>宏录制： qa 操作序列 q, @a, @@</strong></p>
+
+<pre><code>qa 把你的操作记录在寄存器 a。 于是 @a 会replay被录制的宏。 @@ 是一个快捷键用来replay最新录制的宏。
+</code></pre>
+
+<p>示例 : 在一个只有一行且这一行只有“1”的文本中，键入如下命令：</p>
+
+<pre><code>qaYp&lt;C-a&gt;q→ qa 开始录制 Yp 复制行.  &lt;C-a&gt; 增加1.  q 停止录制.  @a → 在1下面写下 2 @@ → 在2 正面写下3
+</code></pre>
+
+<p>现在做 100@@ 会创建新的100行，并把数据增加到 103.</p>
+
+<p><strong>可视化选择： v,V,&lt;C-v></strong> <br/>
+前面，我们看到了 <C-v>的示例 （<code>在Windows下应该是&lt;C-q&gt;</code>），我们可以使用 v 和 V。一但被选好了，你可以做下面的事：</p>
+
+<pre><code>J → 把所有的行连接起来（变成一行）
+&lt; 或 &gt; → 左右缩进
+= → 自动给缩进 （陈皓注：这个功能相当强大，我太喜欢了）
+</code></pre>
+
+<p>在所有被选择的行后加上点东西：<code>&lt;C-v&gt;</code></p>
+
+<pre><code>选中相关的行 (可使用 j 或 &lt;C-d&gt; 或是 /pattern 或是 % 等……)
+$ 到行最后
+A, 输入字符串，按 ESC。
+</code></pre>
+
+<p><strong>分屏: :split 和 vsplit.</strong>
+下面是主要的命令，你可以使用VIM的帮助 :help split. 你可以参考本站以前的一篇文章VIM分屏。</p>
+
+<pre><code>:split → 创建分屏 (:vsplit创建垂直分屏)
+&lt;C-w&gt;&lt;dir&gt; : dir就是方向，可以是 hjkl 或是 ←↓↑→ 中的一个，其用来切换分屏。
+&lt;C-w&gt;_ (或 &lt;C-w&gt;|) : 最大化尺寸 (&lt;C-w&gt;| 垂直分屏)
+&lt;C-w&gt;+ (或 &lt;C-w&gt;-) : 增加尺寸
+</code></pre>
+
+<h3>结束语</h3>
+
+<blockquote><p>上面是作者最常用的90%的命令。
+我建议你每天都学1到2个新的命令。
+在两到三周后，你会感到vim的强大的。
+有时候，学习VIM就像是在死背一些东西。
+幸运的是，vim有很多很不错的工具和优秀的文档。
+运行vimtutor直到你熟悉了那些基本命令。
+其在线帮助文档中你应该要仔细阅读的是 :help usr_02.txt.
+你会学习到诸如  !， 目录，寄存器，插件等很多其它的功能。
+学习vim就像学弹钢琴一样，一旦学会，受益无穷。</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!]]></title>
+    <link href="http://chenming142.github.com/blog/2013/03/07/hello-octopress/"/>
+    <updated>2013-03-07T11:08:00+08:00</updated>
+    <id>http://chenming142.github.com/blog/2013/03/07/hello-octopress</id>
+    <content type="html"><![CDATA[<blockquote><p><code>github</code>本身不仅作为代码共享仓库，并且支持<code>github-pages</code>功能，而<code>octopress</code>就是在这样的环境下诞生的博客系统.</p></blockquote>
+
+<h4>需要安装的软件</h4>
+
+<pre><code>1. git
+2. ruby(或者说rubyinstaller, 版本号须 &gt;= 1.9.2)
+3. DevKit(windows平台下编译和使用本地C/C++扩展包的工具,即用来模拟Linux平台下的make,gcc,sh命令来进行编译)
+4. python(支持代码高亮) 
+</code></pre>
+
+<h6>关于 github 值得说说的事情</h6>
+
+<ol>
+<li>先注册一个github账号和创建一个repos<br/>
+ 创建一个新的Repository.这里必须重视,若想是博客首页是http://yourname.github.com,则Repositoty的project name就必须是<strong>yourname.github.com</strong>.</li>
+<li>设置SH Keys
+ 履行<code>ssh-keygen -t rsa -C “your_email＠youremail.com”</code>，回车;然后输入两遍暗码.
+ 到c:\Users\用户名.ssh\目次找到id_rsa.pub，并用文本软件打开复制全部(目录是隐藏的)</li>
+<li>将SSH Key添加到GitHub
+ 到github网站选择“Account Settings”>>“SSH Public Keys”>>“Add another public key”，将刚才复制的内容粘贴到key文本框内</li>
+<li>测试<br/>
+ 为确保设置成功，现在可以测试设置成果啦。记住，”<strong>git@github.com</strong>”是默认的，无需修改<br/>
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span> <span class="err">$</span> <span class="n">ssh</span> <span class="o">-</span><span class="n">T</span> <span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span>  <span class="err">（也可以用</span> <span class="no">SSH</span> <span class="o">-</span><span class="n">v</span> <span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span> <span class="err">）</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
+<li>设置个人信息 <br/>
+ 你已经成功安装Git，并设置好SSH Keys，现在设置个人信息： <br/>
+ 设置用户名和电子邮件
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span> <span class="err">$</span> <span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="s2">&quot;Firstname Lastname&quot;</span>
+</span><span class='line'> <span class="err">$</span> <span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="s2">&quot;youremail@youremail.com&quot;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+如果你的~/目录下生成了 .gitconfig文件,即说明配置成功!你可以打开看看,是否是你配置的信息.OK,就说这么多了.</p></li>
+</ol>
+
+
+<!-- more -->
+
+
+<h4>搭建ruby环境和配置工具</h4>
+
+<p>依次安装<code>git</code>,<code>rubyinstaller</code>和<code>python</code>,建议最好安装在C盘(系统盘)下,并把相应路径加入系统环境变量中,以避免不必要的错误。之后进入cmd窗口或git窗口来安装DevKit,解压DevKit,比如C:/DevKit,然后执行如下命令:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;c:                          #进入c盘</span>
+</span><span class='line'><span class="sr">cd c:/</span><span class="no">DevKit</span>
+</span><span class='line'><span class="n">ruby</span> <span class="o">-</span><span class="n">v</span>                     <span class="c1">#此命令为了验证 ruby 是否正确安装              </span>
+</span><span class='line'><span class="n">ruby</span> <span class="n">dk</span><span class="o">.</span><span class="n">rb</span> <span class="n">init</span>             <span class="c1">#执行该命令时,可能出现编码错误!    </span>
+</span><span class='line'>                            <span class="c1">#可能是你在系统环境变量中提前设置了LANG=zh_CN.UTF-8和LC_ALL=zh_CN.UTF-8   </span>
+</span><span class='line'>                            <span class="c1">#此时应该先删除这两个环境变量,再执行该命令        </span>
+</span><span class='line'>                            <span class="c1">#此处的编码问题还可以使用 chcp 命令查询`活动代码页`序号,936 : 简体中文 </span>
+</span><span class='line'><span class="n">ruby</span> <span class="n">dk</span><span class="o">.</span><span class="n">rb</span> <span class="n">install</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+至此你都未出现任何错误的话,搭建成功!  <br/>
+安装成功后,你可以想测试一下,那么可以使用如下命令:</p>
+
+<pre><code>gem install rdiscount --platform=ruby
+</code></pre>
+
+<p>如果安装成功后,就可以使用一些<code>Ruby</code>的工具了,也为后面搭建博客提供了基础环境.但是也可能会给你带来麻烦,这个另说.</p>
+
+<h4>配置本地编码环境</h4>
+
+<p>Otcopress采用<code>UTF-8无BOM</code>编码格式,故使用其他格式可能产生不可预计的错误.配置本地window的编码格式:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;set LANG   = zh_CN.UTF-8</span>
+</span><span class='line'><span class="sr">set LC_ALL = zh_CN.UTF-8</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h4>下载并配置Octopress</h4>
+
+<p>假设Octopress安装在<code>~/repos</code>下,在git或cmd下执行命令:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;cd repos                                                    #~表示git主目录,不存在repos则 mkdir</span>
+</span><span class='line'><span class="sr">git clone git:/</span><span class="o">/</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">imathis</span><span class="o">/</span><span class="n">octopress</span><span class="o">.</span><span class="n">git</span> <span class="n">octopress</span>  <span class="c1">#octopress表示clone后所在的本地目录   </span>
+</span><span class='line'>                                                            <span class="c1">#没有即使用原项目名即 octopress</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+然后更新 Octopress的gem更新源:进入<code>~/repos/octopress</code>目录,用文本编辑器(如EditPlus)打开文件<code>Gemfile</code>,将里面<code>source "http://rubygems.org"</code>改为<code>source "http://ruby.taobao.org/"</code>.最后安装Octopress的依赖项,在git或cmd窗口输入命令:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;cd octopress                     #进入 octopress 目录</span>
+</span><span class='line'><span class="sr">gem install bundler              #安装 bundler</span>
+</span><span class='line'><span class="sr">bundle install                   #然后安装一些依赖的工具</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+如果安装一切没有,那么恭喜你,你已经完成了整个环境的搭建,接下来的真正的主角登场了.不过人生总有那么几件不如意的事,那么可能出现那些错误呢?我们来分析一下:</p>
+
+<pre><code>问题    : bundle install时,总是提示某些包没有目录或找不到     
+解决方法 : 找到 ~/repos/octopress/ 目录下打开 Gemfile.lock文件查看specs:下的依赖包的版本    
+          对比 [ruby安装目录(c:\Ruby192)]/lib/ruby/gems/[可能的版本(1.9.1)]/gems下的包的名称      
+          修改Gemfile.lock的版本即可.但是不要修改那些存在 &gt;= 的版本号(这就是我在第一步所说的麻烦) 
+</code></pre>
+
+<h4>在git@github.com上建立Repositories</h4>
+
+<p>登录Github后,需要建立一个命名为<code>username.github.com</code>的Repo,这样命令的好处是,在运行命令<code>rake setpu_github_pages</code>能够自动创建<code>master</code>和<code>source</code>分支.创建(必须拥有github账号)如下图:<img src="/images/common/2013-03-07-hello-octopress/create_repos.jpg" title="create repository of github" alt="create repository" /></p>
+
+<h4>发布Octopress到Github</h4>
+
+<p>进入git bash后,进入到Octopress所在目录,输入命令:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;rake setup_github_pages</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+按照提示输入刚才新建的Repos地址,类似:git@github.com:用户名/用户名.github.com</p>
+
+<h4>Octopress设置</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;rake install           #安装octopress默认主题</span>
+</span><span class='line'><span class="sr">rake generate          #产生静态网页</span>
+</span><span class='line'><span class="sr">rake preview           #本地预览网站效果,在浏览器输入地址http:/</span><span class="o">/</span><span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">4000</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+人生不如意十有八九,以上三个命令看似简单,但有可能会成为拦路虎,而成为我们成功的绊脚石,让我们看看又会出现什么?</p>
+
+<pre><code>rake generate失败
+ 1. 检查_config.yml，注意每个冒号后面都有空格
+ 2. 大多数原因是中文解析问题
+      首先所有的markdown文件应为UTF-8格式，然后修改 你ruby安装目录下的convertible.rb：
+      self.content = File.read(File.join(base, name))修改为
+      self.content = File.read(File.join(base, name), :encoding =&gt; "UTF-8")
+
+使用rake 命令遇到问题：       
+     rake aborted! No Rakefile found (looking for: rakefile, Rakefile, rakefile.rb, Rakefile.rb) 
+原因：没有进入工程目录
+</code></pre>
+
+<h4>发表文章</h4>
+
+<p>以发表 Hello World的文章为例:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;rake new_post[&quot;Hello World&quot;]   #将在 octopress主目录/sou</span><span class="n">rce</span><span class="o">/</span><span class="n">_posts</span><span class="o">/</span><span class="err">目录下生成</span>
+</span><span class='line'>                                <span class="s1">&#39;年-月-日-hello-world.markdown&#39;</span><span class="err">格式的文件</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+.markdown文件可以用编辑软件打开,添加文章内容,具体用法参考<a href="http://wowubuntu.com/markdown/" title="markdown用法(中文版)">markdown用法(中文版)</a>和<a href="http://octopress.org/" title="octopress">octopress</a></p>
+
+<h4>绑定域名</h4>
+
+<p>github支持绑定独立域名,在<code>source/</code>目录下建立一个无扩展名的<code>CNAME</code>文件(文件名为CNAME),在里面写入域名:</p>
+
+<pre><code>your_domain_name           # 用户名.github.com
+</code></pre>
+
+<h4>更新并发布</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;rake gen_deploy         #等同于 rake generate 和 rake deploy两个命令  </span>
+</span><span class='line'><span class="sr">                        #此处有个坑爹的BUG,rake deploy时   </span>
+</span><span class='line'><span class="sr">                          rake aborted!   </span>
+</span><span class='line'><span class="sr">                          No such file or directory -public/</span><span class="n">_posts</span><span class="o">/.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>                        <span class="c1">#解决方法:在public目录下创建_posts目录然后执行rake deploy</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h4>备份</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git command  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;git add *</span>
+</span><span class='line'><span class="sr">git commit -a -m &quot;your comment message&quot;     #提交信息不能为空</span>
+</span><span class='line'><span class="sr">git push origin source                      #把资源备份保存到 source 分支下[这里有个非常好的好处!]</span>
+</span><span class='line'><span class="sr">git checkout master                         #切换回 master 分支</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>关于此备份,为什么需要备份? <br/>
+博客文章部署到远程master分支下,然后将本地的所有源文件都git push 到source分支下,这样的话你可以在不同的地方都可以写blog.<br/>
+只要你在写博客之前把source分支下的所有文件git pull 到本地即可,当然你的所有修改都必须在source分支体现(现在我还没有想到更好的方法,我只能在每次操作后都是<strong>先删除sourc分支,然后重建分支</strong>),如果有人知道好的方法或不认同该方法都可以<strong>chenming142@sina.com</strong>,谢谢!!</p>
+]]></content>
+  </entry>
+  
+</feed>

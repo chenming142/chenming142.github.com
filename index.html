@@ -7,12 +7,19 @@
   <meta charset="utf-8">
   <title>chenming142's Blog for github</title>
   <meta name="author" content="Kevin Chen">
+<<<<<<< HEAD
   <meta name="description" content="原文:http://www.cnblogs.com/ywqu 一、时序图简介（Brief introduction）
 二、时序图元素（Sequence Diagram Elements） 角色（Actor）
 对象（Object）
 生命线(Lifeline)
 控制焦点（Focus of &hellip;">
   
+=======
+
+  
+  <meta name="description" content="Tips, tricks, and hacks on Ruby on Rails development.">
+  <meta name="keywords" content="ruby,ruby on rails,salesforce,gem,web development,Ajax,SEO,scraping">
+>>>>>>> 58753a5734fa0616b4a03073ff2a78cdf4faa432
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -70,6 +77,775 @@
     <article>
       
   <header>
+<<<<<<< HEAD
+      <h1 class="entry-title"><a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a></h1>
+=======
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/31/simpledateconvert/">在Java中日期时间类型的相互转换</a></h1>
+>>>>>>> 58753a5734fa0616b4a03073ff2a78cdf4faa432
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-31T02:17:00+08:00" pubdate data-updated="true">Mar 31<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>在上篇<a href="http://chenming142.github.com/blog/2013/03/26/beanutils/" title="Java中Map与TO自动转换">《Java中Map与TO自动转换》</a>中的存在一个难点，就是如何把Map（一般是String类型，但不一定保证都是）中的数据，转换为To带类型的属性，接下来我们将解决这个问题。</p></blockquote>
+
+<h4>使用java.beanutil包中ConvertUtil类，进行基本类型的转换</h4>
+
+<p>ConvertUtil工具类职责是在字符串和指定类型的实例之间进行转换。目前支持的类型有：</p>
+
+<pre><code>java.lang.BigDecimal；java.lang.BigInteger   
+java.lang.Class
+
+byte；java.lang.Byte
+char；java.lang.Character
+short；java.lang.Short
+int；java.lang.Integer
+long；java.lang.Long
+boolean；java.lang.Boolean
+float；java.lang.Float
+double；java.lang.Double
+
+java.lang.String
+java.io.File
+java.net.URL
+
+java.sql.Time
+java.sql.Timestamp
+</code></pre>
+
+<p>总体提供两大类功能：   <br/>
+1. 将字符串转换为指定类型   <br/>
+2. 注册、注销和查询类型转换器</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/31/simpledateconvert/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/31/easytimer/">通用定时器|倒计时</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-31T01:14:00+08:00" pubdate data-updated="true">Mar 31<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>在一年之前我同事尚谦写了一个倒计时，那个倒计时其实功能上已经很完善了，而且在项目中实际应用效果也不错；今天拿出来整理一下，只为再练练手而已。</p></blockquote>
+
+<h4>调用API</h4>
+
+<figure class='code'><figcaption><span>JavaScript Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>   <span class="kd">var</span> <span class="nx">_cfg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;allTimes&#39;</span> <span class="o">:</span> <span class="mi">120</span><span class="p">,</span> <span class="nx">renderTo</span> <span class="o">:</span> <span class="s1">&#39;timer&#39;</span><span class="p">};</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">timer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EasyTimer</span><span class="p">(</span><span class="nx">_cfg</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">timer</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">_cfg</span> <span class="o">=</span><span class="p">{</span><span class="s1">&#39;allTimes&#39;</span> <span class="o">:</span> <span class="mi">40</span><span class="p">,</span> <span class="nx">renderTo</span> <span class="o">:</span> <span class="s1">&#39;timer1&#39;</span><span class="p">,</span> <span class="nx">format</span> <span class="o">:</span> <span class="s1">&#39;剩余{s}秒&#39;</span><span class="p">};</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nx">EasyTimer</span><span class="p">(</span><span class="nx">_cfg</span><span class="p">).</span><span class="nx">start</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">_cfg</span> <span class="o">=</span><span class="p">{</span><span class="s1">&#39;allTimes&#39;</span> <span class="o">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">renderTo</span> <span class="o">:</span> <span class="s1">&#39;timer2&#39;</span><span class="p">,</span> <span class="nx">format</span> <span class="o">:</span> <span class="s1">&#39;剩余{s}秒&#39;</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;我是timer2,我执行完毕了！&#39;</span><span class="p">);}};</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nx">EasyTimer</span><span class="p">(</span><span class="nx">_cfg</span><span class="p">).</span><span class="nx">start</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">_cfg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;allTimes&#39;</span> <span class="o">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nx">renderTo</span> <span class="o">:</span> <span class="s1">&#39;timer3&#39;</span><span class="p">,</span> <span class="nx">immediate</span><span class="o">:</span> <span class="kc">true</span><span class="p">};</span>
+</span><span class='line'>  <span class="k">new</span> <span class="nx">EasyTimer</span><span class="p">(</span><span class="nx">_cfg</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">_cfg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;allTimes&#39;</span> <span class="o">:</span> <span class="mi">125</span><span class="p">,</span> <span class="nx">renderTo</span> <span class="o">:</span> <span class="s1">&#39;timer4&#39;</span><span class="p">,</span> <span class="nx">direction</span> <span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">immediate</span><span class="o">:</span> <span class="kc">true</span><span class="p">};</span>
+</span><span class='line'>  <span class="k">new</span> <span class="nx">EasyTimer</span><span class="p">(</span><span class="nx">_cfg</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>构造函数及参数说明</h4>
+
+<pre><code>EasyTimer(_cfg) : 构造一个倒计时|定时器
+_cfg = {
+    allTimes : 0,  
+    defaultFormat :  '{d}天{h}时{m}分{s}秒',
+    renderTo : '',
+    direction : ''
+    immediate : false,
+    ok : fn,
+    callback : fn
+} 
+allTimes      ：定时器|倒计时的时间总秒数，默认为0
+defaultFormat ：时间显示的格式，不传即显示上述默认格式
+renderTo      ：时间显示的位置元素，必传参数
+direction     ：定时器与倒计时类型区分{0 : 倒计时,1 : 定时器}
+immediate     ：定时器与倒计时初始化后，是否自动执行
+ok            ：定时器与倒计时完成后，调用函数
+callback      ：定时器与倒计时间隔调用函数
+isdebug       ：针对当前定时器与倒计时打印调试信息
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/31/easytimer/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/28/js-classify/">JavaScript之OOP实现</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-28T23:16:00+08:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/26/beanutils/">Java中Map与TO自动转换</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-26T11:05:00+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>在JAVA开发过程中需要经常使用到TO，TO能方便的对对象成员变量的存取与持久化；但是业务流程开发过程中，我们通常使用Map来进行参数的获取和临时保存，所以在Map与TO之间进行自动转换是非常必要地。</p></blockquote>
+
+<ul>
+<li>使用Java反射机制来转换
+在Java运行时环境中，对于任意一个类，根据反射机制都能知道该类包含的属性和方法；对于该类的任意对象都能调用属于它的方法即<strong>能动态获取该类的信息及动态调用对象的方法</strong>。 <br/>
+Java反射机制主要提供以下功能：
+
+<pre><code>  在运行时判断任意一个对象所属的类
+  在运行时构造任意一个类的对象
+  在运行时判断任意一个类所具有的属性和方法
+  在运行时调用任意一个对象的方法
+</code></pre>
+
+在JDK中，主要由以下类来实现Java反射机制，这些类位于java.lang.reflect包中：
+
+<pre><code>  Class类      ：代表一个实体类
+  Field类      ：代表实体类的成员变量即类的属性
+  Method类    ：代表实体类的方法
+  Constructor类：代表实体类的构造方法
+  Array类      ：提供了动态创建数组，以及访问数组的元素的静态方法
+</code></pre>
+
+<p>通过Class类获取成员变量、成员方法、接口、超类和构造方法等</p></li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/26/beanutils/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/23/classify/">Java的类与面向对象特性</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-23T11:51:00+08:00" pubdate data-updated="true">Mar 23<span>rd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>在面向对象的编程语言中,类是编程的核心;对于类,我们可以理解它是定义了一个新的数据类型;一旦定义后,就可以使用这个新类型创建该类型的对象.</p>
+
+<blockquote><p>类是对象的模板,而对象就是类的实例.</p></blockquote></blockquote>
+
+<h3>什么是类?</h3>
+
+<p>类是描述对象的&#8221;基本原型&#8221;,它定义一种对象所能拥有的数据和能完成的操作,在面向对象的程序设计中,类是程序的基本单元,它是由一组结构化的数据和在其上的一组操作构成.</p>
+
+<p>在Java中,存在类的概念,定义类时使用class关键字即可.</p>
+
+<figure class='code'><figcaption><span>Java Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">oo</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">class</span> <span class="nc">Clazz</span> <span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazz</span><span class="o">(){</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[1]</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="s">&quot;parent constructor clazz!&quot;</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&gt; 父类构造器代码块被执行 &lt;---&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[2]</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazz</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(){</span>
+</span><span class='line'>          <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>                                                              <span class="c1">//[3]</span>
+</span><span class='line'>      <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;parent initialize clazz!&quot;</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Clazzer</span> <span class="kd">extends</span> <span class="n">Clazz</span><span class="o">{</span>
+</span><span class='line'>      <span class="cm">/**</span>
+</span><span class='line'><span class="cm">      * 静态代码块 - 类变量(静态变量)可以向前引用(即：先引用,再定义)</span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>      <span class="kd">static</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">info</span> <span class="o">=</span> <span class="s">&quot;fancydeepin&quot;</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&gt; 子类静态代码块被执行   &lt;---&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="cm">/**</span>
+</span><span class='line'><span class="cm">      * 类变量(静态变量)在类的初始化之前初始化,无论类的实例将被创建多少个</span>
+</span><span class='line'><span class="cm">      *  -都将只在初始化时候在栈内存上分配一次空间</span>
+</span><span class='line'><span class="cm">      *  -凡 static 修饰的,都将按位置被顺序执行,name 的值最终输出 fancy 而不是上面的 fancydeepin</span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">info</span> <span class="o">=</span> <span class="s">&quot;fancy&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="c1">//                                                         //[1]</span>
+</span><span class='line'>      <span class="cm">/**</span>
+</span><span class='line'><span class="cm">      * 实例变量(非静态变量)，定义时指定初始值，会比在构造器赋予值更早执行</span>
+</span><span class='line'><span class="cm">      */</span>
+</span><span class='line'>      <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;subclass initialize Clazzer&quot;</span><span class="o">;</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazzer</span><span class="o">(){</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[2]</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="s">&quot;subclass constructor Clazzer&quot;</span><span class="o">;</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;---&gt; 子类构造器代码块被执行 &lt;---&quot;</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;-----&gt;name:&quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>             <span class="c1">//[3]</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="nf">Clazzer</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span><span class="kd">super</span><span class="o">(</span><span class="n">name</span><span class="o">);}</span>
+</span><span class='line'>      
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+</span><span class='line'>          <span class="n">Clazzer</span> <span class="n">c</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Clazzer</span><span class="o">();</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/23/classify/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/17/jquery-type/">jQuery 数据类型详解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-17T15:31:00+08:00" pubdate data-updated="true">Mar 17<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>ECMAScript中有5种基本数据类型:Undefined,Null,Boolean,Number和String.还有一种复杂数据类型——Object,Object本质上是由一组无序的名值对组成的.</p></blockquote>
+
+<h3>typeof 操作符</h3>
+
+<p>对一个值使用typeof操作符可能返回下列某个字符串:<br/>
+&#8220;undefined&#8221; —— 如果这个值未定义<br/>
+&#8220;boolean&#8221; —— 如果这个值是布尔值<br/>
+&#8220;string&#8221; —— 如果这个值是字符串<br/>
+&#8220;number&#8221; —— 如果这个值是数值<br/>
+&#8220;object&#8221; —— 如果这个值是对象或null<br/>
+&#8220;function&#8221; —— 如果这个值是函数</p>
+
+<pre><code>注:typeof 操作符的操作数可以是变量,也可以是数值字面量.typeof是操作符而非函数.
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/17/jquery-type/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+<<<<<<< HEAD
+      <h1 class="entry-title"><a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a></h1>
+=======
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/15/jquery-unique/">Jquery Unique 详解</a></h1>
+>>>>>>> 58753a5734fa0616b4a03073ff2a78cdf4faa432
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-15T21:22:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<<<<<<< HEAD
+  <div class="entry-content"><blockquote><p><code>github</code>本身不仅作为代码共享仓库，并且支持<code>github-pages</code>功能，而<code>octopress</code>就是在这样的环境下诞生的博客系统.</p></blockquote>
+<h4>需要安装的软件</h4>
+=======
+  <div class="entry-content"><blockquote><p>最近在工作中使用到了jquery.unique函数,用的过程中出现了很多偏差,所以就查看了jquery源码现在总结一下.</p></blockquote>
+
+<p>先看看jQuery.unique(array)api是:</p>
+>>>>>>> 58753a5734fa0616b4a03073ff2a78cdf4faa432
+
+<pre><code>删除数组中重复元素.只处理删除DOM元素数组,而不能处理字符串或者数字数组.
+</code></pre>
+
+<p>再来看看jquery.unique的测试结果:<br/>
+<img src="/images/common/2013-03-15-jquery-unique/20130315214713.jpg" title="jquery-1.4.unique" alt="jquery-1.4" />
+[<strong>jquey-1.4</strong>] <br/>
+<img src="/images/common/2013-03-15-jquery-unique/20130315214630.jpg" title="jquery-1.7.2.unique" alt="jquery-1.7" />
+[<strong>jquey-1.7.2</strong>]</p>
+
+<p>从测试结果看,1.4版本虽未能够完美实现去除重复元素,但是某些情况(即数组是有序的)下也是能处理数值和字符型数值数组的;而1.7.2版已能完美支持了.</p>
+
+<h3>去除重复元素的实现方法</h3>
+
+<figure class='code'><figcaption><span>Javascript Array Syntax </span><a href='http://j.mp/pPUUmW'>MDN Documentation </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>   <span class="nx">$</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">unique1</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elems</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>              <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">elems</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>         <span class="c1">// 外层++i</span>
+</span><span class='line'>                  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">elems</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">j</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 内层j = i +1</span>
+</span><span class='line'>                      <span class="k">if</span> <span class="p">(</span><span class="nx">elems</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="nx">elems</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span> <span class="p">{</span>             <span class="c1">// 判断是否重复的</span>
+</span><span class='line'>                          <span class="nx">elems</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="o">--</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>                 <span class="c1">// 如果重复,就去掉</span>
+</span><span class='line'>                          <span class="k">break</span><span class="p">;</span>                               <span class="c1">// i-- 与break,保证外层始终从0开始</span>
+</span><span class='line'>                      <span class="p">}</span>
+</span><span class='line'>                  <span class="p">}</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="k">return</span> <span class="nx">elems</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">unique2</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elemsWithId</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>              <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>              <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                  <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nx">elemsWithId</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>                  <span class="nx">obj</span><span class="p">[</span><span class="nx">elem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">elem</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)]</span> <span class="o">||</span> <span class="nx">elem</span><span class="p">;</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>              <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">id</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                  <span class="nx">elemsWithId</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="nx">id</span><span class="p">])</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="k">return</span> <span class="nx">elemsWithId</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>方法一使用了两重循环,算法复杂度为<code>O(n^2)</code>.实现思路比较直观,即遍历数组,看每个元素是否与后面的元素重复,有重复则移除;但是DOM Element数量较多时性能较差,而jQuery中对大量元素进行去除重复的操作很普遍. <br/>
+方法二将Objct当做HashMap/HashSet来使用,算法复杂度为<code>O(n)</code>;遗憾的是JavaScript中无法直接用DOM Element作为Object的key,因此只能将id作为key,然而并非所有的 DOM Element 都是有id 的，所以这种方法并不通用。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/15/jquery-unique/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/13/spring-test/">Spring Test整合JUnit 4</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-13T23:03:00+08:00" pubdate data-updated="true">Mar 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>JUnit 框架原本就能用来进行单元测试,但是在使用了Spring之后测试就变得复杂了,但是幸运的是Spring提供了<a href="http://chenming142.github.com" title="spring-test.jar">Spring-test</a>,可以用来整合JUnit,使测试变得简单.</p></blockquote>
+
+<h3>加入依赖包</h3>
+
+<p>使用Spring整合JUnit来测试需要加入以下依赖包:<br/>
+1. <a href="http://www.junit.org/" title="JUnit 4 必不可少">JUnit 4</a><br/>
+2. Spring Test(Spring 框架中的test包)<br/>
+3. Spring 相关的其他依赖包及其配置</p>
+
+<h3>创建测试源目录和包结构</h3>
+
+<p>推荐创建一个和src平级的源test目录,因为src中的内都是以后需要打包的应用类,而test中的类仅仅只用来测试.test目录下的包名称和结构也建议与src中的保持一致,这样既不会产生冲突也容易识别,方便检索. <br/>
+<img src="/images/common/2013-03-13-spring-test/20130314000238.jpg" title="目录及包结构" alt="目录及包结构" /></p>
+
+<h3>创建测试框架抽象类</h3>
+
+<p>Spring的测试机制是基于JUnit的扩展,在org.springframework.test包下,可以看到6个从 TestCase基础上扩展出来的抽象类,分别是:<br/>
+1. <strong>ConditionalTestCase</strong> - 可以有选择地关闭掉一些测试方法,不让它们在测试用例中执行,而无需将这些方法注释掉<br/>
+2. <strong>AbstractSpringContextTests</strong> - 运行多个测试用例和测试方法时,Spirng上下文只需创建一次<br/>
+3. <strong>AbstractSingleSpringContextTests</strong> - 方便手工执行Spring配置文件,手工设定Spring容器是否需要重新加载<br/>
+4. <strong>AbstractDependencyInjectSpringContextTests</strong> - 自动装配\依赖检查\自动注入<br/>
+5. <strong>AbstractTransactionalSpringContextTests</strong> - 自动恢复数据库现场即自动回滚<br/>
+6. <strong>AbstractTransactionalDataSourceSpringContextTests</strong> - 通过JDBC访问数据库,检查数据库操作正确性</p>
+
+<p>上述抽象类按照先后顺序逐步加强了每个抽象类的功能，并且按照逐步继承的关系，使得子抽象类具有父抽象类的所有特性，因此最终的AbstractTransactionalDataSourceSpringContextTests抽象类具有其所有祖先抽象类的特性以及其自身的特性，实际应用中可以根据需要选择需要使用的抽象基类进行扩展.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/13/spring-test/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/11/vim-strategy/">简明 Vim 练级攻略</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-11T12:52:00+08:00" pubdate data-updated="true">Mar 11<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>原文地址:<a href="http://coolshell.cn/articles/5426.html" title="酷壳-简明 Vim 练级攻略">http://coolshell.cn/articles/5426.html</a></p></blockquote>
+
+<p>你想以最快的速度学习人类史上最好的文本编辑器VIM吗？你先得懂得如何在VIM幸存下来，然后一点一点地学习各种戏法。<br/>
+Vim the Six Billion Dollar editor</p>
+
+<blockquote><blockquote><p>Better, Stronger, Faster.</p></blockquote></blockquote>
+
+<p>学习 <strong>vim</strong> 并且其会成为你最后一个使用的文本编辑器。没有比这个更好的文本编辑器了，非常地难学，但是却不可思议地好用。我建议下面这四个步骤:</p>
+
+<pre><code>1. 存活   
+2. 感觉良好  
+3. 觉得更好,更强,更快  
+4. 使用 VIM 的超能力  
+</code></pre>
+
+<p>当你走完这篇文章，你会成为一个vim的 superstar。</p>
+
+<p>在开始学习以前，我需要给你一些警告：</p>
+
+<pre><code>1. 学习vim在开始时是痛苦的。  
+2. 需要时间  
+3. 需要不断地练习，就像你学习一个乐器一样。  
+4. 不要期望你能在3天内把vim练得比别的编辑器更有效率。   
+5. 事实上，你需要2周时间的苦练，而不是3天。  
+</code></pre>
+
+<h3>第一级 - 存活</h3>
+
+<ol>
+<li>安装 VIM</li>
+<li>启动 VIM</li>
+<li>什么也别干!请先阅读
+当你安装好一个编辑器后，你一定会想在其中输入点什么东西，然后看看这个编辑器是什么样子。但vim不是这样的，请按照下面的命令操作：</li>
+<li>启 动Vim后，vim在 <strong>Normal</strong> 模式下。</li>
+<li>让我们进入 <strong>Insert</strong> 模式，请按下键 <code>i</code> 。(陈皓注：你会看到vim左下角有一个–insert–字样，表示，你可以以插入的方式输入了）</li>
+<li>此时，你可以输入文本了，就像你用“记事本”一样。</li>
+<li>如果你想返回 <strong>Normal</strong> 模式，请按 <code>ESC</code> 键。</li>
+</ol>
+
+
+<p>现在，你知道如何在 <strong>Insert</strong> 和 <strong>Normal</strong> 模式下切换了。<br/>
+下面是一些命令，可以让你在 Normal 模式下幸存下来：
+<code>i → Insert 模式，按 ESC 回到 Normal 模式.</code> <br/>
+<code>x → 删当前光标所在的一个字符。</code><br/>
+<code>:wq → 存盘 + 退出 (:w 存盘, :q 退出)   （陈皓注：:w 后可以跟文件名）</code><br/>
+<code>dd → 删除当前行，并把删除的行存到剪贴板里</code><br/>
+<code>p → 粘贴剪贴板</code> <br/>
+<code>推荐:</code><br/>
+<code>hjkl (强例推荐使用其移动光标，但不必需) →你也可以使用光标键 (←↓↑→). 注: j 就像下箭头。</code>
+<code>:help &lt;command&gt; → 显示相关命令的帮助。你也可以就输入 :help 而不跟命令。（陈皓注：退出帮助需要输入:q）</code></p>
+
+<p>你能在vim幸存下来只需要上述的那5个命令，你就可以编辑文本了，你一定要把这些命令练成一种下意识的状态。于是你就可以开始进阶到第二级了。</p>
+
+<p>但是，在你进入第二级时，需要再说一下 Normal 模式。在一般的编辑器下，当你需要copy一段文字的时候，你需要使用 Ctrl 键，比如：Ctrl-C。也就是说，Ctrl键就好像功能键一样，当你按下了功能键Ctrl后，C就不在是C了，而且就是一个命令或是一个快键键了，<strong>在VIM的Normal模式下，所有的键就是功能键了</strong>。这个你需要知道。</p>
+
+<p>标记:
+下面的文字中，如果是 <code>Ctrl-λ</code>我会写成 <code>&lt;C-λ&gt;</code>.
+<em>以 <code>:</code> 开始的命令你需要输入 <enter>回车</em>，例如:如果我写成 :q 也就是说你要输入 :q&lt;enter>.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/11/vim-strategy/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a></h1>
     
     
@@ -120,959 +896,20 @@
 
 <p><strong>四、总结（Summay）</strong></p>
 
-<h3>一、时序图简介（Brief introduction）</h3>
-
-<p>   时序图是显示<strong>对象之间交互的图</strong>,这些<strong>对象时按时间顺序排列</strong>的。顺序图中显示的是<strong>参与交互对象之间消息交互的顺序</strong>。时序图中包括建模元素主要有:<strong>对象、控制焦点、消息</strong>等等。</p>
-
-<h3>二、时序图元素（Sequence Diagram Elements）</h3>
-
-<p><strong>角色</strong>：系统角色，可以是人、甚至其他的系统或子系统<br/>
-<strong>对象</strong>：对象包括三中命名方式：<br/>
-   1. 包括对象名和类名<br/>
-   2. 只显示类名不显示对象名，即表示它是匿名对象<br/>
-   3. 只显示对象名不显示类名  <br/>
-<img src="/images/common/2013-03-10-sequence-diagram/3347379_1.jpg" title="Object" alt="对象的命名方式" /></p>
-
-<p><strong>生命线</strong>：生命线在顺序图中表示从对象图片向下延伸的一条虚线,表示对象存在的时间,如下图：<img src="/images/common/2013-03-10-sequence-diagram/3347379_2.gif" title="Lifeline" alt="生命线" /></p>
-
-<p><strong>控制焦点</strong>：控制焦点是顺序图中表示时间的符号，在这个时间段内对象执行相应的操作，用小矩形表示，如下图：<img src="/images/common/2013-03-10-sequence-diagram/3347379_3.jpg" title="Focus of Control" alt="控制焦点" /></p>
-
-<p><strong>消息</strong>：消息一般分为同步消息（Synchronous Message），异步消息（Asynchronous Message）和返回消息（Return Message）如下图：<br/>
-<img src="/images/common/2013-03-10-sequence-diagram/3347379_4.gif" title="Message" alt="消息" /></p>
-
-<ul>
-<li>同步消息 == 调用消息<br/>
-消息的发送者把控制传递给消息的接收者,然后停止活动,等待消息的接受者放弃或者返回控制。用来表示<strong>同步</strong>的意义。</li>
-<li>异步消息
-消息的发送者通过消息把信号传递给消息的接受者,然后继续自己的活动,不等待接受者返回消息或控制。异步消息的接受者和发送者是并发工作的。</li>
-<li>返回消息
-返回消息表示从过程调用返回</li>
-</ul>
-
-
-<p><strong>自关联消息</strong> : 表示方法的自身调用以及一个对象内的一个方法调用另一个方法。如下图:<br/>
-<img src="/images/common/2013-03-10-sequence-diagram/3347379_5.gif" title="Sef-Message" alt="自关联消息" /></p>
-
-<p><strong>Combined Fragments</strong><br/>
-<img src="/images/common/2013-03-10-sequence-diagram/3347379_6.gif" title="Combined Fragments" alt="Combined Fragments" /></p>
-
-<ul>
-<li>Altemative fragment(denoted &#8220;alt&#8221;)与 if&#8230;then&#8230;else对应</li>
-<li>Option fragment(denoted &#8220;opt&#8221;)与Switch对应</li>
-<li>Parallel fragment(denoted &#8220;par&#8221;)表示同时发生</li>
-<li>Loop fragment(denoted &#8220;loop&#8221;)与for或foreach对应</li>
-</ul>
-
-
-<h3>三、时序图实例分析</h3>
-
-<p><strong>时序图场景</strong><br/>
-完成课程创建功能,主要流程有:<br/>
-1. 请求添加课程页面,填写课程表单,点击<code>create</code>按钮<br/>
-2. 添加课程信息到数据库<br/>
-3. 向课程对象追加主题信息<br/>
-4. 为课程指派教师<br/>
-5. 完成课程创建功能</p>
-
-<p><strong>时序图实例</strong>
-<img src="/images/common/2013-03-10-sequence-diagram/3347379_7.jpg" alt="时序图实例" /></p>
-
-<p><strong>时序图分析</strong><br/>
-1. 序号1.0-1.3   完成页面的初始化<br/>
-2. 序号1.4-1.5   课程管理员填充课程表单<br/>
-3. 序号1.6-1.7   课程管理员点击<code>create</code>按钮,并相应点击事件<br/>
-4. 序号1.8       Service 层创建课程<br/>
-5. 序号1.9-1.10  添加课程到数据库,并返回课程编号CourseId<br/>
-6. 序号1.11-1.12 添加课程主题到数据库,并返回主题编号topicId<br/>
-7. 序号1.13      给课程指派教师 <br/>
-8. 序号1.14      向界面抛创建课程成功与否的消息</p>
-
-<h3>四、总结</h3>
-
-<p>   时序图是显示对象之间交互顺序的图,这次对象是按时间顺序排列的.时序图中显示的是参与交互的对象及对象之间消息交互的顺序.时序图中包括的建模的元素主要有:对象、控制焦点、消息等等。</p>
 </div>
   
   
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/10/20-useful-snippets-of-java-program/">20个非常有用的java程序片段</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-10T10:18:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>原文地址是:<a href="http://coolshell.cn/articles/889.html" title="酷壳-CoolShell.cn">http://coolshell.cn/articles/889.html</a></p></blockquote>
-
-<p>下面是20个非常有用的Java程序片段，希望能对你有用。</p>
-
-<ol>
-<li>字符串有整型的相互转换
-
-<pre><code>string a = String.valueOf(2);             // integer to numeric string
-int i = Integer.parseInt(a);              // numeric string to an int
-</code></pre></li>
-<li>向文件末尾添加内容
-
-<pre><code>BufferWriter out = null;   
-try{   
-    out = new BufferWriter(new FileWriter("filename", true));
-    out.write("aString");
-}catch(IOException e){
-    // error processing code
-}finally{
-    if(out != null){
-        out.close();
-    }
-}
-</code></pre></li>
-<li>得到当前方法的名称
-
-<pre><code> string methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
-</code></pre></li>
-<li>转字符串到日期格式
-
-<pre><code> java.util.Date = java.text.DateFormat.getDateInstance().parse(date, String);
- 或者是:   
- SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
- Date d = sdf.parse( myString );
-</code></pre></li>
-<li>使用JDBC连接Oracle
-
-<pre><code> public class OracleJDBCTest{  
-   String driverClass = "oracle.jdbc.driver.OracleDriver";
-   Connection con;   
-   public void init(FileInputStream fs) throws ClassNotFoundException, SQLException,   
-      FileNotFoundException, IOException{
-         Properties props = new Properties();
-         props.load(fs);
-         String url = props.getProperty("db.url");
-         String username = props.getProperty("db.username");
-         String password = props.getProperty("db.password");  
-         Class.forName(driverClass);
-         con = DriverManager.getConnection(url, username, password);
-     }
-     public void fetch() throws SQLException, IOException{
-         PreparedStatement ps = con.prePareStatement("select SYSDATE from dual");
-         ResultSet rs = ps.executeQuery();
-         while(rs.next()){
-             // do the things you do
-         }
-         rs.close();
-         ps.close();
-     }
-     public static void main(String[] args){
-         OracleJDBCTest test = new OracleJDBCTest();
-         test.init();
-         test.fetch();
-     }
- }
-</code></pre></li>
-<li>把java.util.Date 转换成java.sql.Date
-
-<pre><code> java.util.Date utilDate = new java.util.Date();
- java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-</code></pre></li>
-<li>使用NIO进行快速的文件拷贝
-
-<pre><code> public static void fileCopy( File in , File out )throws IOException{
-     FileChannel inChannel = new FileInputStream( in ).getChannel();
-     FileChannel outChannel = new FileOutputStream( in ).getChannel();
-     try{
-         // inChannel.transferTo(0, inChannel.size(), outChannel); 
-         // original -- apparently has trouble copying large files on Windows
-         // magic number for Windows, 64Mb - 32Kb)
-         int maxCount = (64 * 1024 * 1024) - (32 * 1024);
-         long size = inChannel.size();
-         long position = 0;
-         while ( position &lt; size ){
-             position += inChannel.transferTo( position, maxCount, outChannel );
-         }
-     }finally{
-         if ( inChannel != null ){
-             inChannel.close();
-         }
-         if ( outChannel != null ){
-             outChannel.close();
-         }
-     }
- }
-</code></pre></li>
-<li>创建图片的缩略图
-
-<pre><code> private void createThumbnail(String filename, int thumbWidth,   
-     int thumbHeight, int quality, String outFilename)  
-     throws InterruptedException, FileNotFoundException, IOException{  
-     // load image from filename  
-     Image image = Toolkit.getDefaultToolkit().getImage(filename);
-     MediaTracker mediaTracker = new MediaTracker(new Container());  
-     mediaTracker.addImage(image, 0);  
-     mediaTracker.waitForID(0);  
-     // test for errors at this point: System.out.println(mediaTracker.isErrorAny());  
-     // determine thumbnail size from WIDTH and HEIGHT  
-     double thumbRatio = (double)thumbWidth / (double)thumbHeight;  
-     int imageWidth = image.getWidth(null);  
-     int imageHeight = image.getHeight(null);  
-     double imageRatio = (double)imageWidth / (double)imageHeight;  
-     if (thumbRatio &lt; imageRatio) {  
-         thumbHeight = (int)(thumbWidth / imageRatio);  
-     } else {  
-         thumbWidth = (int)(thumbHeight * imageRatio);  
-     }  
-
-     // draw original image to thumbnail image object and  
-     // scale it to the new size on-the-fly  
-     BufferedImage thumbImage = new BufferedImage(thumbWidth, 
-         thumbHeight, BufferedImage.TYPE_INT_RGB);  
-     Graphics2D graphics2D = thumbImage.createGraphics();  
-     graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,   
-         RenderingHints.VALUE_INTERPOLATION_BILINEAR);  
-     graphics2D.drawImage(image, 0, 0, thumbWidth, thumbHeight, null);  
-
-     // save thumbnail image to outFilename  
-     BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(outFilename));  
-     JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);  
-     JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(thumbImage);  
-     quality = Math.max(0, Math.min(quality, 100));  
-     param.setQuality((float)quality / 100.0f, false);  
-     encoder.setJPEGEncodeParam(param);  
-     encoder.encode(thumbImage);  
-     out.close();  
- } 
-</code></pre></li>
-<li>创建 JSON 格式的数据
-请先阅读这篇文章 了解一些细节，并下面这个JAR 文件：<a href="http://viralpatel.net/blogs/download/json/json-rpc-1.0.jar" title="json-rpc-1.0">json-rpc-1.0.jar (75 kb)</a>;
-
-<pre><code> import org.json.JSONObject;  
- ...  
- ...  
- JSONObject json = new JSONObject();  
- json.put("city", "Mumbai");  
- json.put("country", "India");  
- ...  
- String output = json.toString();  
- ... 
-</code></pre></li>
-<li>使用iText JAR生成PDF
-阅读这篇<a href="http://viralpatel.net/blogs/generate-pdf-file-in-java-using-itext-jar/" title="PDF Generation in Java using iText JAR">文章</a> 了解更多细节
-
-<pre><code>import java.io.File;  
-import java.io.FileOutputStream;  
-import java.io.OutputStream;  
-import java.util.Date;  
-
-import com.lowagie.text.Document;  
-import com.lowagie.text.Paragraph;  
-import com.lowagie.text.pdf.PdfWriter;  
-
-public class GeneratePDF {  
-    public static void main(String[] args) {  
-        try {  
-            OutputStream file = new FileOutputStream(new File("C:\\Test.pdf"));  
-
-            Document document = new Document();  
-            PdfWriter.getInstance(document, file);  
-            document.open();  
-            document.add(new Paragraph("Hello Kiran"));  
-            document.add(new Paragraph(new Date().toString()));  
-
-            document.close();  
-            file.close();  
-
-        } catch (Exception e) {  
-            e.printStackTrace();  
-        }  
-    }   
-}
-</code></pre></li>
-<li>HTTP 代理设置
-阅读这篇 <a href="http://viralpatel.net/blogs/http-proxy-setting-java-setting-proxy-java/" title="HTTP Proxy setting in Java. Setting up proxy.">文章</a> 了解更多细节。
-
-<pre><code>System.getProperties().put("http.proxyHost", "someProxyURL");  
-System.getProperties().put("http.proxyPort", "someProxyPort");  
-System.getProperties().put("http.proxyUser", "someUserName");  
-System.getProperties().put("http.proxyPassword", "somePassword"); 
-</code></pre></li>
-<li>单实例Singleton 示例
-请先阅读这篇<a href="http://viralpatel.net/blogs/java-singleton-design-pattern-tutorial-example-singleton-j2ee-design-pattern/" title="Java Singleton design pattern tutorial.">文章</a> 了解更多信息
-
-<pre><code>public class SimpleSingleton {  
-    private static SimpleSingleton singleInstance =  new SimpleSingleton();  
-
-    //Marking default constructor private  
-    //to avoid direct instantiation.  
-    private SimpleSingleton() {  
-    }  
-
-    //Get instance for class SimpleSingleton  
-    public static SimpleSingleton getInstance() {  
-
-        return singleInstance;  
-    }  
-} 
-</code></pre>
-
-或另一种实现方式
-
-<pre><code>public enum SimpleSingleton {  
-    INSTANCE;  
-    public void doSomething() {  
-    }  
-}  
-
-//Call the method from Singleton:  
-SimpleSingleton.INSTANCE.doSomething(); 
-</code></pre></li>
-<li>抓屏程序
-阅读这篇<a href="http://viralpatel.net/blogs/how-to-take-screen-shots-in-java-taking-screenshots-java/" title="How to take screen shots in Java">文章</a> 获得更多信息。
-
-<pre><code>import java.awt.Dimension;  
-import java.awt.Rectangle;  
-import java.awt.Robot;  
-import java.awt.Toolkit;  
-import java.awt.image.BufferedImage;  
-import javax.imageio.ImageIO;  
-import java.io.File;  
-
-...  
-
-public void captureScreen(String fileName) throws Exception {  
-
-   Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();  
-   Rectangle screenRectangle = new Rectangle(screenSize);  
-   Robot robot = new Robot();  
-   BufferedImage image = robot.createScreenCapture(screenRectangle);  
-   ImageIO.write(image, "png", new File(fileName));  
-
-}  
-... 
-</code></pre></li>
-<li>列出文件和目录
-
-<pre><code>File dir = new File("directoryName");  
-String[] children = dir.list();  
-if (children == null) {  
-  // Either dir does not exist or is not a directory  
-} else {  
-  for (int i=0; i &lt; children.length; i++) {  
-      // Get filename of file or directory  
-      String filename = children[i];  
-  }  
-}  
-
-// It is also possible to filter the list of returned files.  
-// This example does not return any files that start with '.'.  
-FilenameFilter filter = new FilenameFilter() {  
-  public boolean accept(File dir, String name) {  
-      return !name.startsWith(".");  
-  }  
-};  
-children = dir.list(filter);  
-
-// The list of files can also be retrieved as File objects  
-File[] files = dir.listFiles();  
-
-// This filter only returns directories  
-FileFilter fileFilter = new FileFilter() {  
-  public boolean accept(File file) {  
-      return file.isDirectory();  
-  }  
-};  
-files = dir
-</code></pre></li>
-<li>创建ZIP和JAR文件
-
-<pre><code>import java.util.zip.*;  
-import java.io.*;  
-
-public class ZipIt {  
-    public static void main(String args[]) throws IOException {  
-        if (args.length &lt; 2) {  
-            System.err.println("usage: java ZipIt Zip.zip file1 file2 file3");  
-            System.exit(-1);  
-        }  
-        File zipFile = new File(args[0]);  
-        if (zipFile.exists()) {  
-            System.err.println("Zip file already exists, please try another");  
-            System.exit(-2);  
-        }  
-        FileOutputStream fos = new FileOutputStream(zipFile);  
-        ZipOutputStream zos = new ZipOutputStream(fos);  
-        int bytesRead;  
-        byte[] buffer = new byte[1024];  
-        CRC32 crc = new CRC32();  
-        for (int i=1, n=args.length; i &lt; n; i++) {  
-            String name = args[i];  
-            File file = new File(name);  
-            if (!file.exists()) {  
-                System.err.println("Skipping: " + name);  
-                continue;  
-            }  
-            BufferedInputStream bis = new BufferedInputStream(  
-                new FileInputStream(file));  
-            crc.reset();  
-            while ((bytesRead = bis.read(buffer)) != -1) {  
-                crc.update(buffer, 0, bytesRead);  
-            }  
-            bis.close();  
-            // Reset to beginning of input stream  
-            bis = new BufferedInputStream(  
-                new FileInputStream(file));  
-            ZipEntry entry = new ZipEntry(name);  
-            entry.setMethod(ZipEntry.STORED);  
-            entry.setCompressedSize(file.length());  
-            entry.setSize(file.length());  
-            entry.setCrc(crc.getValue());  
-            zos.putNextEntry(entry);  
-            while ((bytesRead = bis.read(buffer)) != -1) {  
-                zos.write(buffer, 0, bytesRead);  
-            }  
-            bis.close();  
-        }  
-        zos.close();  
-    }  
-} 
-</code></pre></li>
-<li>解析/读取XML 文件<br/>
-XML文件:
-
-<pre><code>&lt;?xml version="1.0"?&gt; 
-&lt;students&gt; 
-    &lt;student&gt; 
-        &lt;name&gt;John&lt;/name&gt; 
-        &lt;grade&gt;B&lt;/grade&gt; 
-        &lt;age&gt;12&lt;/age&gt; 
-    &lt;/student&gt; 
-    &lt;student&gt; 
-        &lt;name&gt;Mary&lt;/name&gt; 
-        &lt;grade&gt;A&lt;/grade&gt; 
-        &lt;age&gt;11&lt;/age&gt; 
-    &lt;/student&gt; 
-    &lt;student&gt; 
-        &lt;name&gt;Simon&lt;/name&gt; 
-        &lt;grade&gt;A&lt;/grade&gt; 
-        &lt;age&gt;18&lt;/age&gt; 
-    &lt;/student&gt; 
-&lt;/students&gt; 
-</code></pre>
-
-Java代码:
-
-<pre><code>package net.viralpatel.java.xmlparser;  
-
-import java.io.File;  
-import javax.xml.parsers.DocumentBuilder;  
-import javax.xml.parsers.DocumentBuilderFactory;  
-
-import org.w3c.dom.Document;  
-import org.w3c.dom.Element;  
-import org.w3c.dom.Node;  
-import org.w3c.dom.NodeList;  
-
-public class XMLParser {  
-
-    public void getAllUserNames(String fileName) {  
-        try {  
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();  
-            DocumentBuilder db = dbf.newDocumentBuilder();  
-            File file = new File(fileName);  
-            if (file.exists()) {  
-                Document doc = db.parse(file);  
-                Element docEle = doc.getDocumentElement();  
-
-                // Print root element of the document  
-                System.out.println("Root element of the document: " + docEle.getNodeName());  
-
-                NodeList studentList = docEle.getElementsByTagName("student");  
-
-                // Print total student elements in document  
-                System.out.println("Total students: " + studentList.getLength());  
-                if (studentList != null &amp;&amp; studentList.getLength() &gt; 0) {  
-                    for (int i = 0; i &lt; studentList.getLength(); i++) {  
-                        Node node = studentList.item(i);  
-                        if (node.getNodeType() == Node.ELEMENT_NODE) {  
-                            System.out.println("=====================");  
-                            Element e = (Element) node;  
-                            NodeList nodeList = e.getElementsByTagName("name");  
-                            System.out.println("Name: " 
-                                    + nodeList.item(0).getChildNodes().item(0).getNodeValue());  
-                            nodeList = e.getElementsByTagName("grade");  
-                            System.out.println("Grade: " 
-                                    + nodeList.item(0).getChildNodes().item(0).getNodeValue());  
-
-                            nodeList = e.getElementsByTagName("age");  
-                            System.out.println("Age: " 
-                                    + nodeList.item(0).getChildNodes().item(0).getNodeValue());  
-                        }  
-                    }  
-                } else {  
-                    System.exit(1);  
-                }  
-            }  
-        } catch (Exception e) {  
-            System.out.println(e);  
-        }  
-    }  
-    public static void main(String[] args) {  
-        XMLParser parser = new XMLParser();  
-        parser.getAllUserNames("c:\\test.xml");  
-    }  
-}
-</code></pre></li>
-<li>把 Array 转换成 Map
-
-<pre><code>import java.util.Map;  
-import org.apache.commons.lang.ArrayUtils;  
-public class Main {  
-  public static void main(String[] args) {  
-    String[][] countries = { 
-            { "United States", "New York" }, 
-            { "United Kingdom", "London" },
-            { "Netherland", "Amsterdam" }, 
-            { "Japan", "Tokyo" }, 
-            { "France", "Paris" } 
-    };  
-    Map countryCapitals = ArrayUtils.toMap(countries);  
-    System.out.println("Capital of Japan is " + countryCapitals.get("Japan"));
-    System.out.println("Capital of France is " + countryCapitals.get("France"));  
-  }  
-} 
-</code></pre></li>
-<li>发送邮件
-
-<pre><code>import javax.mail.*;  
-import javax.mail.internet.*;  
-import java.util.*;  
-
-public void postMail( String recipients[ ], String subject, String message , String from)
- throws MessagingException {  
-    boolean debug = false;  
-
-     //Set the host smtp address  
-     Properties props = new Properties();  
-     props.put("mail.smtp.host", "smtp.example.com");  
-
-    // create some properties and get the default Session  
-    Session session = Session.getDefaultInstance(props, null);  
-    session.setDebug(debug);  
-
-    // create a message  
-    Message msg = new MimeMessage(session);  
-
-    // set the from and to address  
-    InternetAddress addressFrom = new InternetAddress(from);  
-    msg.setFrom(addressFrom);  
-
-    InternetAddress[] addressTo = new InternetAddress[recipients.length];  
-    for (int i = 0; i &lt; recipients.length; i++)  
-    {  
-        addressTo[i] = new InternetAddress(recipients[i]);  
-    }  
-    msg.setRecipients(Message.RecipientType.TO, addressTo);  
-
-    // Optional : You can also set your custom headers in the Email if you Want  
-    msg.addHeader("MyHeaderName", "myHeaderValue");  
-
-    // Setting the Subject and Content Type  
-    msg.setSubject(subject);  
-    msg.setContent(message, "text/plain");  
-    Transport.send(msg);  
-} 
-</code></pre></li>
-<li>发送代数据的HTTP 请求
-
-<pre><code>import java.io.BufferedReader;  
-import java.io.InputStreamReader;  
-import java.net.URL;  
-
-public class Main {  
-    public static void main(String[] args)  {  
-        try {  
-            URL my_url = new URL("http://coolshell.cn/");  
-            BufferedReader br = new BufferedReader(new InputStreamReader(my_url.openStream()));  
-            String strTemp = "";  
-            while(null != (strTemp = br.readLine())){  
-            System.out.println(strTemp);  
-        }  
-        } catch (Exception ex) {  
-            ex.printStackTrace();  
-        }  
-    }  
-}
-</code></pre></li>
-<li>改变数组的大小
-
-<pre><code>/** 
-* Reallocates an array with a new size, and copies the contents 
-* of the old array to the new array. 
-* @param oldArray  the old array, to be reallocated. 
-* @param newSize   the new array size. 
-* @return          A new array with the same contents. 
-*/ 
-private static Object resizeArray (Object oldArray, int newSize) {  
-   int oldSize = java.lang.reflect.Array.getLength(oldArray);  
-   Class elementType = oldArray.getClass().getComponentType();  
-   Object newArray = java.lang.reflect.Array.newInstance(  
-         elementType,newSize);  
-   int preserveLength = Math.min(oldSize,newSize);  
-   if (preserveLength &gt; 0)  
-      System.arraycopy (oldArray,0,newArray,0,preserveLength);  
-   return newArray;  
-}  
-
-// Test routine for resizeArray().  
-public static void main (String[] args) {  
-   int[] a = {1,2,3};  
-   a = (int[])resizeArray(a,5);  
-   a[3] = 4;  
-   a[4] = 5;  
-   for (int i=0; i&lt;a.length; i++)  
-      System.out.println (a[i]);  
-}
-</code></pre></li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-08T22:21:00+08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>原文:<a href="http://blog.csdn.net/haoel/article/details/4319793" title="陈皓专栏">http://blog.csdn.net/haoel/article/details/4319793</a></p></blockquote>
-
-<p>让我们先来看两个类: <strong>Base</strong> 和 <strong>Derived</strong> 类.注意其中的 <em>whenAmISet</em> 的成员变量,和方法 <em>preProcess()</em>.</p>
-
-<pre><code>public class Base{
-    Base(){
-        preProcess();
-    }
-    void preProcess();
-}
-public class Derived extends Base{
-    public String whenAmISet = "set when declared";
-    @Override void preProcess(){
-        whenAmISet = "set in preProcess()";
-    }
-}
-</code></pre>
-
-<p>如果我们构造一个子类实例,那么 <strong>whenAmISet</strong> 的值会是什么呢?</p>
-
-<pre><code>public class Main{
-    public static void main(String[] args){
-        Derived d = new Derived();
-        System.out.println( d.whenAmISet );
-    }
-}
-</code></pre>
-
-<p>再续继往下阅读之前，请先给自己一些时间想一下上面的这段程序的输出是什么？是的，这看起来的确相当简单，甚至不需要编译和运行上面的代码，我们也应该知道其答案，那么，你觉得你知道答案吗？你确定你的答案正确吗？</p>
-
-<p>很多人都会觉得那段程序的输出应该是<code>set in preProcess()</code>，这是因为当子类Derived 的构造函数被调用时，其会隐晦地调用其基类Base的构造函数（通过super()函数），于是基类Base的构造函数会调用preProcess() 函数，因为这个类的实例是Derived的，而且在子类Derived中对这个函数使用了override关键字，所以，实际上调用到的是：<code>Derived.preProcess()</code>，而这个方法设置了whenAmISet 成员变量的值为：<code>set in preProcess()</code>。</p>
-
-<p>当然，上面的结论是错误的。如果你编译并运行这个程序，你会发现，程序实际输出的是<code>set when declared</code>。怎么为这样呢？难道是基类Base 的preProcess() 方法被调用啦？也不是！你可以在基类的preProcess中输出点什么看看，你会发现程序运行时，<strong>Base.preProcess()</strong> 并没有被调用到（不然这对于Java所有的应用程序将会是一个极具灾难性的Bug）</p>
-
-<p>虽然上面的结论是错误的，但推导过程是合理的，只是不完整，下面是整个运行的流程：</p>
-
-<pre><code>1. 进入 Derived 构造函数
-2. Derived 成员变量的内存被分配
-3. Base 构造函数被隐含的调用
-4. Base 构造函数调用 preProcess()
-5. Derived 的 preProcess() 设置 whenAmISet 值为"set in preProcess()"
-6. Derived 的成员变量初始化被调用
-7. 执行 Dervied 构造函数体
-</code></pre>
-
-<p>等一等，这怎么可能？在第6步，<strong>Derived</strong> 成员的初始化居然在 <strong>preProcess()</strong> 调用之后？<br/>
-是的，正是这样，我们不能让成员变量的声明和初始化变成一个原子操作，虽然在Java中我们可以把其写在一起，让其看上去像是声明和初始化一体。<strong>但这只是假象，我们的错误就在于我们把Java中的声明和初始化看成了一体</strong> 。在C++的世界中，C++并不支持成员变量在声明的时候进行初始化，其需要你在构造函数中显式的初始化其成员变量的值，看起来很土，但其实C++用心良苦。</p>
-
-<p>在面向对象的世界中，因为程序以对象的形式出现，导致了我们对程序执行的顺序雾里看花。<strong>所以，在面向对象的世界中，程序执行的顺序相当的重要</strong> 。</p>
-
-<p>下面是对上面各个步骤的逐条解释:</p>
-
-<pre><code>1. 进入构造函数。
-2. 为成员变量分配内存。
-3. 除非你显式地调用super()，否则Java 会在子类的构造函数最前面偷偷地插入super() 。
-4. 调用父类构造函数。
-5. 调用preProcess，因为被子类override，所以调用的是子类的。
-6. 于是，初始化发生在了preProcess()之后。  
-   这是因为，Java需要保证父类的初始化早于子类的成员初始化，否则，在子类中使用父类的成员变量就会出现问题。
-7. 正式执行子类的构造函数（当然这是一个空函数，居然我们没有声明）。
-</code></pre>
-
-<p>你可以查看 <a href="http://java.sun.com/docs/books/jls/third_edition/html/execution.html#12.5," title="相关章节">《Java语言的规格说明书》</a> 来了解更多的Java创建对象时的细节。<br/>
-C++的程序员应该都知道，在C++的世界中在<code>构造函数中调用虚函数</code>是不行的，Effective C++ 条款9：Never call virtual functions during construction or destruction，Scott Meyers已经解释得很详细了。</p>
-
-<p>在语言设计的时候，<strong>“在构造函数中调用虚函数”</strong>是个两难的问题:</p>
-
-<pre><code>1. 如果调用的是父类的函数的话，这个有点违反虚函数的定义。  
-2. 如果调用的是子类的函数的话，这可能产生问题的：
-     因为在构造子类对象的时候，首先调用父类的构造函数,而这时候如果去调用子类的函数  
-     由于子类还没有构造完成，子类的成员尚未初始化，这么做显然是不安全的。
-</code></pre>
-
-<p>C++选择了第一种，而Java选择了第二种。</p>
-
-<pre><code>C++类的设计相对比较简陋，通过虚函数表来实现，缺少类的元信息。
-而Java类的则显得比较完整，有super指针来导航到父类。
-</code></pre>
-
-<p>最后，需要向大家推荐一本书，Joshua Bloch 和 Neal Gafter 写的 <code>Java Puzzlers: Traps, Pitfalls, and Corner Cases</code> ，中文版<code>《JAVA解惑 》</code>。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-      <h1 class="entry-title"><a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-07T11:08:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p><code>github</code>本身不仅作为代码共享仓库，并且支持<code>github-pages</code>功能，而<code>octopress</code>就是在这样的环境下诞生的博客系统.</p></blockquote>
-<h4>需要安装的软件</h4>
-
-<pre><code>1. git
-2. ruby(或者说rubyinstaller, 版本号须 &gt;= 1.9.2)
-3. DevKit(windows平台下编译和使用本地C/C++扩展包的工具,即用来模拟Linux平台下的make,gcc,sh命令来进行编译)
-4. python(支持代码高亮) 
-</code></pre>
-
-<h6>关于 github 值得说说的事情</h6>
-
-<ol>
-<li>先注册一个github账号和创建一个repos<br/>
- 创建一个新的Repository.这里必须重视,若想是博客首页是http://yourname.github.com,则Repositoty的project name就必须是<strong>yourname.github.com</strong>.</li>
-<li>设置SH Keys
- 履行<code>ssh-keygen -t rsa -C “your_email＠youremail.com”</code>，回车;然后输入两遍暗码.
- 到c:\Users\用户名.ssh\目次找到id_rsa.pub，并用文本软件打开复制全部(目录是隐藏的)</li>
-<li>将SSH Key添加到GitHub
- 到github网站选择“Account Settings”>>“SSH Public Keys”>>“Add another public key”，将刚才复制的内容粘贴到key文本框内</li>
-<li>测试<br/>
- 为确保设置成功，现在可以测试设置成果啦。记住，”<strong>git@github.com</strong>”是默认的，无需修改
-
-<pre><code> $ ssh -T git@github.com  （也可以用 SSH -v git@github.com ）
-</code></pre></li>
-<li>设置个人信息 <br/>
- 你已经成功安装Git，并设置好SSH Keys，现在设置个人信息： <br/>
- 设置用户名和电子邮件
-
-<pre><code> $ git config --global user.name "Firstname Lastname"
- $ git config --global user.email "youremail@youremail.com"
-</code></pre>
-
-<p>如果你的~/目录下生成了 .gitconfig文件,即说明配置成功!你可以打开看看,是否是你配置的信息.OK,就说这么多了.</p></li>
-</ol>
-
-
-<h4>搭建ruby环境和配置工具</h4>
-
-<p>依次安装<code>git</code>,<code>rubyinstaller</code>和<code>python</code>,建议最好安装在C盘(系统盘)下,并把相应路径加入系统环境变量中,以避免不必要的错误。之后进入cmd窗口或git窗口来安装DevKit,解压DevKit,比如C:/DevKit,然后执行如下命令:</p>
-
-<pre><code>c:                          #进入c盘
-cd c:/DevKit  
-ruby -v                     #此命令为了验证 ruby 是否正确安装              
-ruby dk.rb init             #执行该命令时,可能出现编码错误!    
-                            #可能是你在系统环境变量中提前设置了LANG=zh_CN.UTF-8和LC_ALL=zh_CN.UTF-8   
-                            #此时应该先删除这两个环境变量,再执行该命令        
-                            #此处的编码问题还可以使用 chcp 命令查询`活动代码页`序号,936 : 简体中文 
-ruby dk.rb install
-</code></pre>
-
-<p>至此你都未出现任何错误的话,搭建成功!  <br/>
-安装成功后,你可以想测试一下,那么可以使用如下命令:</p>
-
-<pre><code>gem install rdiscount --platform=ruby
-</code></pre>
-
-<p>如果安装成功后,就可以使用一些<code>Ruby</code>的工具了,也为后面搭建博客提供了基础环境.但是也可能会给你带来麻烦,这个另说.</p>
-
-<h4>配置本地编码环境</h4>
-
-<p>Otcopress采用<code>UTF-8无BOM</code>编码格式,故使用其他格式可能产生不可预计的错误.配置本地window的编码格式:</p>
-
-<pre><code>set LANG   = zh_CN.UTF-8
-set LC_ALL = zh_CN.UTF-8
-</code></pre>
-
-<h4>下载并配置Octopress</h4>
-
-<p>假设Octopress安装在<code>~/repos</code>下,在git或cmd下执行命令:</p>
-
-<pre><code>cd repos                                                    #~表示git主目录,不存在repos则 mkdir
-git clone git://github.com/imathis/octopress.git octopress  #octopress表示clone后所在的本地目录   
-                                                            #没有即使用原项目名即 octopress
-</code></pre>
-
-<p>然后更新 Octopress的gem更新源:进入<code>~/repos/octopress</code>目录,用文本编辑器(如EditPlus)打开文件<code>Gemfile</code>,将里面<code>source "http://rubygems.org"</code>改为<code>source "http://ruby.taobao.org/"</code>.最后安装Octopress的依赖项,在git或cmd窗口输入命令:</p>
-
-<pre><code>cd octopress                     #进入 octopress 目录
-gem install bundler              #安装 bundler
-bundle install                   #然后安装一些依赖的工具
-</code></pre>
-
-<p>如果安装一切没有,那么恭喜你,你已经完成了整个环境的搭建,接下来的真正的主角登场了.不过人生总有那么几件不如意的事,那么可能出现那些错误呢?我们来分析一下:</p>
-
-<pre><code>问题    : bundle install时,总是提示某些包没有目录或找不到     
-解决方法 : 找到 ~/repos/octopress/ 目录下打开 Gemfile.lock文件查看specs:下的依赖包的版本    
-          对比 [ruby安装目录(c:\Ruby192)]/lib/ruby/gems/[可能的版本(1.9.1)]/gems下的包的名称      
-          修改Gemfile.lock的版本即可.但是不要修改那些存在 &gt;= 的版本号(这就是我在第一步所说的麻烦) 
-</code></pre>
-
-<h4>在git@github.com上建立Repositories</h4>
-
-<p>登录Github后,需要建立一个命名为<code>username.github.com</code>的Repo,这样命令的好处是,在运行命令<code>rake setpu_github_pages</code>能够自动创建<code>master</code>和<code>source</code>分支.创建(必须拥有github账号)如下图:<img src="/images/common/2013-03-07-hello-octopress/create_repos.jpg" title="create repository of github" alt="create repository" /></p>
-
-<h4>发布Octopress到Github</h4>
-
-<p>进入git bash后,进入到Octopress所在目录,输入命令:</p>
-
-<pre><code>rake setup_github_pages
-</code></pre>
-
-<p>按照提示输入刚才新建的Repos地址,类似:git@github.com:用户名/用户名.github.com</p>
-
-<h4>Octopress设置</h4>
-
-<pre><code>rake install           #安装octopress默认主题
-rake generate          #产生静态网页
-rake preview           #本地预览网站效果,在浏览器输入地址http://127.0.0.1:4000
-</code></pre>
-
-<p>人生不如意十有八九,以上三个命令看似简单,但有可能会成为拦路虎,而成为我们成功的绊脚石,让我们看看又会出现什么?</p>
-
-<pre><code>rake generate失败
- 1. 检查_config.yml，注意每个冒号后面都有空格
- 2. 大多数原因是中文解析问题
-      首先所有的markdown文件应为UTF-8格式，然后修改 你ruby安装目录下的convertible.rb：
-      self.content = File.read(File.join(base, name))修改为
-      self.content = File.read(File.join(base, name), :encoding =&gt; "UTF-8")
-
-使用rake 命令遇到问题：       
-     rake aborted! No Rakefile found (looking for: rakefile, Rakefile, rakefile.rb, Rakefile.rb) 
-原因：没有进入工程目录
-</code></pre>
-
-<h4>发表文章</h4>
-
-<p>以发表 Hello World的文章为例:</p>
-
-<pre><code>rake new_post["Hello World"]   #将在 octopress主目录/source/_posts/目录下生成    
-                                '年-月-日-hello-world.markdown'格式的文件   
-</code></pre>
-
-<p>.markdown文件可以用编辑软件打开,添加文章内容,具体用法参考<a href="http://wowubuntu.com/markdown/" title="markdown用法(中文版)">markdown用法(中文版)</a>和<a href="http://octopress.org/" title="octopress">octopress</a></p>
-
-<h4>绑定域名</h4>
-
-<p>github支持绑定独立域名,在<code>source/</code>目录下建立一个无扩展名的<code>CNAME</code>文件(文件名为CNAME),在里面写入域名:</p>
-
-<pre><code>your_domain_name           # 用户名.github.com
-</code></pre>
-
-<h4>更新并发布</h4>
-
-<pre><code>rake gen_deploy         #等同于 rake generate 和 rake deploy两个命令  
-                        #此处有个坑爹的BUG,rake deploy时   
-                          rake aborted!   
-                          No such file or directory -public/_posts/...
-                        #解决方法:在public目录下创建_posts目录然后执行rake deploy
-</code></pre>
-
-<h4>备份</h4>
-
-<pre><code>git add *
-git commit -a -m "your comment message"     #提交信息不能为空
-git push origin source                      #把资源备份保存到 source 分支下[这里有个非常好的好处!]
-git checkout master                         #切换回 master 分支
-</code></pre>
-
-<p>关于此备份,为什么需要备份? <br/>
-博客文章部署到远程master分支下,然后将本地的所有源文件都git push 到source分支下,这样的话你可以在不同的地方都可以写blog.<br/>
-只要你在写博客之前把source分支下的所有文件git pull 到本地即可,当然你的所有修改都必须在source分支体现(现在我还没有想到更好的方法,我只能在每次操作后都是<strong>先删除sourc分支,然后重建分支</strong>),如果有人知道好的方法或不认同该方法都可以<strong>chenming142@sina.com</strong>,谢谢!!</p>
-</div>
-  
+    <footer>
+      <a rel="full-article" href="/blog/2013/03/10/sequence-diagram/">Read on &rarr;</a>
+    </footer>
   
 
 
     </article>
   
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -1083,6 +920,42 @@ git checkout master                         #切换回 master 分支
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/03/31/simpledateconvert/">在Java中日期时间类型的相互转换</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/31/easytimer/">通用定时器|倒计时</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/28/js-classify/">JavaScript之OOP实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/26/beanutils/">Java中Map与TO自动转换</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/23/classify/">Java的类与面向对象特性</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/17/jquery-type/">jQuery 数据类型详解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/15/jquery-unique/">jquery unique 详解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/13/spring-test/">Spring Test整合JUnit 4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/11/vim-strategy/">简明 Vim 练级攻略</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/03/10/sequence-diagram/">UML 建模之时序图(Sequence Diagram)</a>
@@ -1096,17 +969,51 @@ git checkout master                         #切换回 master 分支
         <a href="/blog/2013/03/08/java-constructor-trap/">Java构造时成员初始化的陷阱</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/03/07/hello-octopress/">Hello Octopress,在windwow平台下自己动手搭建一个GitHub Blog!</a>
-      </li>
-    
   </ul>
 </section>
+<section id="comment_sidebar">
+<h1>近期评论</h1>
+<ul class="ds-recent-comments" data-num-items="10"></ul>
 
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chenming142"};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+</section><section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/j2eeying-yong/'>J2EE应用 (1)</a></li>
+<li class='category'><a href='/blog/categories/j2seji-chu/'>J2SE基础 (5)</a></li>
+<li class='category'><a href='/blog/categories/umlshe-ji/'>UML设计 (1)</a></li>
+<li class='category'><a href='/blog/categories/yu-javascriptxiang-guan/'>与JavaScript相关 (4)</a></li>
+<li class='category'><a href='/blog/categories/kai-fa-gong-ju-ku/'>开发工具库 (2)</a></li>
 
+  </ul>
+</section>
+<section>
+  <h1>Tags</h1>
+  <ul class="tag-cloud">
+    <a style="font-size: 140%" href="/tags/class/"> Class </a>
+<a style="font-size: 110%" href="/tags/github/"> Github </a>
+<a style="font-size: 110%" href="/tags/j2ee/"> J2EE </a>
+<a style="font-size: 180%" href="/tags/j2se/"> J2SE </a>
+<a style="font-size: 110%" href="/tags/junit/"> JUnit </a>
+<a style="font-size: 140%" href="/tags/oo/"> OO </a>
+<a style="font-size: 110%" href="/tags/octopress/"> Octopress </a>
+<a style="font-size: 110%" href="/tags/spring/"> Spring </a>
+<a style="font-size: 110%" href="/tags/uml/"> UML </a>
+<a style="font-size: 110%" href="/tags/vim/"> VIM </a>
+<a style="font-size: 170%" href="/tags/javascript/"> javascript </a>
+<a style="font-size: 140%" href="/tags/jquery/"> jquery </a>
 
-
-
+  </ul>
+</section>
 
   
 </aside>
